@@ -13,6 +13,7 @@ public class LoginView extends javax.swing.JFrame implements ILoginView {
         initComponents();
     }
     
+    @Override
     public void setPresenter(LoginPresenter presenter) {
         this.presenter = presenter;
     }
@@ -133,7 +134,7 @@ public class LoginView extends javax.swing.JFrame implements ILoginView {
     
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (presenter != null) {
-            presenter.autenticar();
+            presenter.login();
         } else {
             //dar um aviso de erro
         }
