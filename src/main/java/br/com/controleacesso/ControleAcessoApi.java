@@ -11,8 +11,7 @@ public class ControleAcessoApi {
 
         // 2. Inicia o sistema pelo Gerenciador
         SwingUtilities.invokeLater(() -> {
-            GerenciadorDeTelas gerenciador = new GerenciadorDeTelas();
-            gerenciador.telaHome();
+            new GerenciadorDeTelas().iniciarSistema();
         });
         
     }

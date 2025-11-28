@@ -1,6 +1,8 @@
 package br.com.controleacesso.view;
 
 import br.com.controleacesso.presenter.HomePresenter;
+import br.com.controleacesso.view.interfaces.IHomeView;
+import javax.swing.JDesktopPane;
 
 public class HomeView extends javax.swing.JFrame implements IHomeView {
 
@@ -12,27 +14,32 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
 
     public HomeView() {
         initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
     
-    @Override
-    public void fecharTela() {
-        this.dispose();
+    public JDesktopPane getDesktop() {
+        return dskHome;
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dskHome = new javax.swing.JDesktopPane();
         lblTitle = new javax.swing.JLabel();
+        txtSubTitulo = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
         btnCadastrar = new javax.swing.JButton();
-        txtSubTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblTitle.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Controle de Acesso");
+
+        txtSubTitulo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtSubTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtSubTitulo.setText("Olá, que bom te ver por aqui!");
 
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
@@ -48,39 +55,39 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
             }
         });
 
-        txtSubTitulo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        txtSubTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtSubTitulo.setText("Olá, que bom te ver por aqui!");
+        dskHome.setLayer(lblTitle, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskHome.setLayer(txtSubTitulo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskHome.setLayer(btnEntrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskHome.setLayer(btnCadastrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtSubTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(150, 150, 150))
+        javax.swing.GroupLayout dskHomeLayout = new javax.swing.GroupLayout(dskHome);
+        dskHome.setLayout(dskHomeLayout);
+        dskHomeLayout.setHorizontalGroup(
+            dskHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(dskHomeLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(dskHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(txtSubTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+        dskHomeLayout.setVerticalGroup(
+            dskHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dskHomeLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addComponent(lblTitle)
-                .addGap(27, 27, 27)
-                .addComponent(txtSubTitulo)
-                .addGap(41, 41, 41)
-                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addComponent(txtSubTitulo)
+                .addGap(50, 50, 50)
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
+
+        getContentPane().add(dskHome, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -132,6 +139,7 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnEntrar;
+    private javax.swing.JDesktopPane dskHome;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables

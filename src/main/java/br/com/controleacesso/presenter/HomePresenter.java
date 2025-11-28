@@ -1,7 +1,8 @@
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.GerenciadorDeTelas;
-import br.com.controleacesso.view.IHomeView;
+import br.com.controleacesso.factory.CadastrarFactory;
+import br.com.controleacesso.view.interfaces.IHomeView;
 
 public class HomePresenter {
     
@@ -14,12 +15,11 @@ public class HomePresenter {
     }
     
     public void irParaLogin() {
-        view.fecharTela();
+       
     }
     
     public void irParaCadastro() {
-        view.fecharTela();
-        navegador.telaCadastro();
+        navegador.abrirTela(new CadastrarFactory());
     }
     
 }

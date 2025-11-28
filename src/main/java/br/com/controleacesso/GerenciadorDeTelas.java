@@ -1,52 +1,50 @@
 package br.com.controleacesso;
 
-import br.com.controleacesso.presenter.HomePresenter;
-import br.com.controleacesso.presenter.LoginPresenter;
+import br.com.controleacesso.factory.HomeFactory;
 import br.com.controleacesso.view.HomeView;
-import br.com.controleacesso.view.LoginView;
-import javax.swing.JFrame;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 public class GerenciadorDeTelas {
     
-    //Método para abrir a tela home
-    public void telaHome() {
-        HomeView view = new HomeView();
-        HomePresenter presenter = new HomePresenter(view, this);
-        view.setPresenter(presenter);
-        
-        configurarEExibir(view);
-    }
+    private JDesktopPane desktop;
     
-    //Método para abrir tela de cadastrar usuário
-    public void criarLogin() {
-        LoginView view = new LoginView();
-        LoginPresenter presenter = new LoginPresenter(view, this);
-        view.setPresenter(presenter);
+    public void iniciarSistema() {
+        HomeFactory factory = new HomeFactory();
+        HomeView homeView = factory.criarTela(this);
+
+        this.desktop = homeView.getDesktop();
         
-        configurarEExibir(view);
-    }
-    
-    public void telaCadastro() {
-        LoginView view = new LoginView();
-        LoginPresenter presenter = new LoginPresenter(view, this);
-        view.setPresenter(presenter);
-        
-        configurarEExibir(view);
+        homeView.setLocationRelativeTo(null);
+        homeView.setVisible(true);
     }
 
-    // Método para abrir a Tela Principal (Dashboard)
-/*    public void abrirPrincipal(String nomeUsuario) {
-        PrincipalView view = new PrincipalView();
-        PrincipalPresenter presenter = new PrincipalPresenter(view, nomeUsuario);
-        view.setPresenter(presenter);
+    public void abrirTela(IViewFactory factory) {
+        if (this.desktop == null) {
+            System.err.println("Erro: O sistema não foi iniciado corretamente.");
+            return;
+        }
+
+        JInternalFrame frame = factory.criarTela(this);
         
-        configurarEExibir(view);
-    }*/
-    
-    // Método auxiliar para não repetir código de configuração
-    private void configurarEExibir(JFrame janela) {
-        janela.setLocationRelativeTo(null);
-        janela.setVisible(true);
+        // Verifica duplicidade
+        for (javax.swing.JInternalFrame f : desktop.getAllFrames()) {
+            if (f.getClass().equals(frame.getClass())) {
+                f.toFront();
+                try { f.setSelected(true); } catch(Exception e) {}
+                return;
+            }
+        }
+
+        desktop.add(frame);
+        centralizar(frame);
+        frame.setVisible(true);
     }
+    
+    private void centralizar(JInternalFrame frame) {
+        int x = (desktop.getWidth() - frame.getWidth()) / 2;
+        int y = (desktop.getHeight() - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
+    }   
     
 }

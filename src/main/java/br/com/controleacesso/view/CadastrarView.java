@@ -1,20 +1,25 @@
 package br.com.controleacesso.view;
 
-import br.com.controleacesso.presenter.LoginPresenter;
+import br.com.controleacesso.view.interfaces.ICadastrarView;
+import br.com.controleacesso.presenter.CadastrarPresenter;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
-public class LoginView extends javax.swing.JFrame implements ILoginView {
+public class CadastrarView extends JInternalFrame implements ICadastrarView {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginView.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastrarView.class.getName());
 
-    private LoginPresenter presenter;
+    private CadastrarPresenter presenter;
     
-    public LoginView() {
+    public CadastrarView() {
         initComponents();
+        setClosable(true);
+        setResizable(true);
+        setIconifiable(true);
     }
     
     @Override
-    public void setPresenter(LoginPresenter presenter) {
+    public void setPresenter(CadastrarPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -34,7 +39,7 @@ public class LoginView extends javax.swing.JFrame implements ILoginView {
         pwdConfSenha = new javax.swing.JPasswordField();
         btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -127,21 +132,13 @@ public class LoginView extends javax.swing.JFrame implements ILoginView {
         JOptionPane.showMessageDialog(this, mensagem);
     }
     
-    @Override
-    public void fecharTela() {
-        this.dispose();
-    }
     
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        if (presenter != null) {
-            presenter.login();
-        } else {
-            //dar um aviso de erro
-        }
+        presenter.login();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       this.fecharTela();
+       this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
@@ -166,7 +163,7 @@ public class LoginView extends javax.swing.JFrame implements ILoginView {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LoginView().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CadastrarView().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
