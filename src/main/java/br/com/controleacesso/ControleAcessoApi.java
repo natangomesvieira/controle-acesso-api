@@ -1,5 +1,7 @@
 package br.com.controleacesso;
 
+import br.com.controleacesso.view.GerenciadorDeTelas;
+import br.com.controleacesso.dao.DatabaseConfig;
 import javax.swing.SwingUtilities;
 
 public class ControleAcessoApi {

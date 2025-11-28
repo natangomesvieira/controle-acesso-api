@@ -1,17 +1,17 @@
 package br.com.controleacesso.view;
 
-import br.com.controleacesso.view.interfaces.ICadastrarView;
-import br.com.controleacesso.presenter.CadastrarPresenter;
+import br.com.controleacesso.presenter.CadastroPresenter;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import br.com.controleacesso.view.interfaces.ICadastroView;
 
-public class CadastrarView extends JInternalFrame implements ICadastrarView {
+public class CadastroView extends JInternalFrame implements ICadastroView {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastrarView.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroView.class.getName());
 
-    private CadastrarPresenter presenter;
+    private CadastroPresenter presenter;
     
-    public CadastrarView() {
+    public CadastroView() {
         initComponents();
         setClosable(true);
         setResizable(true);
@@ -19,7 +19,7 @@ public class CadastrarView extends JInternalFrame implements ICadastrarView {
     }
     
     @Override
-    public void setPresenter(CadastrarPresenter presenter) {
+    public void setPresenter(CadastroPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -117,15 +117,6 @@ public class CadastrarView extends JInternalFrame implements ICadastrarView {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public String getEmail() {
-        return txtEmail.getText(); 
-    }
-
-    @Override
-    public String getSenha() {
-        return new String(pwdSenha.getPassword());
-    }
 
     @Override
     public void mostrarMensagem(String mensagem) {
@@ -134,7 +125,7 @@ public class CadastrarView extends JInternalFrame implements ICadastrarView {
     
     
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        presenter.login();
+        presenter.cadastrar();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -163,7 +154,34 @@ public class CadastrarView extends JInternalFrame implements ICadastrarView {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new CadastrarView().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CadastroView().setVisible(true));
+    }
+    
+    @Override
+    public String getNome() {
+        return txtNome.getText();
+    }
+
+    @Override
+    public String getEmail() {
+        return txtEmail.getText();
+    }
+    
+    @Override
+    public String getSenha() {
+        return new String(pwdSenha.getPassword());
+    }
+    
+    @Override
+    public String getConfSenha() {
+        return new String(pwdConfSenha.getPassword());
+    }
+    
+    public void limparCampos() {
+    txtNome.setText("");
+    txtEmail.setText("");
+    pwdSenha.setText("");
+    pwdConfSenha.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

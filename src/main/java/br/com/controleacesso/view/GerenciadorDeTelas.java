@@ -1,5 +1,6 @@
-package br.com.controleacesso;
+package br.com.controleacesso.view;
 
+import br.com.controleacesso.factory.IViewFactory;
 import br.com.controleacesso.factory.HomeFactory;
 import br.com.controleacesso.view.HomeView;
 import javax.swing.JDesktopPane;
@@ -26,15 +27,6 @@ public class GerenciadorDeTelas {
         }
 
         JInternalFrame frame = factory.criarTela(this);
-        
-        // Verifica duplicidade
-        for (javax.swing.JInternalFrame f : desktop.getAllFrames()) {
-            if (f.getClass().equals(frame.getClass())) {
-                f.toFront();
-                try { f.setSelected(true); } catch(Exception e) {}
-                return;
-            }
-        }
 
         desktop.add(frame);
         centralizar(frame);

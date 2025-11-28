@@ -1,6 +1,6 @@
 package br.com.controleacesso.factory;
 
-import br.com.controleacesso.GerenciadorDeTelas;
+import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.presenter.HomePresenter;
 import br.com.controleacesso.view.HomeView;
 

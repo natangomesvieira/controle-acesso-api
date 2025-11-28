@@ -1,5 +1,6 @@
-package br.com.controleacesso;
+package br.com.controleacesso.factory;
 
+import br.com.controleacesso.view.GerenciadorDeTelas;
 import javax.swing.JInternalFrame;
 
 public interface IViewFactory {
