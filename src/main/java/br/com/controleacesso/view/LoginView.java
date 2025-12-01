@@ -1,26 +1,17 @@
 package br.com.controleacesso.view;
 
-import br.com.controleacesso.presenter.LoginPresenter;
-import br.com.controleacesso.view.interfaces.ILoginView;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
-public class LoginView extends JInternalFrame implements ILoginView {
-
-    private LoginPresenter presenter;
-    
-    @Override
-    public void setPresenter(LoginPresenter presenter) {
-        this.presenter = presenter;
-    }
+public class LoginView extends JInternalFrame {
     
     public LoginView() {
         initComponents();
         setClosable(true);
         setResizable(true);
         setIconifiable(true);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -33,8 +24,9 @@ public class LoginView extends JInternalFrame implements ILoginView {
         txtEmail = new javax.swing.JTextField();
         pwdSenha = new javax.swing.JPasswordField();
         btnEntrar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -44,18 +36,9 @@ public class LoginView extends JInternalFrame implements ILoginView {
 
         lblSenha.setText("Senha:");
 
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
         btnEntrar.setText("Entrar");
-        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarActionPerformed(evt);
-            }
-        });
+
+        btnCancelar.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,18 +46,21 @@ public class LoginView extends JInternalFrame implements ILoginView {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(97, 97, 97)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblSenha)
-                            .addComponent(lblEmail)
-                            .addComponent(txtEmail)
-                            .addComponent(pwdSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(125, Short.MAX_VALUE))
+                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addComponent(btnCancelar)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pwdSenha)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtEmail))
+                .addGap(97, 97, 97))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,21 +75,15 @@ public class LoginView extends JInternalFrame implements ILoginView {
                 .addComponent(lblSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pwdSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(btnEntrar)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEntrar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        presenter.login();
-    }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,23 +119,9 @@ public class LoginView extends JInternalFrame implements ILoginView {
             }
         });
     }
-    
-    @Override
-    public String getEmail() {
-        return txtEmail.getText();
-    }
-    
-    @Override
-    public String getSenha() {
-        return new String(pwdSenha.getPassword());
-    }
-    
-    @Override
-    public void mostrarMensagem(String mensagem) {
-        JOptionPane.showMessageDialog(this, mensagem);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblEmail;
@@ -163,4 +129,22 @@ public class LoginView extends JInternalFrame implements ILoginView {
     private javax.swing.JPasswordField pwdSenha;
     private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
+
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+    
+    public JPasswordField getPwdSenha() {
+        return pwdSenha;
+    }
+    
+    public JButton getBtnEntrar() {
+        return btnEntrar;
+    }
+    
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+    
 }

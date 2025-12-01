@@ -1,12 +1,13 @@
-package br.com.controleacesso.dao;
+package br.com.controleacesso.repository;
 
+import br.com.controleacesso.repository.config.ConexaoFactory;
 import br.com.controleacesso.model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsuarioDAO {
+public class UsuarioRepository {
     
     public void salvar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";

@@ -1,24 +1,13 @@
 package br.com.controleacesso.view;
 
-import br.com.controleacesso.presenter.HomePresenter;
-import br.com.controleacesso.view.interfaces.IHomeView;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 
-public class HomeView extends javax.swing.JFrame implements IHomeView {
-
-    private HomePresenter presenter;
-    
-    public void setPresenter(HomePresenter presenter) {
-        this.presenter = presenter;
-    }
+public class HomeView extends javax.swing.JFrame {
 
     public HomeView() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-    }
-    
-    public JDesktopPane getDesktop() {
-        return dskHome;
     }
 
     @SuppressWarnings("unchecked")
@@ -42,18 +31,8 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
         txtSubTitulo.setText("Olá, que bom te ver por aqui!");
 
         btnEntrar.setText("Entrar");
-        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarActionPerformed(evt);
-            }
-        });
 
         btnCadastrar.setText("Cadastrar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
-            }
-        });
 
         dskHome.setLayer(lblTitle, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskHome.setLayer(txtSubTitulo, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -91,14 +70,6 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        presenter.irParaLogin();
-    }//GEN-LAST:event_btnEntrarActionPerformed
-
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        presenter.irParaCadastro();
-    }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,4 +114,18 @@ public class HomeView extends javax.swing.JFrame implements IHomeView {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel txtSubTitulo;
     // End of variables declaration//GEN-END:variables
+
+        
+    public JDesktopPane getDesktop() {
+        return dskHome;
+    }
+    
+    public JButton getBtnCadastrar() {
+        return btnCadastrar;
+    }
+    
+    public JButton getBtnEntrar() {
+        return btnEntrar;
+    }
+    
 }

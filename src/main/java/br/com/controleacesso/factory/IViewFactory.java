@@ -4,5 +4,5 @@ import br.com.controleacesso.view.GerenciadorDeTelas;
 import javax.swing.JInternalFrame;
 
 public interface IViewFactory {
-    JInternalFrame criarTela(GerenciadorDeTelas navegador);
+    JInternalFrame criarTela(GerenciadorDeTelas nav);
 }

@@ -1,26 +1,19 @@
 package br.com.controleacesso.view;
 
-import br.com.controleacesso.presenter.CadastroPresenter;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import br.com.controleacesso.view.interfaces.ICadastroView;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
-public class CadastroView extends JInternalFrame implements ICadastroView {
+public class CadastroView extends JInternalFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroView.class.getName());
-
-    private CadastroPresenter presenter;
-    
+   
     public CadastroView() {
         initComponents();
         setClosable(true);
         setResizable(true);
         setIconifiable(true);
-    }
-    
-    @Override
-    public void setPresenter(CadastroPresenter presenter) {
-        this.presenter = presenter;
     }
 
     @SuppressWarnings("unchecked")
@@ -54,10 +47,8 @@ public class CadastroView extends JInternalFrame implements ICadastroView {
         lblConfSenha.setText("Confirmar senha:");
 
         btnCadastrar.setText("Salvar");
-        btnCadastrar.addActionListener(this::btnCadastrarActionPerformed);
 
         btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,22 +107,8 @@ public class CadastroView extends JInternalFrame implements ICadastroView {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-
-    @Override
-    public void mostrarMensagem(String mensagem) {
-        JOptionPane.showMessageDialog(this, mensagem);
-    }
+  
     
-    
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        presenter.cadastrar();
-    }//GEN-LAST:event_btnCadastrarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -156,33 +133,6 @@ public class CadastroView extends JInternalFrame implements ICadastroView {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new CadastroView().setVisible(true));
     }
-    
-    @Override
-    public String getNome() {
-        return txtNome.getText();
-    }
-
-    @Override
-    public String getEmail() {
-        return txtEmail.getText();
-    }
-    
-    @Override
-    public String getSenha() {
-        return new String(pwdSenha.getPassword());
-    }
-    
-    @Override
-    public String getConfSenha() {
-        return new String(pwdConfSenha.getPassword());
-    }
-    
-    public void limparCampos() {
-    txtNome.setText("");
-    txtEmail.setText("");
-    pwdSenha.setText("");
-    pwdConfSenha.setText("");
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
@@ -197,4 +147,30 @@ public class CadastroView extends JInternalFrame implements ICadastroView {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
+
+        
+    public JTextField getTxtNome() {
+        return txtNome;
+    }
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+    
+    public JPasswordField getPwdSenha() {
+        return pwdSenha;
+    }
+    
+    public JPasswordField getPwdConfSenha() {
+        return pwdConfSenha;
+    }
+    
+    public JButton getBtnCadastrar() {
+        return btnCadastrar;
+    }
+    
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+    
 }

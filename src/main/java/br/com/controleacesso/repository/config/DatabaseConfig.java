@@ -1,6 +1,6 @@
-package br.com.controleacesso.dao;
+package br.com.controleacesso.repository.config;
 
-import br.com.controleacesso.dao.ConexaoFactory;
+import br.com.controleacesso.repository.config.ConexaoFactory;
 import java.sql.SQLException;
 
 public class DatabaseConfig {

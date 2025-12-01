@@ -1,4 +1,4 @@
-package br.com.controleacesso.dao;
+package br.com.controleacesso.repository.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
