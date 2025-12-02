@@ -19,6 +19,12 @@ public class GerenciadorDeTelas {
         int y = (desktop.getHeight() - frame.getHeight()) / 2;
         frame.setLocation(x, y);
         frame.setVisible(true);
+        
+        try {
+            frame.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {
+            // Ignora silenciosamente se a janela vetar o foco (raro acontecer)
+        }
     }  
     
 }

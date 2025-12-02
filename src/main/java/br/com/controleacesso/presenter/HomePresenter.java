@@ -21,12 +21,22 @@ public class HomePresenter {
     public HomePresenter(LogService logger) {
         this.nav = new GerenciadorDeTelas();
         this.view = new HomeView();
-        this.desktop = new JDesktopPane();
+        this.desktop = new JDesktopPane(); //Nao estaria redundante? sem uso...
         this.logger = logger;
         configuraView();
     }
     
-   private void configuraView() {
+    public void iniciarFluxo(boolean existeAdmin) {
+        if (existeAdmin) { irParaLogin(); }
+        else {
+            JOptionPane.showMessageDialog(view,
+                    "Bem-vindo(a)! Nenhuma conta detectada. \n" +
+                    "Iniciaremos o cadastro do Administrador do sistema.");
+            irParaCadastro();
+        }
+    }
+    
+    private void configuraView() {
        view.setVisible(false);
        view.getBtnCadastrar().addActionListener(new ActionListener() {
            @Override

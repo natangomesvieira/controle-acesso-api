@@ -9,8 +9,22 @@ import java.sql.SQLException;
 
 public class UsuarioRepository {
     
+    public boolean temUsuariosCadastrados() throws SQLException {
+        String sql = "SELECT count(1) as total FROM usuario";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("total") > 0;
+            }
+        }
+        return false;
+    }
+    
     public void salvar(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, email, senha, perfil) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = ConexaoFactory.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -18,6 +32,8 @@ public class UsuarioRepository {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
+            String perfil = (usuario.getPerfil() != null) ? usuario.getPerfil() : "usuario_padrao";
+            stmt.setString(4, perfil);
             
             stmt.executeUpdate();
         }

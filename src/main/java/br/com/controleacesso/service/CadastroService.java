@@ -2,22 +2,33 @@ package br.com.controleacesso.service;
 
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.model.Usuario;
-import java.sql.SQLException;
+import br.com.sistemalog.LogEntry;
+import br.com.sistemalog.LogService;
 
 public class CadastroService {
     
     private final UsuarioRepository repository;
+    //private final LogService logger;
     
     public CadastroService(UsuarioRepository repository) {
         this.repository = repository;
+        //this.logger = logger;
     }
     
     public void criarUsuario(Usuario usuario) {
         try {
             validarSenha(usuario.getSenha(), usuario.getConfSenha());
+            
+            boolean existeUsuario = repository.temUsuariosCadastrados();
+            usuario.setPerfil(!existeUsuario ? "administrador" : "usuario_padrao");
             repository.salvar(usuario);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar no banco de dados: " + e.getMessage(), e);
+            
+            //log de sucesso aqui
+            //logger.log(new LogEntry("INCLUSAO_USUARIO", "SUCESSO", "Perfil: " + usuario.getPerfil()));
+            
+        } catch (Exception e) {
+            // Log de Falha
+            
         }
     }
     
