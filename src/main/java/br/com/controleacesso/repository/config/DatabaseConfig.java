@@ -14,7 +14,8 @@ public class DatabaseConfig {
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	nome TEXT NOT NULL,"
                 + "	email TEXT NOT NULL UNIQUE,"
-                + "     senha TEXT NOT NULL"
+                + "     senha TEXT NOT NULL,"
+                + "     perfil TEXT NOT NULL"
                 + ");";
 
         try (var conn = ConexaoFactory.getConexao();

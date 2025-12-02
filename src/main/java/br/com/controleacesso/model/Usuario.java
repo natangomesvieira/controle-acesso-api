@@ -7,6 +7,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String confSenha;
+    private String perfil;
 
     public Usuario() {}
 
@@ -50,6 +51,14 @@ public class Usuario {
 
     public void setConfSenha(String confSenha) {
         this.confSenha = confSenha;
+    }
+    
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
     
 }
