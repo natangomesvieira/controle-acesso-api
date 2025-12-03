@@ -29,24 +29,14 @@ public class CadastroPresenter {
         view.getBtnCadastrar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    cadastrar();
-                    //logger.log(new LogEntry("CADASTRO_USUARIO", "novo_usuario"));
-                } catch (Exception ex) {
-                    //logger.log(new LogEntry("CADASTRO_USUARIO", "novo_usuario", ex.getMessage()));
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
+                cadastrar();
             }
         });
         
         view.getBtnCancelar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    cancelar();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
+                cancelar();
             }
         });
     }
@@ -54,13 +44,22 @@ public class CadastroPresenter {
     private void cadastrar() {
         
         Usuario usuario = new Usuario();
-        
-        usuario.setNome(view.getTxtNome().getText());
-        usuario.setEmail(view.getTxtEmail().getText());
-        usuario.setSenha(view.getPwdSenha().getText());
-        usuario.setConfSenha(view.getPwdConfSenha().getText());
-        
-        service.criarUsuario(usuario);
+            
+        try {
+            
+            usuario.setNome(view.getTxtNome().getText());
+            usuario.setEmail(view.getTxtEmail().getText());
+            usuario.setSenha(view.getPwdSenha().getText());
+            usuario.setConfSenha(view.getPwdConfSenha().getText());
+
+            service.criarUsuario(usuario);
+            
+            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
+            
+        } catch (Exception ex) {
+            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), ex.getMessage()));
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        }
 
     }
     

@@ -21,7 +21,7 @@ public class HomePresenter {
     public HomePresenter(LogService logger) {
         this.nav = new GerenciadorDeTelas();
         this.view = new HomeView();
-        this.desktop = new JDesktopPane(); //Nao estaria redundante? sem uso...
+        this.desktop = new JDesktopPane();
         this.logger = logger;
         configuraView();
     }

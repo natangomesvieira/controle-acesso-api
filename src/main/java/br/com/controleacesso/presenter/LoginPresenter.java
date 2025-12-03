@@ -4,6 +4,7 @@ import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.service.LoginService;
 import br.com.controleacesso.view.LoginView;
+import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +30,8 @@ public class LoginPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String response = login();
+                    login();
                     //logger.log(new LogEntry("CADASTRO_USUARIO", response));
-                    JOptionPane.showMessageDialog(view, "Aviso: " + response);
                 } catch (Exception ex) {
                     //logger.log(new LogEntry("CADASTRO_USUARIO", "novo_usuario", ex.getMessage()));
                     JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
@@ -55,12 +55,23 @@ public class LoginPresenter {
         view.dispose();
     }
     
-    private String login() {
-        Usuario usuario = new Usuario();
-        usuario.setEmail(view.getTxtEmail().getText());
-        usuario.setSenha(view.getPwdSenha().getText());
+    private void login() {
         
-        return service.login(usuario);
+        Usuario usuario = new Usuario();
+        
+        try {
+            usuario.setEmail(view.getTxtEmail().getText());
+            usuario.setSenha(view.getPwdSenha().getText());
+        
+            service.login(usuario);
+            
+            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome()));
+            
+        } catch (Exception ex) {
+            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), ex.getMessage()));
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        }
+        
     }
     
 }

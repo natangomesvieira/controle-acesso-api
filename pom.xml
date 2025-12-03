@@ -30,6 +30,11 @@
             <artifactId>sistema-log</artifactId>
             <version>1.0.0</version>
         </dependency>
+	<dependency>
+	    <groupId>com.github.claytonfraga</groupId>
+	    <artifactId>validadorsenha</artifactId>
+	    <version>-SNAPSHOT</version>
+	</dependency>
     </dependencies>
     
 </project>

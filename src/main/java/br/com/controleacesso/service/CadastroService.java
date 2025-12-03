@@ -2,40 +2,33 @@ package br.com.controleacesso.service;
 
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.model.Usuario;
-import br.com.sistemalog.LogEntry;
-import br.com.sistemalog.LogService;
+import com.pss.senha.validacao.ValidadorSenha;
 
 public class CadastroService {
     
     private final UsuarioRepository repository;
-    //private final LogService logger;
+    private final ValidadorSenha validadorSenha;
     
     public CadastroService(UsuarioRepository repository) {
         this.repository = repository;
-        //this.logger = logger;
+        this.validadorSenha = new ValidadorSenha();
     }
     
-    public void criarUsuario(Usuario usuario) {
-        try {
-            validarSenha(usuario.getSenha(), usuario.getConfSenha());
-            
-            boolean existeUsuario = repository.temUsuariosCadastrados();
-            usuario.setPerfil(!existeUsuario ? "administrador" : "usuario_padrao");
-            repository.salvar(usuario);
-            
-            //log de sucesso aqui
-            //logger.log(new LogEntry("INCLUSAO_USUARIO", "SUCESSO", "Perfil: " + usuario.getPerfil()));
-            
-        } catch (Exception e) {
-            // Log de Falha
-            
-        }
-    }
-    
-    private void validarSenha(String senha, String confSenha) {
-        if(!senha.equals(confSenha)) {
-            throw new IllegalArgumentException("As senhas não são iguais!");
-        }
+    public void criarUsuario(Usuario usuario) throws Exception {
+        //TODO: Aplicar demais validações
+        /*
+        1- Validar se os dados do usuário não são null. 
+            (crie uma função private pra isso e caso algum dado seja null dispare uma excessão
+             throw new IllegalArgumentException("O campo X precisa ser preenchido!");)
+        2- Verificar se é o primeiro usuário a ser criado, se sim deve ser ADMIN
+        3- 
+        */
+        validadorSenha.validar(usuario.getSenha());
+        
+        boolean existeUsuario = repository.temUsuariosCadastrados();
+        usuario.setPerfil(!existeUsuario ? "administrador" : "usuario_padrao");
+
+        repository.salvar(usuario);
     }
     
 }

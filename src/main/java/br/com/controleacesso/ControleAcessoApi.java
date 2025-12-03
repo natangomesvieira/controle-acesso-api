@@ -17,8 +17,10 @@ public class ControleAcessoApi {
         //Conecta ao banco e cria as tabelas caso não exista
         new DatabaseConfig().inicializarBanco();
 
+        //TODO: Voltar a main como era antes
+        
         // (Regra US 01)
-        boolean sistemaPossuiUsuarios = false;
+       /* boolean sistemaPossuiUsuarios = false;
         try {
             UsuarioRepository repository = new UsuarioRepository();
             sistemaPossuiUsuarios = repository.temUsuariosCadastrados();
@@ -27,18 +29,19 @@ public class ControleAcessoApi {
             System.exit(1);
         }
         
-        final boolean existeAdmin = sistemaPossuiUsuarios;
+        final boolean existeAdmin = sistemaPossuiUsuarios;*/
         
         // 2. Inicia o sistema
         SwingUtilities.invokeLater(() -> {
-            HomePresenter mainPresenter = new HomePresenter(logger);
+            new HomePresenter(logger);
+            /*HomePresenter mainPresenter = new HomePresenter(logger);
            
             if (existeAdmin) {
                 mainPresenter.iniciarFluxo(true); 
             } else {
                 // Cadastro Obrigatório do 1º Admin
                 mainPresenter.iniciarFluxo(false);
-            }
+            }*/
         });
         
     }

@@ -2,31 +2,44 @@ package br.com.controleacesso.service;
 
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.model.Usuario;
-import java.sql.SQLException;
+import com.pss.senha.validacao.ValidadorSenha;
+import java.nio.file.AccessDeniedException;
 
 public class LoginService {
     
     private final UsuarioRepository repository;
+    private final ValidadorSenha validadorSenha;
     
     public LoginService(UsuarioRepository repository) {
         this.repository = repository;
+        this.validadorSenha = new ValidadorSenha();
     }
     
-    public String login(Usuario usuario) {
-        try {
-            Usuario usuarioExiste = repository.getByEmail(usuario.getEmail());
-            if(usuarioExiste != null) {
-                if(usuario.getSenha().equals(usuarioExiste.getSenha())) {
-                    return "Login realizado com sucesso!";
-                } else {
-                    return "Usuário ou senha inválido!";
-                }
+    public void login(Usuario usuario) throws Exception {
+        
+        validarDados(usuario);
+
+        Usuario usuarioExiste = repository.getByEmail(usuario.getEmail());
+        
+        if(usuarioExiste != null) {
+            if(usuario.getSenha().equals(usuarioExiste.getSenha())) {
+                //direcionar para a tela principal
             } else {
-                return "Usuário não encontrado!";
+                throw new AccessDeniedException("Senha inválida!");
             }
-       } catch (SQLException e) {
-           throw new RuntimeException("Erro ao consultar no banco de dados: " + e.getMessage(), e);
-       }
+        } else {
+            throw new AccessDeniedException("Usuário não cadastrado!");
+        }
+    }
+    
+    private void validarDados(Usuario usuario) {
+        if(usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+            throw new IllegalArgumentException("O email do usuário precisa ser preenchido!");
+        }
+        if(usuario.getSenha() == null || usuario.getSenha().isBlank()) {
+            throw new IllegalArgumentException("A senha do usuário precisa ser preenchida!");
+        }
+        validadorSenha.validar(usuario.getSenha());
     }
     
 }

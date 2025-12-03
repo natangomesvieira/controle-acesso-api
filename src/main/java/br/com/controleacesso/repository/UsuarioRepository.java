@@ -36,6 +36,8 @@ public class UsuarioRepository {
             stmt.setString(4, perfil);
             
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao salvar dados no banco!");
         }
     }
     
