@@ -24,7 +24,6 @@ public class HomePresenter {
     public HomePresenter(LogService logger) {
         this.nav = new GerenciadorDeTelas();
         this.view = new HomeView();
-        this.desktop = new JDesktopPane(); //Nao seria redundante?, pois é sobrescrito no configuraView
         this.logger = logger;
 
         UsuarioRepository repository = new UsuarioRepository();
