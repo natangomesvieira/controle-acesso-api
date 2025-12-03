@@ -3,6 +3,8 @@ package br.com.controleacesso.presenter;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.factory.LoginFactory;
+import br.com.controleacesso.repository.UsuarioRepository;
+import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.HomeView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
@@ -17,22 +19,29 @@ public class HomePresenter {
     private GerenciadorDeTelas nav;
     private JDesktopPane desktop;
     private final LogService logger;
+    private final CadastroService cadastroService;
     
     public HomePresenter(LogService logger) {
         this.nav = new GerenciadorDeTelas();
         this.view = new HomeView();
-        this.desktop = new JDesktopPane();
+        this.desktop = new JDesktopPane(); //Nao seria redundante?, pois é sobrescrito no configuraView
         this.logger = logger;
+
+        UsuarioRepository repository = new UsuarioRepository();
+        this.cadastroService = new CadastroService(repository);
+        
         configuraView();
+        iniciarFluxo();
     }
     
-    public void iniciarFluxo(boolean existeAdmin) {
-        if (existeAdmin) { irParaLogin(); }
-        else {
+    public void iniciarFluxo() {
+        if (cadastroService.cadastroInicial()) {
             JOptionPane.showMessageDialog(view,
                     "Bem-vindo(a)! Nenhuma conta detectada. \n" +
                     "Iniciaremos o cadastro do Administrador do sistema.");
             irParaCadastro();
+        } else {
+            irParaLogin();
         }
     }
     

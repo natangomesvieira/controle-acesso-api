@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UsuarioRepository {
     
-    public boolean temUsuariosCadastrados() throws SQLException {
+    public boolean getAllUsers() throws SQLException {
         String sql = "SELECT count(1) as total FROM usuario";
 
         try (Connection conn = ConexaoFactory.getConexao();
