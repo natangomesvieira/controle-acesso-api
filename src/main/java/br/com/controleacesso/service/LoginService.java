@@ -15,7 +15,7 @@ public class LoginService {
         this.validadorSenha = new ValidadorSenha();
     }
     
-    public void login(Usuario usuario) throws Exception {
+    public Usuario login(Usuario usuario) throws Exception {
         
         validarDados(usuario);
 
@@ -23,7 +23,7 @@ public class LoginService {
         
         if(usuarioExiste != null) {
             if(usuario.getSenha().equals(usuarioExiste.getSenha())) {
-                //direcionar para a tela principal
+                return usuarioExiste;
             } else {
                 throw new AccessDeniedException("Senha inválida!");
             }

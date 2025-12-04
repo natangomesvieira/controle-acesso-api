@@ -1,20 +1,27 @@
 package br.com.controleacesso.view;
 
 import br.com.controleacesso.factory.IViewFactory;
+import java.beans.PropertyVetoException;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
 public class GerenciadorDeTelas {
 
-    public void abrirTela(IViewFactory factory, JDesktopPane desktop) {
+    private final JDesktopPane desktop;
+    
+    public GerenciadorDeTelas(JDesktopPane desktop) {
         if (desktop == null) {
-            System.err.println("Erro: O sistema não foi iniciado corretamente.");
-            return;
+            throw new IllegalArgumentException("JDesktopPane não pode ser nulo.");
         }
-
+        this.desktop = desktop;
+    }
+    
+    public void abrirTela(IViewFactory factory) {
+        
         JInternalFrame frame = factory.criarTela(this);
-
+        
         desktop.add(frame);
+        frame.pack();
         int x = (desktop.getWidth() - frame.getWidth()) / 2;
         int y = (desktop.getHeight() - frame.getHeight()) / 2;
         frame.setLocation(x, y);
@@ -22,9 +29,7 @@ public class GerenciadorDeTelas {
         
         try {
             frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {
-            // Ignora silenciosamente se a janela vetar o foco (raro acontecer)
-        }
+        } catch (PropertyVetoException e) {}
     }  
     
 }

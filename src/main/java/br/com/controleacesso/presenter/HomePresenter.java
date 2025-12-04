@@ -3,38 +3,31 @@ package br.com.controleacesso.presenter;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.factory.LoginFactory;
-import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.HomeView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
 public class HomePresenter {
     
-    private HomeView view;
-    private GerenciadorDeTelas nav;
-    private JDesktopPane desktop;
+    private final HomeView view;
+    private final GerenciadorDeTelas nav;
     private final LogService logger;
-    private final CadastroService cadastroService;
+    private final CadastroService service;
     
-    public HomePresenter(LogService logger) {
-        this.nav = new GerenciadorDeTelas();
-        this.view = new HomeView();
+    public HomePresenter(HomeView view, GerenciadorDeTelas nav, CadastroService service, LogService logger) {
+        this.view = view;
+        this.nav = nav;
+        this.service = service;
         this.logger = logger;
-
-        UsuarioRepository repository = new UsuarioRepository();
-        this.cadastroService = new CadastroService(repository);
-        
         configuraView();
         iniciarFluxo();
     }
     
-    public void iniciarFluxo() {
-        if (cadastroService.cadastroInicial()) {
+    private void iniciarFluxo() {
+        if (service.cadastroInicial()) {
             JOptionPane.showMessageDialog(view,
                     "Bem-vindo(a)! Nenhuma conta detectada. \n" +
                     "Iniciaremos o cadastro do Administrador do sistema.");
@@ -45,40 +38,33 @@ public class HomePresenter {
     }
     
     private void configuraView() {
-       view.setVisible(false);
-       view.getBtnCadastrar().addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               try {
-                   logger.log(new LogEntry("LOGIN_USUARIO", "TESTE"));
-                   irParaCadastro();
-               } catch (Exception ex) {
-                   JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
-               }
-           }
-       });
+        view.setVisible(false);
+        view.getBtnCadastrar().addActionListener((ActionEvent e) -> {
+            try {
+                logger.log(new LogEntry("LOGIN_USUARIO", "TESTE"));
+                irParaCadastro();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
+            }
+        });
        
-       view.getBtnEntrar().addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               try {
-                   irParaLogin();
-               } catch (Exception ex) {
-                   JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
-               }
-          }
-       });
-       view.setVisible(true);
-       view.setLocationRelativeTo(null);
-       this.desktop = view.getDesktop();
+        view.getBtnEntrar().addActionListener((ActionEvent e) -> {
+            try {
+                irParaLogin();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
+            }
+        });
+        view.setVisible(true);
+        view.setLocationRelativeTo(null);
    }
     
     private void irParaLogin() {
-       nav.abrirTela(new LoginFactory(logger), desktop);
+       nav.abrirTela(new LoginFactory(logger));
     }
     
     private void irParaCadastro() {
-        nav.abrirTela(new CadastroFactory(logger), desktop);
+        nav.abrirTela(new CadastroFactory(logger));
     }
     
 }

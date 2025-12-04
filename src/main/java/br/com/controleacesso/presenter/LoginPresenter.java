@@ -1,5 +1,6 @@
 package br.com.controleacesso.presenter;
 
+import br.com.controleacesso.factory.DashboardFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.service.LoginService;
@@ -7,7 +8,6 @@ import br.com.controleacesso.view.LoginView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 public class LoginPresenter {
@@ -26,32 +26,20 @@ public class LoginPresenter {
     }
     
     private void configuraView() {
-        view.getBtnEntrar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    login();
-                    //logger.log(new LogEntry("CADASTRO_USUARIO", response));
-                } catch (Exception ex) {
-                    //logger.log(new LogEntry("CADASTRO_USUARIO", "novo_usuario", ex.getMessage()));
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
-            }
+        view.getBtnEntrar().addActionListener((ActionEvent e) -> {
+            login();
         });
         
-        view.getBtnCancelar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cancelar();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
+        view.getBtnCancelar().addActionListener((ActionEvent e) -> {
+            try {
+                fecharJanela();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
             }
         });
     }
     
-    private void cancelar() {
+    private void fecharJanela() {
         view.dispose();
     }
     
@@ -63,10 +51,13 @@ public class LoginPresenter {
             usuario.setEmail(view.getTxtEmail().getText());
             usuario.setSenha(view.getPwdSenha().getText());
         
-            service.login(usuario);
+            usuario = service.login(usuario);
             
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome()));
             
+            fecharJanela();
+            
+            nav.abrirTela(new DashboardFactory(logger));
         } catch (Exception ex) {
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());

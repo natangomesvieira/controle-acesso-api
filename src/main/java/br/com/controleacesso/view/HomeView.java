@@ -1,13 +1,19 @@
 package br.com.controleacesso.view;
 
+import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
 
 public class HomeView extends javax.swing.JFrame {
-
+    
     public HomeView() {
         initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);
+        this.setLayout(new BorderLayout());
+        this.add(dskHome, BorderLayout.CENTER);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(800, 600);
+        //this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     @SuppressWarnings("unchecked")

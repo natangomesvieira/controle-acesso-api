@@ -1,8 +1,9 @@
 package br.com.controleacesso;
 
+import br.com.controleacesso.factory.HomeFactory;
 import br.com.controleacesso.repository.config.DatabaseConfig;
-import br.com.controleacesso.presenter.HomePresenter;
 import br.com.sistemalog.LogService;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class ControleAcessoApi {
@@ -16,7 +17,9 @@ public class ControleAcessoApi {
 
          // 2. Inicia o sistema
         SwingUtilities.invokeLater(() -> {
-            new HomePresenter(logger);
+            JFrame telaPrincipal = new HomeFactory(logger).criarTela();
+            telaPrincipal.setVisible(true);
+            telaPrincipal.setLocationRelativeTo(null);
         });
         
     }

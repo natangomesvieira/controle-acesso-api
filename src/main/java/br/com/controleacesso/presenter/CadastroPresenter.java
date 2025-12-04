@@ -1,5 +1,6 @@
 package br.com.controleacesso.presenter;
 
+import br.com.controleacesso.factory.DashboardFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.service.CadastroService;
@@ -56,6 +57,7 @@ public class CadastroPresenter {
             
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
             
+            nav.abrirTela(new DashboardFactory(logger));
         } catch (Exception ex) {
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
