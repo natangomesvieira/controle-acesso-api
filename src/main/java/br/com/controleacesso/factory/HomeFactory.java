@@ -6,6 +6,7 @@ import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.view.HomeView;
 import br.com.sistemalog.LogService;
+import com.pss.senha.validacao.ValidadorSenha;
 import javax.swing.JFrame;
 
 public class HomeFactory {

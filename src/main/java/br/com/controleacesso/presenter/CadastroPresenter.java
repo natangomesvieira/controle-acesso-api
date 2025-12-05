@@ -17,16 +17,21 @@ public class CadastroPresenter {
     private final GerenciadorDeTelas nav;
     private final CadastroService service;
     private final LogService logger;
+    private final boolean cadastroObrigatorio;
 
-    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger) {
+    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, boolean cadastroObrigatorio) {
         this.view = view;
         this.nav = nav;
         this.service = service;
         this.logger = logger;
+        this.cadastroObrigatorio = cadastroObrigatorio;
         configuraView();
     }
 
     private void configuraView() {
+        
+        if (cadastroObrigatorio) { view.getBtnCancelar().setEnabled(false); } // OU view.getBtnCancelar().setVisible(false); 
+        
         view.getBtnCadastrar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

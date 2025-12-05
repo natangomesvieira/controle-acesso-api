@@ -33,7 +33,7 @@ public class DashboardPresenter {
     }
     
     private void irParaCadastro() {
-        nav.abrirTela(new CadastroFactory(logger));
+       // nav.abrirTela(new CadastroFactory(logger));
     }
         
 }

@@ -31,7 +31,7 @@ public class HomePresenter {
             JOptionPane.showMessageDialog(view,
                     "Bem-vindo(a)! Nenhuma conta detectada. \n" +
                     "Iniciaremos o cadastro do Administrador do sistema.");
-            irParaCadastro();
+            irParaCadastro(true);
         } else {
             irParaLogin();
         }
@@ -42,7 +42,7 @@ public class HomePresenter {
         view.getBtnCadastrar().addActionListener((ActionEvent e) -> {
             try {
                 logger.log(new LogEntry("LOGIN_USUARIO", "TESTE"));
-                irParaCadastro();
+                irParaCadastro(false);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
             }
@@ -63,8 +63,8 @@ public class HomePresenter {
        nav.abrirTela(new LoginFactory(logger));
     }
     
-    private void irParaCadastro() {
-        nav.abrirTela(new CadastroFactory(logger));
+    private void irParaCadastro(boolean obrigatorio) {
+        nav.abrirTela(new CadastroFactory(logger, obrigatorio));
     }
     
 }
