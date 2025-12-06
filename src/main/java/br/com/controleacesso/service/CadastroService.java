@@ -27,7 +27,7 @@ public class CadastroService {
     }
     
     public void criarUsuario(Usuario usuario) throws Exception {
-
+ 
         validarCamposObrigatorios(usuario);
         
         List<String> erros = validadorSenha.validar(usuario.getSenha());
@@ -38,12 +38,27 @@ public class CadastroService {
         
         try {
             boolean existeUsuario = repository.getAllUsers();
-            String perfil = verificarPerfil(usuario.getPerfil(), existeUsuario);
+            
+            /* if (!existeUsuario) {
+                // US 01: Primeiro usuário é Admin e já pode entrar
+                usuario.setPerfil("administrador");
+                usuario.setAutorizado(true); 
+            } else {
+                // US 03: Próximos usuários são Padrão e aguardam aprovação
+                usuario.setPerfil("usuario_padrao");
+                usuario.setAutorizado(false); 
+            } */
+            
+            String perfil = verificarPerfil(null, existeUsuario);
             usuario.setPerfil(perfil);
-            repository.salvar(usuario);
-        } catch (SQLException e) {
+            
+            boolean isAdmin = "administrador".equals(perfil);
+            usuario.setAutorizado(isAdmin);
+            
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao verificar usuários: " + e.getMessage(), e);
         }
+        repository.salvar(usuario);
     }
     
     

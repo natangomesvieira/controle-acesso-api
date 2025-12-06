@@ -22,11 +22,18 @@ public class LoginService {
         Usuario usuarioExiste = repository.getByEmail(usuario.getEmail());
         
         if(usuarioExiste != null) {
-            if(usuario.getSenha().equals(usuarioExiste.getSenha())) {
-                return usuarioExiste;
-            } else {
+            // 1. Verifica Senha
+            if(!usuario.getSenha().equals(usuarioExiste.getSenha())) {
                 throw new AccessDeniedException("Senha inválida!");
             }
+
+            // 2. Verifica Autorização (US 03)
+            if(!usuarioExiste.isAutorizado()) {
+                 throw new AccessDeniedException("Seu cadastro aguarda autorização do administrador.");
+            }
+            
+            return usuarioExiste;
+            
         } else {
             throw new AccessDeniedException("Usuário não cadastrado!");
         }

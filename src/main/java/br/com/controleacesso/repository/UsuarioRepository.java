@@ -55,7 +55,7 @@ public class UsuarioRepository {
     }
     
     public void salvar(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuario (nome, email, senha, perfil) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, email, senha, perfil, autorizado) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = ConexaoFactory.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -64,7 +64,7 @@ public class UsuarioRepository {
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getPerfil());
-            
+            stmt.setBoolean(5, usuario.isAutorizado());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException("Erro ao salvar dados no banco!");
@@ -87,6 +87,7 @@ public class UsuarioRepository {
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setPerfil(rs.getString("perfil"));
+                usuario.setAutorizado(rs.getBoolean("autorizado"));
             }
         }
         return usuario;

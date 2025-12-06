@@ -80,7 +80,7 @@ public class CadastroPresenter {
             
             
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
-            
+            JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");            
             view.dispose();
             
             nav.abrirTela(new DashboardFactory(logger));

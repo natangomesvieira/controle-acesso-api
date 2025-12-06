@@ -8,6 +8,7 @@ public class Usuario {
     private String senha;
     private String confSenha;
     private String perfil;
+    private boolean autorizado;
 
     public Usuario() {}
 
@@ -60,5 +61,11 @@ public class Usuario {
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
-    
+        public boolean isAutorizado() {
+        return autorizado;
+    }
+
+    public void setAutorizado(boolean autorizado) {
+        this.autorizado = autorizado;
+    }
 }
