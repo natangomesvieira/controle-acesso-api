@@ -1,5 +1,6 @@
 package br.com.controleacesso.view;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.factory.IViewFactory;
 import java.beans.PropertyVetoException;
 import javax.swing.JDesktopPane;
@@ -8,6 +9,11 @@ import javax.swing.JInternalFrame;
 public class GerenciadorDeTelas {
 
     private final JDesktopPane desktop;
+<<<<<<< Updated upstream
+    private ContextoDeSessao sessao;
+=======
+    private ContextoDeSessao sessaoAtual;
+>>>>>>> Stashed changes
     
     public GerenciadorDeTelas(JDesktopPane desktop) {
         if (desktop == null) {
@@ -31,5 +37,25 @@ public class GerenciadorDeTelas {
             frame.setSelected(true);
         } catch (PropertyVetoException e) {}
     }  
+    
+    public void setSessao(ContextoDeSessao sessao) {
+<<<<<<< Updated upstream
+        this.sessao = sessao;
+    }
+    
+    public ContextoDeSessao getSessao() {
+        return sessao;
+    }
+    
+    public void limparSessao() {
+        this.sessao = null;
+=======
+        this.sessaoAtual = sessao;
+    }
+    
+    public ContextoDeSessao getSessao() {
+        return sessaoAtual;
+>>>>>>> Stashed changes
+    }
     
 }

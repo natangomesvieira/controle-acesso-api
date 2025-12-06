@@ -1,5 +1,6 @@
 package br.com.controleacesso.presenter;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.factory.DashboardFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
@@ -52,6 +53,10 @@ public class LoginPresenter {
             usuario.setSenha(view.getPwdSenha().getText());
         
             usuario = service.login(usuario);
+            
+            ContextoDeSessao sessao = new ContextoDeSessao(usuario.getPerfil());
+
+            nav.setSessao(sessao);
             
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome()));
             

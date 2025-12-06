@@ -7,6 +7,8 @@ import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class DashboardPresenter {
     
@@ -24,16 +26,19 @@ public class DashboardPresenter {
     }
     
     private void configuraView() {
-        view.getBtnNovoUsuario().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                irParaCadastro();
-            }
+        view.getBtnNovoUsuario().addActionListener((ActionEvent e) -> {
+            irParaCadastro();
         });
+        view.addInternalFrameListener(new InternalFrameAdapter() {
+            @Override
+            public void internalFrameClosing(InternalFrameEvent e) {
+                nav.limparSessao();
+            }
+    });
     }
     
     private void irParaCadastro() {
-       // nav.abrirTela(new CadastroFactory(logger));
+       nav.abrirTela(new CadastroFactory(logger, false));
     }
         
 }

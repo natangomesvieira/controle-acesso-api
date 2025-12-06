@@ -1,18 +1,18 @@
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.presenter.CadastroPresenter;
 import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.CadastroView;
 import br.com.sistemalog.LogService;
-import com.pss.senha.validacao.ValidadorSenha;
 import javax.swing.JInternalFrame;
 
 public class CadastroFactory implements IViewFactory {
     
     private final LogService logger;
-    private final boolean cadastroObrigatorio;    
+    private final boolean cadastroObrigatorio;
     
     public CadastroFactory(LogService logger, boolean cadastroObrigatorio) {
         this.logger = logger;
@@ -38,7 +38,12 @@ public class CadastroFactory implements IViewFactory {
         
         UsuarioRepository repository = new UsuarioRepository();
         CadastroService service = new CadastroService(repository);
-        new CadastroPresenter(view, nav, service, logger, cadastroObrigatorio);
+        ContextoDeSessao sessao = nav.getSessao();
+<<<<<<< Updated upstream
+        new CadastroPresenter(view, nav, service, logger, sessao, cadastroObrigatorio);
+=======
+        new CadastroPresenter(view, nav, service, logger, sessao);
+>>>>>>> Stashed changes
         
         return view;
     }

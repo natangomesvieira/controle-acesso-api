@@ -56,6 +56,7 @@ public class UsuarioRepository {
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
+                usuario.setPerfil(rs.getString("perfil"));
             }
         }
         return usuario;
