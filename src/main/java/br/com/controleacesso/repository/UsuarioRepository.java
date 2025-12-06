@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioRepository {
     
@@ -22,7 +24,33 @@ public class UsuarioRepository {
                 return false;
             }
         } catch (SQLException ex) {
-            throw new SQLException("Erro ao realizar consulta no banco de  dados!");
+            throw new SQLException("Erro ao realizar consulta no banco de dados!");
+        }
+    }
+    
+    public List<Usuario> getAllUsuarios() throws SQLException {
+    
+        List<Usuario> usuarios = new ArrayList<>();
+
+        String sql = "SELECT nome, email, perfil FROM usuario";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) { 
+
+                Usuario usuario = new Usuario();
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setPerfil(rs.getString("perfil"));
+
+                usuarios.add(usuario);
+            }
+            return usuarios; 
+
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao listar todos os usuários no banco de dados: " + ex.getMessage());
         }
     }
     

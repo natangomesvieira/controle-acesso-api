@@ -1,6 +1,5 @@
 package br.com.controleacesso.factory;
 
-import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.presenter.CadastroPresenter;
