@@ -1,8 +1,6 @@
 package br.com.controleacesso.factory;
 
 import br.com.controleacesso.presenter.DashboardPresenter;
-import br.com.controleacesso.repository.UsuarioRepository;
-import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.DashboardView;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogService;
@@ -19,9 +17,7 @@ public class DashboardFactory implements IViewFactory {
     @Override
     public JInternalFrame criarTela(GerenciadorDeTelas nav) {
         DashboardView view = new DashboardView();
-        UsuarioRepository repository = new UsuarioRepository();
-        CadastroService service = new CadastroService(repository);
-        new DashboardPresenter(view, nav, service, logger);
+        new DashboardPresenter(view, nav, logger);
         
         return view;
     }

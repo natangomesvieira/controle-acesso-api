@@ -3,6 +3,7 @@ package br.com.controleacesso.service;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.model.Usuario;
 import com.pss.senha.validacao.ValidadorSenha;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -20,20 +21,13 @@ public class CadastroService {
     public boolean cadastroInicial() {
         try {
             return !repository.getAllUsers();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Falha ao verificar estado inicial do banco de dados: " + e.getMessage(), e);
         }
     }
     
     public void criarUsuario(Usuario usuario) throws Exception {
-        //TODO: Aplicar demais validações
-        /*
-        1- Validar se os dados do usuário não são null. 
-            (crie uma função private pra isso e caso algum dado seja null dispare uma excessão
-             throw new IllegalArgumentException("O campo X precisa ser preenchido!");)
-        2- Verificar se é o primeiro usuário a ser criado, se sim deve ser ADMIN
-        3- 
-        */
+
         validarCamposObrigatorios(usuario);
         
         List<String> erros = validadorSenha.validar(usuario.getSenha());
@@ -44,11 +38,26 @@ public class CadastroService {
         
         try {
             boolean existeUsuario = repository.getAllUsers();
-            usuario.setPerfil(!existeUsuario ? "administrador" : "usuario_padrao"); //Melhorar
-        } catch (Exception e) {
+            String perfil = verificarPerfil(usuario.getPerfil(), existeUsuario);
+            usuario.setPerfil(perfil);
+            repository.salvar(usuario);
+        } catch (SQLException e) {
             throw new RuntimeException("Erro ao verificar usuários: " + e.getMessage(), e);
         }
-        repository.salvar(usuario);
+    }
+    
+    
+    public String verificarPerfil(String perfil, boolean existeUsuario) {
+
+        if (perfil != null && !perfil.isBlank()) {
+            return perfil;
+        }
+
+        if (!existeUsuario) {
+            return "administrador";
+        } 
+
+        return "usuario_padrao";
     }
     
     private void validarCamposObrigatorios(Usuario usuario) {

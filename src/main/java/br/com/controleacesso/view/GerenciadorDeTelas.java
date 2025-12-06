@@ -9,12 +9,8 @@ import javax.swing.JInternalFrame;
 public class GerenciadorDeTelas {
 
     private final JDesktopPane desktop;
-<<<<<<< Updated upstream
     private ContextoDeSessao sessao;
-=======
-    private ContextoDeSessao sessaoAtual;
->>>>>>> Stashed changes
-    
+
     public GerenciadorDeTelas(JDesktopPane desktop) {
         if (desktop == null) {
             throw new IllegalArgumentException("JDesktopPane não pode ser nulo.");
@@ -39,7 +35,6 @@ public class GerenciadorDeTelas {
     }  
     
     public void setSessao(ContextoDeSessao sessao) {
-<<<<<<< Updated upstream
         this.sessao = sessao;
     }
     
@@ -49,13 +44,6 @@ public class GerenciadorDeTelas {
     
     public void limparSessao() {
         this.sessao = null;
-=======
-        this.sessaoAtual = sessao;
-    }
-    
-    public ContextoDeSessao getSessao() {
-        return sessaoAtual;
->>>>>>> Stashed changes
     }
     
 }

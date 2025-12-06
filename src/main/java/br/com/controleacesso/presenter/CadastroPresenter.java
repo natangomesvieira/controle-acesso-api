@@ -17,36 +17,22 @@ public class CadastroPresenter {
     private final GerenciadorDeTelas nav;
     private final CadastroService service;
     private final LogService logger;
-<<<<<<< Updated upstream
     private final boolean cadastroObrigatorio;
-    private final ContextoDeSessao sessao;
 
-    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, ContextoDeSessao sessao, boolean cadastroObrigatorio) {
-=======
-    private final ContextoDeSessao sessao;
-
-    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, ContextoDeSessao sessao) {
->>>>>>> Stashed changes
+    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, boolean cadastroObrigatorio) {
         this.view = view;
         this.nav = nav;
         this.service = service;
         this.logger = logger;
-<<<<<<< Updated upstream
         this.cadastroObrigatorio = cadastroObrigatorio;
-=======
->>>>>>> Stashed changes
-        this.sessao = sessao;
         configuraAcessoAoPerfil();
         configuraView();
     }
 
     private void configuraView() {
-<<<<<<< Updated upstream
         
         if (cadastroObrigatorio) { view.getBtnCancelar().setEnabled(false); } // OU view.getBtnCancelar().setVisible(false); 
         
-=======
->>>>>>> Stashed changes
         view.getBtnCadastrar().addActionListener((ActionEvent e) -> {
             cadastrar();
         });
@@ -58,18 +44,15 @@ public class CadastroPresenter {
     
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
-    
+        ContextoDeSessao sessao = nav.getSessao();
+        
         if (sessao != null) {
             isAdminLogado = sessao.isAdministrador();
         }
 
-<<<<<<< Updated upstream
         boolean mostrarPerfil = isAdminLogado && !cadastroObrigatorio;
         
         view.getPerfil().setVisible(mostrarPerfil); 
-=======
-        view.getPerfil().setVisible(isAdminLogado); 
->>>>>>> Stashed changes
     }
     
     private void cadastrar() {
@@ -91,7 +74,14 @@ public class CadastroPresenter {
 
             service.criarUsuario(usuario);
             
+            ContextoDeSessao sessao = new ContextoDeSessao(usuario.getPerfil());
+
+            nav.setSessao(sessao);
+            
+            
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
+            
+            view.dispose();
             
             nav.abrirTela(new DashboardFactory(logger));
         } catch (Exception ex) {

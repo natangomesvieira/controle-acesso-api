@@ -52,11 +52,7 @@ public class CadastroView extends JInternalFrame {
 
         btnCancelar.setText("Cancelar");
 
-<<<<<<< Updated upstream
         cmbPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "administrador", "usuario_padrao" }));
-=======
-        cmbPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Usuário padrão" }));
->>>>>>> Stashed changes
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

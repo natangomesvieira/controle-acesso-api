@@ -38,12 +38,8 @@ public class CadastroFactory implements IViewFactory {
         
         UsuarioRepository repository = new UsuarioRepository();
         CadastroService service = new CadastroService(repository);
-        ContextoDeSessao sessao = nav.getSessao();
-<<<<<<< Updated upstream
-        new CadastroPresenter(view, nav, service, logger, sessao, cadastroObrigatorio);
-=======
-        new CadastroPresenter(view, nav, service, logger, sessao);
->>>>>>> Stashed changes
+        
+        new CadastroPresenter(view, nav, service, logger, cadastroObrigatorio);
         
         return view;
     }

@@ -18,9 +18,12 @@ public class UsuarioRepository {
 
             if (rs.next()) {
                 return rs.getInt("total") > 0;
+            } else {
+                return false;
             }
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao realizar consulta no banco de  dados!");
         }
-        return false;
     }
     
     public void salvar(Usuario usuario) throws SQLException {
@@ -32,8 +35,7 @@ public class UsuarioRepository {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
-            String perfil = (usuario.getPerfil() != null) ? usuario.getPerfil() : "usuario_padrao";
-            stmt.setString(4, perfil);
+            stmt.setString(4, usuario.getPerfil());
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
