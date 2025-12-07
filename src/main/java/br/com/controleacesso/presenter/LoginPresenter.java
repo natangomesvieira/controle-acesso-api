@@ -54,7 +54,7 @@ public class LoginPresenter {
         
             usuario = service.login(usuario);
             
-            ContextoDeSessao sessao = new ContextoDeSessao(usuario.getPerfil());
+            ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil());
 
             nav.setSessao(sessao);
             

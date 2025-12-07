@@ -58,7 +58,7 @@ public class UsuarioRepository {
     
         List<Usuario> usuarios = new ArrayList<>();
 
-        String sql = "SELECT nome, email, perfil FROM usuario";
+        String sql = "SELECT id, nome, email, perfil FROM usuario";
 
         try (Connection conn = ConexaoFactory.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -67,6 +67,7 @@ public class UsuarioRepository {
             while (rs.next()) { 
 
                 Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPerfil(rs.getString("perfil"));
@@ -109,6 +110,7 @@ public class UsuarioRepository {
 
             if (rs.next()) {
                 usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
@@ -154,6 +156,20 @@ public class UsuarioRepository {
             stmt.executeUpdate(); 
         } catch (SQLException ex) {
             throw new SQLException("Erro ao atualizar o status de autorização do usuário: " + ex.getMessage());
+        }
+    }
+    
+    public void deletarUsuario(int id) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id = ?";
+        
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao excluir usuário: " + ex.getMessage());
         }
     }
 }

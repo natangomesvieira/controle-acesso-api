@@ -2,8 +2,10 @@ package br.com.controleacesso;
 
 public class ContextoDeSessao {
     private final String perfilUsuarioLogado;
+    private final int idUsuarioLogado;
 
-    public ContextoDeSessao(String perfil) {
+    public ContextoDeSessao(int id, String perfil) {
+        this.idUsuarioLogado = id;
         this.perfilUsuarioLogado = perfil;
     }
 
@@ -13,5 +15,9 @@ public class ContextoDeSessao {
     
     public String getPerfilUsuarioLogado() {
         return perfilUsuarioLogado;
+    }
+    
+    public int getIdUsuarioLogado() {
+        return idUsuarioLogado;
     }
 }

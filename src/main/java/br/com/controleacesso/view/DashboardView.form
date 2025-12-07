@@ -35,6 +35,7 @@
                   <Component id="btnRebaixarUsuario" alignment="1" max="32767" attributes="0"/>
                   <Component id="btnListagemUsuarios" alignment="1" max="32767" attributes="0"/>
                   <Component id="btnAutorizacoesPendentes" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnRemoverUsuario" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -58,7 +59,9 @@
                       <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="btnRemoverUsuario" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnListagemUsuarios" min="-2" pref="27" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnAutorizacoesPendentes" min="-2" max="-2" attributes="0"/>
@@ -147,11 +150,23 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Listagem Usu&#xe1;rios"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListagemUsuariosActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAutorizacoesPendentes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Autoriza&#xe7;&#xf5;es Pendentes"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRemoverUsuario">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remover Usuario"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoverUsuarioActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -43,4 +43,11 @@ public class DashboardService {
         repository.alterarPefilUsuarioByEmail(email, "usuario_padrao");
     }
     
+    public void excluirUsuario(int id) throws SQLException {
+        if (id == 1) {
+            throw new IllegalArgumentException("O Administrador Principal (Root) não pode ser excluído.");
+        }
+        repository.deletarUsuario(id);
+    }
+    
 }
