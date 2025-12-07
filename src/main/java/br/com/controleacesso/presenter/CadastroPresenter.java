@@ -1,7 +1,7 @@
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.ContextoDeSessao;
-import br.com.controleacesso.factory.DashboardFactory;
+import br.com.controleacesso.factory.LoginFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.service.CadastroService;
@@ -78,12 +78,11 @@ public class CadastroPresenter {
 
             nav.setSessao(sessao);
             
-            
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
-            JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");            
-            view.dispose();
+            JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  
             
-            nav.abrirTela(new DashboardFactory(logger));
+            view.dispose();
+            nav.abrirTela(new LoginFactory(logger));
         } catch (Exception ex) {
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());

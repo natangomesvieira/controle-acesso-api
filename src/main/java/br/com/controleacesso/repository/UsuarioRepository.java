@@ -28,11 +28,11 @@ public class UsuarioRepository {
         }
     }
     
-    public List<Usuario> getAllUsuarios() throws SQLException {
+    public List<Usuario> getAllUsuariosNaoAutorizados() throws SQLException {
     
         List<Usuario> usuarios = new ArrayList<>();
 
-        String sql = "SELECT nome, email, perfil FROM usuario";
+        String sql = "SELECT nome, email, perfil FROM usuario WHERE autorizado = 0";
 
         try (Connection conn = ConexaoFactory.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -93,4 +93,28 @@ public class UsuarioRepository {
         return usuario;
     }
     
+    public void autorizarAcessoByEmail(String email) throws SQLException {
+        String sql = "UPDATE usuario SET autorizado = ? WHERE email = ?";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setBoolean(1, true); 
+            stmt.setString(2, email); 
+            stmt.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao atualizar o status de autorização do usuário: " + ex.getMessage());
+        }
+    }
+    
+    public void rejeitarAcessoByEmail(String email) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE email = ?";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email); 
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao deletar usuário por email: " + ex.getMessage());
+        }
+    }
 }

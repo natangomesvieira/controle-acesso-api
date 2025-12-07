@@ -37,19 +37,17 @@ public class DashboardView extends JInternalFrame {
         btnNovoUsuario = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabelaUsuarios = new javax.swing.JTable();
+        btnAutorizarAcesso = new javax.swing.JButton();
+        btnRejeitarAcesso = new javax.swing.JButton();
+        lblTituloTabela = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(480, 322));
+        setPreferredSize(new java.awt.Dimension(530, 322));
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Controle de Acesso");
 
         btnNovoUsuario.setText("Cadastrar Usuário");
-        btnNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoUsuarioActionPerformed(evt);
-            }
-        });
 
         tblTabelaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -63,6 +61,14 @@ public class DashboardView extends JInternalFrame {
         ));
         jScrollPane1.setViewportView(tblTabelaUsuarios);
 
+        btnAutorizarAcesso.setText("Autorizar Acesso");
+
+        btnRejeitarAcesso.setText("Rejeitar Usuário");
+
+        lblTituloTabela.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        lblTituloTabela.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTituloTabela.setText("Autorizações Pendentes");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -70,29 +76,40 @@ public class DashboardView extends JInternalFrame {
             .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(btnNovoUsuario)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnNovoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAutorizarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRejeitarAcesso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(lblTituloTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(lblTitulo)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNovoUsuario)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(133, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNovoUsuario)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAutorizarAcesso)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRejeitarAcesso)
+                        .addContainerGap(100, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTituloTabela)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNovoUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,14 +147,25 @@ public class DashboardView extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAutorizarAcesso;
     private javax.swing.JButton btnNovoUsuario;
+    private javax.swing.JButton btnRejeitarAcesso;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTituloTabela;
     private javax.swing.JTable tblTabelaUsuarios;
     // End of variables declaration//GEN-END:variables
     
     public JButton getBtnNovoUsuario() {
         return btnNovoUsuario;
+    }
+    
+    public JButton getBtnAutorizarAcesso() {
+        return btnAutorizarAcesso;
+    }
+    
+    public JButton getBtnRejeitarAcesso() {
+        return btnRejeitarAcesso;
     }
     
     public JTable getTabelaUsuarios() {

@@ -11,6 +11,7 @@ import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.DefaultTableModel;
@@ -36,12 +37,56 @@ public class DashboardPresenter {
         view.getBtnNovoUsuario().addActionListener((ActionEvent e) -> {
             irParaCadastro();
         });
+        view.getBtnAutorizarAcesso().addActionListener((ActionEvent e) -> {
+            autorizarAcesso();
+        });
+        view.getBtnRejeitarAcesso().addActionListener((ActionEvent e) -> {
+            rejeitarAcesso();
+        });
         view.addInternalFrameListener(new InternalFrameAdapter() {
             @Override
             public void internalFrameClosing(InternalFrameEvent e) {
                 nav.limparSessao();
             }
         });
+    }
+    
+    private void autorizarAcesso() {
+        try {
+           String email = emailUsuarioSelecionado();
+           if(email != null) {
+            service.autorizarAcessoByEmail(email);
+            JOptionPane.showMessageDialog(view, "Usuário autorizado com sucesso!");
+            carregarTabelaUsuarios();
+           }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "Falha ao realizar autorização: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void rejeitarAcesso() {
+        try {
+           String email = emailUsuarioSelecionado();
+           if(email != null) {
+                service.rejeitarAcessoByEmail(email);
+                JOptionPane.showMessageDialog(view, "Usuário rejeitado com sucesso!");
+                carregarTabelaUsuarios();
+           }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "Falha ao realizar rejeição: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private String emailUsuarioSelecionado() {
+        JTable tabela = view.getTabelaUsuarios();
+    
+        int linhaSelecionada = tabela.getSelectedRow();
+    
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        return (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
     }
     
     private void configuraAcessoAoPerfil() {
@@ -65,7 +110,7 @@ public class DashboardPresenter {
 
         List<Usuario> listaUsuarios = null;
         try {
-            listaUsuarios = service.getAllUsuarios(); 
+            listaUsuarios = service.getAllUsuariosNaoAutorizados(); 
         } catch (Exception e) {
             logger.log(new LogEntry("ERRO_LISTAGEM", e.getMessage()));
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());

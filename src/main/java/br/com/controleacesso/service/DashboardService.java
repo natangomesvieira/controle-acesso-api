@@ -13,12 +13,16 @@ public class DashboardService {
         this.repository = repository;
     }
     
-    public List<Usuario> getAllUsuarios () {
-        try {
-            return repository.getAllUsuarios();
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao verificar usuários: " + ex.getMessage(), ex);
-        }
+    public List<Usuario> getAllUsuariosNaoAutorizados() throws SQLException {
+        return repository.getAllUsuariosNaoAutorizados();
+    }
+    
+    public void autorizarAcessoByEmail(String email) throws SQLException {
+        repository.autorizarAcessoByEmail(email);
+    }
+    
+    public void rejeitarAcessoByEmail(String email) throws SQLException {
+        repository.rejeitarAcessoByEmail(email);
     }
     
 }
