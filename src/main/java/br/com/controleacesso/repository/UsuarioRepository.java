@@ -54,6 +54,32 @@ public class UsuarioRepository {
         }
     }
     
+        public List<Usuario> getAllUsuarios() throws SQLException {
+    
+        List<Usuario> usuarios = new ArrayList<>();
+
+        String sql = "SELECT nome, email, perfil FROM usuario";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) { 
+
+                Usuario usuario = new Usuario();
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setPerfil(rs.getString("perfil"));
+
+                usuarios.add(usuario);
+            }
+            return usuarios; 
+
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao listar todos os usuários no banco de dados: " + ex.getMessage());
+        }
+    }
+    
     public void salvar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario (nome, email, senha, perfil, autorizado) VALUES (?, ?, ?, ?, ?)";
         
@@ -115,6 +141,19 @@ public class UsuarioRepository {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException("Erro ao deletar usuário por email: " + ex.getMessage());
+        }
+    }
+    
+    public void alterarPefilUsuarioByEmail(String email, String perfil) throws SQLException {
+        String sql = "UPDATE usuario SET perfil = ? WHERE email = ?";
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perfil);
+            stmt.setString(2, email); 
+            stmt.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao atualizar o status de autorização do usuário: " + ex.getMessage());
         }
     }
 }
