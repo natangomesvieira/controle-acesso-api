@@ -61,7 +61,7 @@ public class Usuario {
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
-        public boolean isAutorizado() {
+    public boolean isAutorizado() {
         return autorizado;
     }
 

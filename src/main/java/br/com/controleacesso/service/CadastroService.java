@@ -32,9 +32,11 @@ public class CadastroService {
         
         List<String> erros = validadorSenha.validar(usuario.getSenha());
         
-        if (erros != null && !erros.isEmpty()) {
-            throw new IllegalArgumentException("Senha fraca:\n- " + String.join("\n- ", erros));
-        }
+        Optional.ofNullable(erros)               
+            .filter(lista -> !lista.isEmpty())   
+            .ifPresent(lista -> {                
+                throw new IllegalArgumentException("Senha fraca:\n- " + String.join("\n- ", lista));
+            });
         
         try {
             boolean existeUsuario = repository.getAllUsers();
@@ -54,15 +56,18 @@ public class CadastroService {
     
     public String verificarPerfil(String perfil, boolean existeUsuario) {
 
-        if (perfil != null && !perfil.isBlank()) {
-            return perfil;
-        }
+        // if (perfil != null && !perfil.isBlank()) {
+        //     return perfil;
+        // }
 
-        if (!existeUsuario) {
-            return "administrador";
-        } 
+        // if (!existeUsuario) {
+        //     return "administrador";
+        // } 
 
-        return "usuario_padrao";
+        // return "usuario_padrao";
+        return Optional.ofNullable(perfil)
+            .filter(Predicate.not(String::isBlank))
+            .orElse(existeUsuario ? "usuario_padrao" : "administrador");
     }
     
     private void validarCamposObrigatorios(Usuario usuario) {
@@ -86,10 +91,9 @@ public class CadastroService {
             .orElseThrow(() -> new IllegalArgumentException("O campo Senha precisa ser preenchido!"));
         
         // Validação da existencia e igualdade da confSenha
-        String confSenha = Optional.ofNullable(usuario.getConfSenha()).orElse("");
-        if (!usuario.getSenha().equals(confSenha)) {
-            throw new IllegalArgumentException("A confirmação da senha não confere!");
-        }
+        Optional.ofNullable(usuario.getConfSenha())
+        .filter(conf -> conf.equals(usuario.getSenha()))
+        .orElseThrow(() -> new IllegalArgumentException("A confirmação da senha não confere!"));
     }
     
 }

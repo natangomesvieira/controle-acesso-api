@@ -4,11 +4,14 @@ import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.model.Usuario;
 import com.pss.senha.validacao.ValidadorSenha;
 import java.nio.file.AccessDeniedException;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class LoginService {
     
     private final UsuarioRepository repository;
     private final ValidadorSenha validadorSenha;
+    private static final String MSG_ERRO_GENERICA = "Usuário ou senha inválidos";
     
     public LoginService(UsuarioRepository repository) {
         this.repository = repository;
@@ -19,7 +22,7 @@ public class LoginService {
         
         validarDados(usuario);
 
-        Usuario usuarioExiste = repository.getByEmail(usuario.getEmail());
+/*        Usuario usuarioExiste = repository.getByEmail(usuario.getEmail());
         
         if(usuarioExiste != null) {
             // 1. Verifica Senha
@@ -36,17 +39,32 @@ public class LoginService {
             
         } else {
             throw new AccessDeniedException("Usuário não cadastrado!");
+        } 
+*/
+       Usuario usuarioBanco = Optional.ofNullable(repository.getByEmail(usuario.getEmail()))
+                .orElseThrow(() -> new AccessDeniedException(MSG_ERRO_GENERICA));
+        
+        if (!usuario.getSenha().equals(usuarioBanco.getSenha())) {
+            throw new AccessDeniedException(MSG_ERRO_GENERICA);
         }
+
+        if (!usuarioBanco.isAutorizado()) {
+             throw new AccessDeniedException("Seu cadastro aguarda autorização do administrador.");
+        }
+        
+        return usuarioBanco;
     }
     
     private void validarDados(Usuario usuario) {
-        if(usuario.getEmail() == null || usuario.getEmail().isBlank()) {
-            throw new IllegalArgumentException("O email do usuário precisa ser preenchido!");
-        }
-        if(usuario.getSenha() == null || usuario.getSenha().isBlank()) {
-            throw new IllegalArgumentException("A senha do usuário precisa ser preenchida!");
-        }
-        validadorSenha.validar(usuario.getSenha());
+        Optional.ofNullable(usuario.getEmail())
+            .filter(Predicate.not(String::isBlank))
+            .orElseThrow(() -> new IllegalArgumentException("O email do usuário precisa ser preenchido!"));
+
+        String senha = Optional.ofNullable(usuario.getSenha())
+            .filter(Predicate.not(String::isBlank))
+            .orElseThrow(() -> new IllegalArgumentException("A senha do usuário precisa ser preenchida!"));
+            
+        validadorSenha.validar(senha);
     }
     
 }
