@@ -31,7 +31,9 @@ public class CadastroPresenter {
 
     private void configuraView() {
         
-        if (cadastroObrigatorio) { view.getBtnCancelar().setEnabled(false); } // OU view.getBtnCancelar().setVisible(false); 
+        if (cadastroObrigatorio) { 
+            view.getBtnCancelar().setEnabled(false); 
+        }
         
         view.getBtnCadastrar().addActionListener((ActionEvent e) -> {
             cadastrar();
@@ -52,7 +54,8 @@ public class CadastroPresenter {
 
         boolean mostrarPerfil = isAdminLogado && !cadastroObrigatorio;
         
-        view.getPerfil().setVisible(mostrarPerfil); 
+        view.getLblPerfil().setVisible(mostrarPerfil);
+        view.getCmbPerfil().setVisible(mostrarPerfil);
     }
     
     private void cadastrar() {
@@ -66,7 +69,7 @@ public class CadastroPresenter {
             usuario.setSenha(view.getPwdSenha().getText());
             usuario.setConfSenha(view.getPwdConfSenha().getText());
             
-            String perfil = (String) view.getPerfil().getSelectedItem();
+            String perfil = (String) view.getCmbPerfil().getSelectedItem();
             
             if(perfil != null && !perfil.isBlank()) {
                 usuario.setPerfil(perfil);

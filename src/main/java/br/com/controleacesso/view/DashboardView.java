@@ -48,7 +48,7 @@ public class DashboardView extends JInternalFrame {
         btnAutorizacoesPendentes = new javax.swing.JButton();
         btnRemoverUsuario = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(560, 430));
+        setPreferredSize(new java.awt.Dimension(560, 480));
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -79,6 +79,11 @@ public class DashboardView extends JInternalFrame {
         btnPromoverUsuario.setText("Promover Usuário");
 
         btnRebaixarUsuario.setText("Rebaixar Usuário");
+        btnRebaixarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRebaixarUsuarioActionPerformed(evt);
+            }
+        });
 
         btnListagemUsuarios.setText("Listagem Usuários");
         btnListagemUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -91,11 +96,6 @@ public class DashboardView extends JInternalFrame {
 
         btnRemoverUsuario.setText("Remover Usuario");
         btnRemoverUsuario.setToolTipText("");
-        btnRemoverUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoverUsuarioActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,15 +109,15 @@ public class DashboardView extends JInternalFrame {
                     .addComponent(btnAutorizarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRejeitarAcesso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPromoverUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRebaixarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRebaixarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(lblTituloTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,15 +125,12 @@ public class DashboardView extends JInternalFrame {
                 .addGap(19, 19, 19)
                 .addComponent(lblTitulo)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTituloTabela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnRemoverUsuario)
-                        .addGap(18, 18, 18)
                         .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAutorizacoesPendentes)
@@ -146,20 +143,23 @@ public class DashboardView extends JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnPromoverUsuario)
                         .addGap(18, 18, 18)
-                        .addComponent(btnRebaixarUsuario)))
-                .addGap(20, 20, 20))
+                        .addComponent(btnRebaixarUsuario)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRemoverUsuario)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(33, 33, 33))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRemoverUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRemoverUsuarioActionPerformed
-
     private void btnListagemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemUsuariosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnListagemUsuariosActionPerformed
+
+    private void btnRebaixarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRebaixarUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRebaixarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

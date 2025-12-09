@@ -160,7 +160,7 @@ public class DashboardPresenter {
                 service.promoverUsuario(email, perfil);
                 //TODO:LOG
                 JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
-                carregarTabelaUsuarios(false);
+                carregarTabelaUsuarios(true);
            }
         } catch (Exception ex) {
             //TODO: LOG
@@ -190,7 +190,6 @@ public class DashboardPresenter {
            }
         } catch (Exception ex) {
             //TODO: LOG
-            carregarTabelaUsuarios(true);
             JOptionPane.showMessageDialog(view, "Falha ao rebaixar usuário!");
         }
     }

@@ -47,10 +47,10 @@ public class CadastroService {
             boolean isAdmin = "administrador".equals(perfil);
             usuario.setAutorizado(isAdmin);
             
+            repository.salvar(usuario);
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao verificar usuários: " + e.getMessage(), e);
         }
-        repository.salvar(usuario);
     }
     
     
