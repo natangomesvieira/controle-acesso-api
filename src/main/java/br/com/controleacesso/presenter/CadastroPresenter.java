@@ -74,23 +74,30 @@ public class CadastroPresenter {
             if(perfil != null && !perfil.isBlank()) {
                 usuario.setPerfil(perfil);
             }
+            
+            int confirmacao = JOptionPane.showConfirmDialog(view, 
+                    "Confirma os dados para realizar o cadastro?", 
+                    "Confirmar Cadastro", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                service.criarUsuario(usuario);
 
-            service.criarUsuario(usuario);
-            
-            ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil());
+                ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil());
 
-            nav.setSessao(sessao);
-            
-            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
-            JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  
-            
-            view.dispose();
-            nav.abrirTela(new LoginFactory(logger));
+                nav.setSessao(sessao);
+
+                logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
+                JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  
+
+                view.dispose();
+                nav.abrirTela(new LoginFactory(logger));
+            }
         } catch (Exception ex) {
             logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
-
     }
     
     private void cancelar() {

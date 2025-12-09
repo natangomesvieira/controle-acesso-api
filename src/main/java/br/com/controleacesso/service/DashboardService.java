@@ -2,15 +2,20 @@ package br.com.controleacesso.service;
 
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.repository.UsuarioRepository;
+import com.pss.senha.validacao.ValidadorSenha;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class DashboardService {
     
     private final UsuarioRepository repository;
+    private final ValidadorSenha validadorSenha;
     
-    public DashboardService(UsuarioRepository repository) {
+    public DashboardService(UsuarioRepository repository, ValidadorSenha validadorSenha) {
         this.repository = repository;
+        this.validadorSenha = validadorSenha;
     }
     
     public List<Usuario> getAllUsuariosNaoAutorizados() throws SQLException {
@@ -48,6 +53,35 @@ public class DashboardService {
             throw new IllegalArgumentException("O Administrador Principal (Root) não pode ser excluído.");
         }
         repository.deletarUsuario(id);
+    }
+    
+    public void alterarSenha(int idUsuario, String senhaAtual, String novaSenha, String confSenha) throws Exception {
+        
+        Optional.ofNullable(senhaAtual).filter(Predicate.not(String::isBlank))
+            .orElseThrow(() -> new IllegalArgumentException("A senha atual deve ser informada."));
+            
+        Optional.ofNullable(novaSenha).filter(Predicate.not(String::isBlank))
+            .orElseThrow(() -> new IllegalArgumentException("A nova senha deve ser informada."));
+        
+        if (!novaSenha.equals(confSenha)) {
+            throw new IllegalArgumentException("A confirmação da nova senha não confere.");
+        }
+        
+        List<String> erros = validadorSenha.validar(novaSenha);
+        if (erros != null && !erros.isEmpty()) {
+            throw new IllegalArgumentException("Nova senha fraca:\n- " + String.join("\n- ", erros));
+        }
+
+        Usuario usuarioBanco = repository.getById(idUsuario);
+        if (usuarioBanco == null) {
+            throw new IllegalArgumentException("Usuário não encontrado.");
+        }
+        
+        if (!usuarioBanco.getSenha().equals(senhaAtual)) {
+            throw new IllegalArgumentException("A senha atual informada está incorreta.");
+        }
+
+        repository.atualizarSenha(idUsuario, novaSenha);
     }
     
 }

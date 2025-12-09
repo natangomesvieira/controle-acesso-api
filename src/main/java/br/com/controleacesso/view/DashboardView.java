@@ -47,8 +47,13 @@ public class DashboardView extends JInternalFrame {
         btnListagemUsuarios = new javax.swing.JButton();
         btnAutorizacoesPendentes = new javax.swing.JButton();
         btnRemoverUsuario = new javax.swing.JButton();
+        btnAlterarSenha = new javax.swing.JButton();
 
+<<<<<<< Updated upstream
         setPreferredSize(new java.awt.Dimension(560, 480));
+=======
+        setPreferredSize(new java.awt.Dimension(600, 500));
+>>>>>>> Stashed changes
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -97,13 +102,15 @@ public class DashboardView extends JInternalFrame {
         btnRemoverUsuario.setText("Remover Usuario");
         btnRemoverUsuario.setToolTipText("");
 
+        btnAlterarSenha.setText("Alterar Minha Senha");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
+<<<<<<< Updated upstream
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNovoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAutorizarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -113,11 +120,31 @@ public class DashboardView extends JInternalFrame {
                     .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRebaixarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+=======
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnNovoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAutorizarAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRejeitarAcesso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPromoverUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRebaixarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAlterarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+>>>>>>> Stashed changes
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(lblTituloTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+<<<<<<< Updated upstream
                 .addContainerGap(15, Short.MAX_VALUE))
+=======
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+>>>>>>> Stashed changes
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +157,14 @@ public class DashboardView extends JInternalFrame {
                         .addComponent(lblTituloTabela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+<<<<<<< Updated upstream
                     .addGroup(layout.createSequentialGroup()
+=======
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 7, Short.MAX_VALUE)
+                        .addComponent(btnAlterarSenha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+>>>>>>> Stashed changes
                         .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAutorizacoesPendentes)
@@ -144,10 +178,17 @@ public class DashboardView extends JInternalFrame {
                         .addComponent(btnPromoverUsuario)
                         .addGap(18, 18, 18)
                         .addComponent(btnRebaixarUsuario)
+<<<<<<< Updated upstream
                         .addGap(18, 18, 18)
                         .addComponent(btnRemoverUsuario)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
+=======
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRemoverUsuario)
+                        .addGap(14, 14, 14)))
+                .addGap(20, 20, 20))
+>>>>>>> Stashed changes
         );
 
         pack();
@@ -197,6 +238,7 @@ public class DashboardView extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterarSenha;
     private javax.swing.JButton btnAutorizacoesPendentes;
     private javax.swing.JButton btnAutorizarAcesso;
     private javax.swing.JButton btnListagemUsuarios;
@@ -250,5 +292,9 @@ public class DashboardView extends JInternalFrame {
     public JButton getBtnRemoverUsuario() {
         return btnRemoverUsuario;
     }
+    
+    public JButton getBtnAlterarSenha() {
+        return btnAlterarSenha;
+    }    
     
 }

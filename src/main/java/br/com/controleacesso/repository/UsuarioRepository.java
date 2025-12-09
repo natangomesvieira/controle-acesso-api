@@ -54,7 +54,7 @@ public class UsuarioRepository {
         }
     }
     
-        public List<Usuario> getAllUsuarios() throws SQLException {
+    public List<Usuario> getAllUsuarios() throws SQLException {
     
         List<Usuario> usuarios = new ArrayList<>();
 
@@ -170,6 +170,44 @@ public class UsuarioRepository {
             
         } catch (SQLException ex) {
             throw new SQLException("Erro ao excluir usuário: " + ex.getMessage());
+        }
+    }
+    
+    public Usuario getById(int id) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+        Usuario usuario = null;
+
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setPerfil(rs.getString("perfil"));
+                usuario.setAutorizado(rs.getBoolean("autorizado"));
+            }
+        }
+        return usuario;
+    }
+
+    public void atualizarSenha(int id, String novaSenha) throws SQLException {
+        String sql = "UPDATE usuario SET senha = ? WHERE id = ?";
+        
+        try (Connection conn = ConexaoFactory.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, novaSenha);
+            stmt.setInt(2, id);
+            
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Erro ao atualizar senha: " + ex.getMessage());
         }
     }
 }
