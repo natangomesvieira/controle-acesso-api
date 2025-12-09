@@ -163,12 +163,12 @@ public class DashboardPresenter {
             String perfil = (String) tabela.getModel().getValueAt(linhaSelecionada, 2);
             
             if(email != null) {
-<<<<<<< Updated upstream
+
                 service.promoverUsuario(email, perfil);
                 //TODO:LOG
                 JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
                 carregarTabelaUsuarios(true);
-=======
+
                 int confirmacao = JOptionPane.showConfirmDialog(view, 
                         "Tem certeza que deseja PROMOVER o usuário " + usuarioAlvo.getNome() + " a Administrador?", 
                         "Confirmar Promoção", 
@@ -181,7 +181,6 @@ public class DashboardPresenter {
                     JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
                     carregarTabelaUsuarios(false);
                 }
->>>>>>> Stashed changes
            }
         } catch (Exception ex) {
             //TODO: LOG
