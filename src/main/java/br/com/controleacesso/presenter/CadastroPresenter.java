@@ -88,14 +88,14 @@ public class CadastroPresenter {
 
                 nav.setSessao(sessao);
 
-                logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome()));
+                logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil()));
                 JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  
 
                 view.dispose();
                 nav.abrirTela(new LoginFactory(logger));
             }
         } catch (Exception ex) {
-            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), ex.getMessage()));
+            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
     }

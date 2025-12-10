@@ -58,13 +58,13 @@ public class LoginPresenter {
 
             nav.setSessao(sessao);
             
-            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome()));
+            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome(), usuario.getPerfil()));
             
             fecharJanela();
             
             nav.abrirTela(new DashboardFactory(logger));
         } catch (Exception ex) {
-            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), ex.getMessage()));
+            logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), "-", ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
         

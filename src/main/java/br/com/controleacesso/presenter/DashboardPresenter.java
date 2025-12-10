@@ -1,12 +1,14 @@
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.ContextoDeSessao;
+import br.com.controleacesso.factory.AlterarSenhaFactory;
 import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.model.Usuario;
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.DashboardView;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogEntry;
+import br.com.sistemalog.LogFormat;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -78,9 +80,11 @@ public class DashboardPresenter {
         view.getBtnRemoverUsuario().addActionListener((ActionEvent e) -> {
             excluirUsuario();
         });
-        
         view.getBtnAlterarSenha().addActionListener((ActionEvent e) -> {
-        abrirTelaAlterarSenha();
+            abrirTelaAlterarSenha();
+        });
+        view.getBtnConfiguracaoLog().addActionListener((ActionEvent e) -> {
+            formatoLog();
         });
     }
     
@@ -326,7 +330,7 @@ public class DashboardPresenter {
             desabilitarBotoesAcao();
             
         } catch (Exception e) {
-            logger.log(new LogEntry("ERRO_LISTAGEM", e.getMessage()));
+            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", "-", nav.getSessao().getPerfilUsuarioLogado() ,e.getMessage()));
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());
             return;
         }
@@ -368,7 +372,53 @@ public class DashboardPresenter {
     }
     
     private void abrirTelaAlterarSenha() {
-    nav.abrirTela(new br.com.controleacesso.factory.AlterarSenhaFactory(logger));
-}
+        nav.abrirTela(new AlterarSenhaFactory(logger));
+    }
+    
+    private void formatoLog() {
+        Object[] options = {
+            LogFormat.CSV.name(), 
+            LogFormat.JSONL.name(), 
+            "Cancelar"
+        };
+        
+        int escolha = JOptionPane.showOptionDialog(
+            view,
+            "Selecione o formato de log desejado (CSV ou JSONL).\n\nEsta escolha será persistida.", 
+            "Configuração de Log",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+        
+        LogFormat novoFormato = null;
+        String mensagemSucesso = "Formato de log alterado com sucesso para ";
+        
+        if (escolha == JOptionPane.CLOSED_OPTION || escolha == 2) {
+            return;
+        } else if (escolha == 0) {
+            novoFormato = LogFormat.CSV;
+            mensagemSucesso += "CSV.";
+        } else if (escolha == 1) {
+            novoFormato = LogFormat.JSONL;
+            mensagemSucesso += "JSONL.";
+        }
+
+        if (novoFormato != null) {
+            try {
+                logger.setLogFormat(novoFormato); 
+                JOptionPane.showMessageDialog(view, mensagemSucesso, "Configuração Salva", JOptionPane.INFORMATION_MESSAGE);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, 
+                    "Erro ao salvar a configuração de log: " + ex.getMessage(), 
+                    "Erro", 
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+    }
         
 }

@@ -41,20 +41,11 @@ public class HomePresenter {
     private void configuraView() {
         view.setVisible(false);
         view.getBtnCadastrar().addActionListener((ActionEvent e) -> {
-            try {
-                logger.log(new LogEntry("LOGIN_USUARIO", "TESTE"));
-                irParaCadastro(false);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
-            }
+            irParaCadastro(false);
         });
        
         view.getBtnEntrar().addActionListener((ActionEvent e) -> {
-            try {
-                irParaLogin();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(view, "Falha:" + ex.getMessage());
-            }
+            irParaLogin();
         });
         view.setVisible(true);
         view.setLocationRelativeTo(null);

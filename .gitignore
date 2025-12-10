@@ -22,6 +22,7 @@
 # Files
 logs_do_sistema.csv
 logs_do_sistema.json_line
+log_config.properties
 database.db
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
