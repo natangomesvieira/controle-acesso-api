@@ -1,20 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.AlterarSenhaView;
 import br.com.controleacesso.view.GerenciadorDeTelas;
+import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author pedro
- */
 public class AlterarSenhaPresenter {
     
     private final AlterarSenhaView view;
@@ -57,12 +50,12 @@ public class AlterarSenhaPresenter {
             if (confirmacao == JOptionPane.YES_OPTION) {
                 
                 service.alterarSenha(idUsuario, senhaAtual, novaSenha, confSenha);
-
-                //logger.log(new LogEntry("ALTERAR_SENHA", "ID: " + idUsuario, "SUCESSO", "Senha alterada"));
+                //logger.log(new LogEntry("ALTERAR_SENHA", usuario.getNome(), usuario.getPerfil()));
                 JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!");
                 view.dispose();
             }
         } catch (Exception ex) {
+            //logger.log(new LogEntry("ALTERAR_SENHA", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
             String msgErro = ex.getMessage();
             JOptionPane.showMessageDialog(view, "Não foi possível alterar a senha:\n" + msgErro, "Erro", JOptionPane.ERROR_MESSAGE);
         }

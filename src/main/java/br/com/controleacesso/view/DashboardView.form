@@ -112,6 +112,7 @@
                       <Component id="btnAlterarSenha" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnConfiguracaoLog" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -190,17 +191,11 @@
         <Property name="text" type="java.lang.String" value="Rebaixar"/>
         <Property name="toolTipText" type="java.lang.String" value="Rebaixa o usuario de administrador para usuario padrao."/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRebaixarUsuarioActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnListagemUsuarios">
       <Properties>
         <Property name="text" type="java.lang.String" value="Listar Usu&#xe1;rios"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListagemUsuariosActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAutorizacoesPendentes">
       <Properties>
