@@ -49,9 +49,11 @@ public class DashboardView extends JInternalFrame {
         btnAlterarSenha = new javax.swing.JButton();
         btnConfiguracaoLog = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAcoesGlobais = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblAcoesSelecao = new javax.swing.JLabel();
+        btnSair = new javax.swing.JButton();
+        btnRestaurarSistema = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(900, 400));
 
@@ -74,6 +76,7 @@ public class DashboardView extends JInternalFrame {
         jScrollPane1.setViewportView(tblTabelaUsuarios);
 
         btnAutorizarAcesso.setText("Autorizar");
+        btnAutorizarAcesso.setToolTipText("Autoriza o usuario selecionado a acessar o sistema.");
         btnAutorizarAcesso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAutorizarAcessoActionPerformed(evt);
@@ -81,21 +84,24 @@ public class DashboardView extends JInternalFrame {
         });
 
         btnRejeitarAcesso.setText("Rejeitar");
+        btnRejeitarAcesso.setToolTipText("Rejeita o acesso do usuario selecionado ao sistema.");
 
         lblTituloTabela.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         lblTituloTabela.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTituloTabela.setText("Autorizações Pendentes");
 
         btnPromoverUsuario.setText("Promover");
+        btnPromoverUsuario.setToolTipText("Promove o usuario selecionado para administrador.");
 
         btnRebaixarUsuario.setText("Rebaixar");
+        btnRebaixarUsuario.setToolTipText("Rebaixa o usuario de administrador para usuario padrao.");
         btnRebaixarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRebaixarUsuarioActionPerformed(evt);
             }
         });
 
-        btnListagemUsuarios.setText("Listagem Usuários");
+        btnListagemUsuarios.setText("Listar Usuários");
         btnListagemUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListagemUsuariosActionPerformed(evt);
@@ -103,9 +109,10 @@ public class DashboardView extends JInternalFrame {
         });
 
         btnAutorizacoesPendentes.setText("Autorizações Pendentes");
+        btnAutorizacoesPendentes.setToolTipText("Lista os usuarios que estao com autorizacao pendente.");
 
         btnRemoverUsuario.setText("Remover");
-        btnRemoverUsuario.setToolTipText("");
+        btnRemoverUsuario.setToolTipText("Remove o usuario selecionado do sistema.");
 
         btnAlterarSenha.setText("Alterar Minha Senha");
 
@@ -114,22 +121,31 @@ public class DashboardView extends JInternalFrame {
         jLabel1.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
         jLabel1.setText(" --------- Navegacao ---------");
 
-        jLabel2.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
-        jLabel2.setText(" ------ Acoes Globais --------");
+        lblAcoesGlobais.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
+        lblAcoesGlobais.setText(" ------ Acoes Globais --------");
 
         jLabel3.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
         jLabel3.setText(" ----- Pessoal / Sistema -----");
 
-        jLabel4.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
-        jLabel4.setText(" ------ Acoes de Selecao -----");
+        lblAcoesSelecao.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
+        lblAcoesSelecao.setText(" ------ Acoes de Selecao -----");
+
+        btnSair.setText("Sair");
+
+        btnRestaurarSistema.setText("RESTAURAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRestaurarSistema)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSair))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +157,7 @@ public class DashboardView extends JInternalFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblAcoesGlobais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnNovoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAutorizarAcesso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -150,18 +166,20 @@ public class DashboardView extends JInternalFrame {
                                     .addComponent(btnRebaixarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAlterarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblAcoesSelecao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnConfiguracaoLog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(lblTitulo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitulo)
+                    .addComponent(btnSair)
+                    .addComponent(btnRestaurarSistema))
                 .addGap(18, 18, 18)
                 .addComponent(lblTituloTabela)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,11 +191,11 @@ public class DashboardView extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAutorizacoesPendentes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(lblAcoesGlobais)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNovoUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
+                        .addComponent(lblAcoesSelecao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAutorizarAcesso)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -195,7 +213,7 @@ public class DashboardView extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConfiguracaoLog))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 900, 548);
@@ -259,11 +277,13 @@ public class DashboardView extends JInternalFrame {
     private javax.swing.JButton btnRebaixarUsuario;
     private javax.swing.JButton btnRejeitarAcesso;
     private javax.swing.JButton btnRemoverUsuario;
+    private javax.swing.JButton btnRestaurarSistema;
+    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAcoesGlobais;
+    private javax.swing.JLabel lblAcoesSelecao;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloTabela;
     private javax.swing.JTable tblTabelaUsuarios;
@@ -315,6 +335,22 @@ public class DashboardView extends JInternalFrame {
     
     public JButton getBtnConfiguracaoLog() {
         return btnConfiguracaoLog;
+    }
+    
+    public JLabel getLblAcoesGlobais() {
+        return lblAcoesGlobais;
+    }
+    
+    public JLabel getLblAcoesSelecao() {
+        return lblAcoesSelecao;
+    }
+    
+    public JButton getBtnSair() {
+        return btnSair;
+    }
+    
+    public JButton getBtnRestaurarSistema() {
+        return btnRestaurarSistema;
     }
     
 }

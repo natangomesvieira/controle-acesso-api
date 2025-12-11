@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,6 +209,26 @@ public class UsuarioRepository {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException("Erro ao atualizar senha: " + ex.getMessage());
+        }
+    }
+    
+    public void resetarSistemaCompleto() throws SQLException {
+
+        String sqlDeleteUsers = "DELETE FROM usuario";
+        String sqlResetSequence = "DELETE FROM sqlite_sequence WHERE name = 'usuario'";
+        
+        try (Connection conn = ConexaoFactory.getConexao()) {
+            conn.setAutoCommit(false);
+            
+            try (Statement stmt = conn.createStatement()) {
+                stmt.executeUpdate(sqlDeleteUsers);
+                stmt.executeUpdate(sqlResetSequence);
+                
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
         }
     }
 }

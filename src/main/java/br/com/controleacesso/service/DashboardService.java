@@ -26,6 +26,10 @@ public class DashboardService {
         return repository.getAllUsuarios();
     }
     
+    public Usuario getUsuarioById(int id) throws SQLException {
+        return repository.getById(id);
+    }
+    
     public void autorizarAcessoByEmail(String email) throws SQLException {
         repository.autorizarAcessoByEmail(email);
     }
@@ -82,6 +86,24 @@ public class DashboardService {
         }
 
         repository.atualizarSenha(idUsuario, novaSenha);
+    }
+    
+    public void restaurarSistema(int idAdmin, String senhaDigitada, String confSenhaDigitada) throws Exception {
+        
+        if (idAdmin != 1) {
+            throw new IllegalAccessException("Apenas o primeiro administrador pode realizar esta operação.");
+        }
+        
+        if (!senhaDigitada.equals(confSenhaDigitada)) {
+            throw new IllegalArgumentException("As senhas de confirmação não coincidem.");
+        }
+        
+        Usuario admin = repository.getById(idAdmin);
+        if (admin == null || !admin.getSenha().equals(senhaDigitada)) {
+            throw new IllegalArgumentException("Senha incorreta. A restauração foi cancelada.");
+        }
+        
+        repository.resetarSistemaCompleto();
     }
     
 }

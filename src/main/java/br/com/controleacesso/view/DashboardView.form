@@ -29,8 +29,14 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblTitulo" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="lblTitulo" min="-2" pref="588" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnRestaurarSistema" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnSair" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -43,7 +49,7 @@
                                   <Component id="jLabel1" min="-2" pref="212" max="-2" attributes="0"/>
                                   <Component id="btnListagemUsuarios" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                                   <Component id="btnAutorizacoesPendentes" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
+                                  <Component id="lblAcoesGlobais" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
                                   <Component id="btnNovoUsuario" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
                                   <Component id="btnAutorizarAcesso" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
@@ -52,17 +58,16 @@
                                   <Component id="btnRebaixarUsuario" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                                   <Component id="btnAlterarSenha" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                                   <Component id="btnRemoverUsuario" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
+                                  <Component id="lblAcoesSelecao" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
                                   <Component id="btnConfiguracaoLog" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="543" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="102" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,8 +75,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Component id="lblTitulo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSair" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRestaurarSistema" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblTituloTabela" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -82,11 +91,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnAutorizacoesPendentes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAcoesGlobais" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnNovoUsuario" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAcoesSelecao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnAutorizarAcesso" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -106,7 +115,7 @@
                   </Group>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -149,6 +158,7 @@
     <Component class="javax.swing.JButton" name="btnAutorizarAcesso">
       <Properties>
         <Property name="text" type="java.lang.String" value="Autorizar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Autoriza o usuario selecionado a acessar o sistema."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAutorizarAcessoActionPerformed"/>
@@ -157,6 +167,7 @@
     <Component class="javax.swing.JButton" name="btnRejeitarAcesso">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rejeitar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Rejeita o acesso do usuario selecionado ao sistema."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTituloTabela">
@@ -171,11 +182,13 @@
     <Component class="javax.swing.JButton" name="btnPromoverUsuario">
       <Properties>
         <Property name="text" type="java.lang.String" value="Promover"/>
+        <Property name="toolTipText" type="java.lang.String" value="Promove o usuario selecionado para administrador."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRebaixarUsuario">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rebaixar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Rebaixa o usuario de administrador para usuario padrao."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRebaixarUsuarioActionPerformed"/>
@@ -183,7 +196,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnListagemUsuarios">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Listagem Usu&#xe1;rios"/>
+        <Property name="text" type="java.lang.String" value="Listar Usu&#xe1;rios"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListagemUsuariosActionPerformed"/>
@@ -192,12 +205,13 @@
     <Component class="javax.swing.JButton" name="btnAutorizacoesPendentes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Autoriza&#xe7;&#xf5;es Pendentes"/>
+        <Property name="toolTipText" type="java.lang.String" value="Lista os usuarios que estao com autorizacao pendente."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRemoverUsuario">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remover"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="toolTipText" type="java.lang.String" value="Remove o usuario selecionado do sistema."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAlterarSenha">
@@ -218,7 +232,7 @@
         <Property name="text" type="java.lang.String" value=" --------- Navegacao ---------"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="lblAcoesGlobais">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="JetBrains Mono NL" size="12" style="0"/>
@@ -234,12 +248,22 @@
         <Property name="text" type="java.lang.String" value=" ----- Pessoal / Sistema -----"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="lblAcoesSelecao">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="JetBrains Mono NL" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value=" ------ Acoes de Selecao -----"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSair">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sair"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRestaurarSistema">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="RESTAURAR"/>
       </Properties>
     </Component>
   </SubComponents>

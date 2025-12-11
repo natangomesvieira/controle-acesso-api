@@ -11,6 +11,7 @@ import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogFormat;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JOptionPane;
@@ -81,11 +82,21 @@ public class DashboardPresenter {
         view.getBtnRemoverUsuario().addActionListener((ActionEvent e) -> {
             excluirUsuario();
         });
+        
         view.getBtnAlterarSenha().addActionListener((ActionEvent e) -> {
             abrirTelaAlterarSenha();
         });
+        
         view.getBtnConfiguracaoLog().addActionListener((ActionEvent e) -> {
             formatoLog();
+        });
+        
+        view.getBtnSair().addActionListener((ActionEvent e) -> {
+            fazerLogout();
+        });
+        
+        view.getBtnRestaurarSistema().addActionListener(e -> {
+            abrirTelaRestauracao();
         });
     }
     
@@ -289,19 +300,6 @@ public class DashboardPresenter {
         });
     }
     
-//    private String emailUsuarioSelecionado() {
-//        JTable tabela = view.getTabelaUsuarios();
-//    
-//        int linhaSelecionada = tabela.getSelectedRow();
-//    
-//        if (linhaSelecionada == -1) {
-//            //TODO:LOG
-//            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
-//            return null;
-//        }
-//        return (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
-//    }
-    
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
         ContextoDeSessao sessao = nav.getSessao();
@@ -310,12 +308,22 @@ public class DashboardPresenter {
             isAdminLogado = sessao.isAdministrador();
         }
         
-        view.getBtnListagemUsuarios().setVisible(isAdminLogado);
+        //view.getBtnListagemUsuarios().setVisible(isAdminLogado);
         view.getBtnNovoUsuario().setVisible(isAdminLogado); 
         view.getBtnAutorizarAcesso().setVisible(isAdminLogado);
         view.getBtnPromoverUsuario().setVisible(isAdminLogado);
         view.getBtnRebaixarUsuario().setVisible(isAdminLogado);
         view.getBtnRejeitarAcesso().setVisible(isAdminLogado);
+        view.getBtnRemoverUsuario().setVisible(isAdminLogado);
+        view.getBtnConfiguracaoLog().setVisible(isAdminLogado);
+        view.getBtnAutorizacoesPendentes().setVisible(isAdminLogado);
+        view.getBtnListagemUsuarios().setVisible(true);
+        view.getBtnAlterarSenha().setVisible(true);
+        //label
+        view.getLblAcoesGlobais().setVisible(isAdminLogado);
+        view.getLblAcoesSelecao().setVisible(isAdminLogado);
+        
+        view.getBtnRestaurarSistema().setVisible(isAdminLogado);
     }
     
     private void irParaCadastro() {
@@ -325,16 +333,34 @@ public class DashboardPresenter {
     private void carregarTabelaUsuarios(boolean getAll) {
 
         this.isListagemCompleta = getAll;
-
         String[] colunas = {"Nome", "Email", "Perfil"};
 
         try {
+            boolean isAdmin = nav.getSessao().isAdministrador();
+            int idLogado = nav.getSessao().getIdUsuarioLogado();
+
             if (getAll) {
-                this.usuariosEmExibicao = service.getAllUsuarios();
+                
                 view.getLblTituloTabela().setText("Listagem de Usuários");
+
+                if (isAdmin) {
+                    this.usuariosEmExibicao = service.getAllUsuarios();
+                } else {
+                    this.usuariosEmExibicao = new ArrayList<>();
+                    Usuario eu = service.getUsuarioById(idLogado);
+                    if (eu != null) {
+                        this.usuariosEmExibicao.add(eu);
+                    }
+                }
+
             } else {
-                this.usuariosEmExibicao = service.getAllUsuariosNaoAutorizados();
                 view.getLblTituloTabela().setText("Autorizações Pendentes");
+
+                if (isAdmin) {
+                    this.usuariosEmExibicao = service.getAllUsuariosNaoAutorizados();
+                } else {
+                    this.usuariosEmExibicao = new ArrayList<>();
+                }
             }
             desabilitarBotoesAcao();
 
@@ -343,7 +369,7 @@ public class DashboardPresenter {
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());
             return;
         }
-
+        
         Object[][] dadosTabela = converterListaParaArray(this.usuariosEmExibicao);
 
         DefaultTableModel tableModel = new DefaultTableModel(dadosTabela, colunas) {
@@ -428,6 +454,23 @@ public class DashboardPresenter {
                 );
             }
         }
+    }
+    
+    private void fazerLogout() {
+        int confirmacao = JOptionPane.showConfirmDialog(view, 
+                "Deseja realmente sair do sistema?", 
+                "Sair", 
+                JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            nav.limparSessao();
+            view.dispose();
+            nav.abrirTela(new br.com.controleacesso.factory.LoginFactory(logger));
+        }
+    }
+    
+    private void abrirTelaRestauracao() {
+         nav.abrirTela(new br.com.controleacesso.factory.RestaurarSistemaFactory(logger));
     }
         
 }
