@@ -12,6 +12,7 @@ import br.com.sistemalog.LogFormat;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
@@ -123,174 +124,183 @@ public class DashboardPresenter {
     }
     
     private void excluirUsuario() {
-        try {
-            JTable tabela = view.getTabelaUsuarios();
-            int linha = tabela.getSelectedRow();
-            if (linha == -1) return;
 
-            Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
+        JTable tabela = view.getTabelaUsuarios();
+        int linha = tabela.getSelectedRow();
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(view, "Selecione um usuário para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-            int confirmacao = JOptionPane.showConfirmDialog(view, 
-                    "Tem certeza que deseja EXCLUIR o usuário " + usuarioAlvo.getNome() + "?\nEssa ação não pode ser desfeita.",
+        Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
+
+        Optional.ofNullable(usuarioAlvo).ifPresent(u -> {
+            int confirmacao = JOptionPane.showConfirmDialog(view,
+                    "Tem certeza que deseja EXCLUIR o usuário " + u.getNome() + "?\nEssa ação não pode ser desfeita.",
                     "Excluir Usuário",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
-            
+
             if (confirmacao == JOptionPane.YES_OPTION) {
-                service.excluirUsuario(usuarioAlvo.getId());
-                
-               // logger.log(new LogEntry("EXCLUIR_USUARIO", usuarioAlvo.getEmail(), "SUCESSO", "Removido por Admin ID 1"));
-                JOptionPane.showMessageDialog(view, "Usuário removido com sucesso!");
-                
-                carregarTabelaUsuarios(true);
+                try {
+                    service.excluirUsuario(u.getId());
+
+                    // logger.log(new LogEntry("EXCLUIR_USUARIO", usuarioAlvo.getEmail(), "SUCESSO", "Removido por Admin ID 1"));
+                    JOptionPane.showMessageDialog(view, "Usuário removido com sucesso!");
+
+                    carregarTabelaUsuarios(true);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Falha ao excluir: " + ex.getMessage());
+                }
             }
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(view, "Falha ao excluir: " + ex.getMessage());
-        }
+        });
     }
     
     private void promoverUsuario() {
-        try {
-            JTable tabela = view.getTabelaUsuarios();
-            int linha = tabela.getSelectedRow();
-            Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
-    
-            int linhaSelecionada = tabela.getSelectedRow();
-    
-            if (linhaSelecionada == -1) {
-                //TODO:LOG
-                JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            String email = (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
-            String perfil = (String) tabela.getModel().getValueAt(linhaSelecionada, 2);
-            
-            if(email != null) {
 
-                service.promoverUsuario(email, perfil);
-                //TODO:LOG
-                JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
-                carregarTabelaUsuarios(true);
+        JTable tabela = view.getTabelaUsuarios();
+        int linha = tabela.getSelectedRow();
+        if (linha == -1) {
+            //TODO:LOG
+            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-                int confirmacao = JOptionPane.showConfirmDialog(view, 
-                        "Tem certeza que deseja PROMOVER o usuário " + usuarioAlvo.getNome() + " a Administrador?", 
-                        "Confirmar Promoção", 
-                        JOptionPane.YES_NO_OPTION, 
+        Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
+
+        Optional.ofNullable(usuarioAlvo.getEmail()).ifPresent(email -> {
+            try {
+                int confirmacao = JOptionPane.showConfirmDialog(view,
+                        "Tem certeza que deseja PROMOVER o usuário " + usuarioAlvo.getNome() + " a Administrador?",
+                        "Confirmar Promoção",
+                        JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
-                
+
                 if (confirmacao == JOptionPane.YES_OPTION) {
-                    service.promoverUsuario(email, perfil);
+                    service.promoverUsuario(email, usuarioAlvo.getPerfil());
                     //TODO:LOG
                     JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
-                    carregarTabelaUsuarios(false);
+                    carregarTabelaUsuarios(true);
                 }
-           }
-        } catch (Exception ex) {
-            //TODO: LOG
-            JOptionPane.showMessageDialog(view, "Falha ao promover usuário!");
-        }
+            } catch (Exception ex) {
+                //TODO: LOG
+                JOptionPane.showMessageDialog(view, "Falha ao promover usuário!");
+            }
+        });
     }
     
     private void rebaixarUsuario() {
-        try {
-            JTable tabela = view.getTabelaUsuarios();
-            int linhaSelecionada = tabela.getSelectedRow();
-            Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
-            
-            if (linhaSelecionada == -1) {
-                //TODO:LOG
-                JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            String email = (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
-            String perfil = (String) tabela.getModel().getValueAt(linhaSelecionada, 2);
-            
-            if(email != null) {
-                int confirmacao = JOptionPane.showConfirmDialog(view, 
-                        "Tem certeza que deseja REBAIXAR o usuário " + usuarioAlvo.getNome() + " a Usuario Padrao?", 
-                        "Confirmar Modificacao", 
-                        JOptionPane.YES_NO_OPTION, 
-                        JOptionPane.QUESTION_MESSAGE);
-                
-                if (confirmacao == JOptionPane.YES_OPTION) {
-                    service.rebaixarUsuario(email, perfil);
-                    //TODO:LOG
-                    JOptionPane.showMessageDialog(view, "Usuário rebaixado com sucesso!");
-                    carregarTabelaUsuarios(true);
-                }
-           }
-        } catch (Exception ex) {
-            //TODO: LOG
-            JOptionPane.showMessageDialog(view, "Falha ao rebaixar usuário!");
-        }
-    }
-    
-    private void autorizarAcesso() {
-        try {
-           JTable tabela = view.getTabelaUsuarios();
-           int linhaSelecionada = tabela.getSelectedRow();
-           Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
 
-           if(usuarioAlvo.getEmail() != null) {
-                int confirmacao = JOptionPane.showConfirmDialog(view, 
-                "Tem certeza que deseja AUTORIZAR o acesso do usuário " + usuarioAlvo.getNome() + " ao sistema?", 
-                "Confirmar Promoção", 
-                JOptionPane.YES_NO_OPTION, 
-                JOptionPane.QUESTION_MESSAGE);
-                
-                if (confirmacao == JOptionPane.YES_OPTION) {
-                    service.autorizarAcessoByEmail(usuarioAlvo.getEmail());
-                    //TODO:LOG
-                    JOptionPane.showMessageDialog(view, "Usuário autorizado com sucesso!");
-                    carregarTabelaUsuarios(true);
-                }
-           }
-        } catch (Exception ex) {
-            //TODO:LOG
-            JOptionPane.showMessageDialog(view, "Falha ao realizar autorização: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void rejeitarAcesso() {
-        try {
-           String email = emailUsuarioSelecionado();
-           JTable tabela = view.getTabelaUsuarios();
-           int linhaSelecionada = tabela.getSelectedRow();
-           Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
-           if(email != null) {
-               
-               int confirmacao = JOptionPane.showConfirmDialog(view, 
-               "Tem certeza que deseja REJEITAR o acesso do o usuário?? " + usuarioAlvo.getNome() + " ao sistema?", 
-               "Confirmar Promoção", 
-               JOptionPane.YES_NO_OPTION, 
-               JOptionPane.QUESTION_MESSAGE);
-               
-               if (confirmacao == JOptionPane.YES_OPTION) {
-                    service.rejeitarAcessoByEmail(email);
-                    //TODO:LOG
-                    JOptionPane.showMessageDialog(view, "Usuário rejeitado com sucesso!");
-                    carregarTabelaUsuarios(true);
-               }
-           }
-        } catch (Exception ex) {
-            //TODO:LOG
-            JOptionPane.showMessageDialog(view, "Falha ao realizar rejeição: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private String emailUsuarioSelecionado() {
         JTable tabela = view.getTabelaUsuarios();
-    
         int linhaSelecionada = tabela.getSelectedRow();
-    
         if (linhaSelecionada == -1) {
             //TODO:LOG
             JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return null;
+            return;
         }
-        return (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
+
+        Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
+
+        Optional.ofNullable(usuarioAlvo).ifPresent(u -> {
+
+            int confirmacao = JOptionPane.showConfirmDialog(view,
+                    "Tem certeza que deseja REBAIXAR o usuário " + usuarioAlvo.getNome() + " ?",
+                    "Confirmar Modificacao",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                try {
+                    service.rebaixarUsuario(u.getEmail(), u.getPerfil());
+                    //TODO:LOG
+                    JOptionPane.showMessageDialog(view, "Usuário rebaixado com sucesso!");
+                    carregarTabelaUsuarios(true);
+                } catch (Exception ex) {
+                    //TODO: LOG
+                    JOptionPane.showMessageDialog(view, "Falha ao rebaixar usuário!");
+                }
+            }
+        });
     }
+    
+    private void autorizarAcesso() {
+
+        JTable tabela = view.getTabelaUsuarios();
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada == -1) {
+            //TODO:LOG
+            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
+
+        Optional.ofNullable(usuarioAlvo).ifPresent(u -> {
+
+            int confirmacao = JOptionPane.showConfirmDialog(view,
+                    "Tem certeza que deseja AUTORIZAR o acesso do usuário " + u.getNome() + " ao sistema?",
+                    "Confirmar Promoção",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                try {
+                    service.autorizarAcessoByEmail(u.getEmail());
+                    //TODO:LOG
+                    JOptionPane.showMessageDialog(view, "Usuário autorizado com sucesso!");
+                    carregarTabelaUsuarios(true);
+                } catch (Exception ex) {
+                    //TODO:LOG
+                    JOptionPane.showMessageDialog(view, "Falha ao realizar autorização: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+    
+    private void rejeitarAcesso() {
+        JTable tabela = view.getTabelaUsuarios();
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada == -1) {
+            //TODO:LOG
+            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
+        Optional.ofNullable(usuarioAlvo).ifPresent(u -> {
+
+            int confirmacao = JOptionPane.showConfirmDialog(view,
+                    "Tem certeza que deseja REJEITAR o acesso do o usuário?? " + u.getNome() + " ao sistema?",
+                    "Confirmar Promoção",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                try {
+                    service.rejeitarAcessoByEmail(u.getEmail());
+                    //TODO:LOG
+                    JOptionPane.showMessageDialog(view, "Usuário rejeitado com sucesso!");
+                    carregarTabelaUsuarios(true);
+                } catch (Exception ex) {
+                    //TODO:LOG
+                    JOptionPane.showMessageDialog(view, "Falha ao realizar rejeição: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+    
+//    private String emailUsuarioSelecionado() {
+//        JTable tabela = view.getTabelaUsuarios();
+//    
+//        int linhaSelecionada = tabela.getSelectedRow();
+//    
+//        if (linhaSelecionada == -1) {
+//            //TODO:LOG
+//            JOptionPane.showMessageDialog(view, "Selecione um usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+//            return null;
+//        }
+//        return (String) tabela.getModel().getValueAt(linhaSelecionada, 1);
+//    }
     
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
@@ -313,24 +323,23 @@ public class DashboardPresenter {
     }
     
     private void carregarTabelaUsuarios(boolean getAll) {
-        
+
         this.isListagemCompleta = getAll;
-    
+
         String[] colunas = {"Nome", "Email", "Perfil"};
 
-        List<Usuario> listaUsuarios = null;
         try {
-            if(getAll) {
-                this.usuariosEmExibicao = service.getAllUsuarios(); 
+            if (getAll) {
+                this.usuariosEmExibicao = service.getAllUsuarios();
                 view.getLblTituloTabela().setText("Listagem de Usuários");
             } else {
                 this.usuariosEmExibicao = service.getAllUsuariosNaoAutorizados();
                 view.getLblTituloTabela().setText("Autorizações Pendentes");
             }
             desabilitarBotoesAcao();
-            
+
         } catch (Exception e) {
-            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", "-", nav.getSessao().getPerfilUsuarioLogado() ,e.getMessage()));
+            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", "-", nav.getSessao().getPerfilUsuarioLogado(), e.getMessage()));
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());
             return;
         }

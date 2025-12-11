@@ -17,13 +17,14 @@ public class GerenciadorDeTelas {
         }
         this.desktop = desktop;
     }
-    
+
     public void abrirTela(IViewFactory factory) {
         
         JInternalFrame frame = factory.criarTela(this);
         
         desktop.add(frame);
-        frame.pack();
+        //frame.pack();
+        frame.setSize(frame.getPreferredSize());
         int x = (desktop.getWidth() - frame.getWidth()) / 2;
         int y = (desktop.getHeight() - frame.getHeight()) / 2;
         frame.setLocation(x, y);
@@ -32,7 +33,7 @@ public class GerenciadorDeTelas {
         try {
             frame.setSelected(true);
         } catch (PropertyVetoException e) {}
-    }  
+    }
     
     public void setSessao(ContextoDeSessao sessao) {
         this.sessao = sessao;
