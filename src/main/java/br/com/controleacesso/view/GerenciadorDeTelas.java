@@ -25,6 +25,7 @@ public class GerenciadorDeTelas {
         desktop.add(frame);
         //frame.pack();
         frame.setSize(frame.getPreferredSize());
+        
         int x = (desktop.getWidth() - frame.getWidth()) / 2;
         int y = (desktop.getHeight() - frame.getHeight()) / 2;
         frame.setLocation(x, y);
@@ -33,11 +34,22 @@ public class GerenciadorDeTelas {
         try {
             frame.setSelected(true);
         } catch (PropertyVetoException e) {}
+
     }
+    
+//    private void centralizarFrame(javax.swing.JInternalFrame frame) {
+//        int x = (desktop.getWidth() - frame.getWidth()) / 2;
+//        int y = (desktop.getHeight() - frame.getHeight()) / 2;
+//    
+//        if (x < 0) x = 0;
+//        if (y < 0) y = 0;
+//        
+//        frame.setLocation(x, y);
+//    }
     
     public void setSessao(ContextoDeSessao sessao) {
         this.sessao = sessao;
-    }
+    } 
     
     public ContextoDeSessao getSessao() {
         return sessao;
@@ -45,6 +57,14 @@ public class GerenciadorDeTelas {
     
     public void limparSessao() {
         this.sessao = null;
+    }
+    
+    public void fecharTodasAsTelas() {
+        javax.swing.JInternalFrame[] frames = desktop.getAllFrames();
+        
+        for (javax.swing.JInternalFrame frame : frames) {
+            frame.dispose(); 
+        }
     }
     
 }

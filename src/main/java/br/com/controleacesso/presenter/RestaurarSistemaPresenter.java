@@ -4,11 +4,9 @@
  */
 package br.com.controleacesso.presenter;
 
-import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.view.RestaurarSistemaView;
-import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
@@ -48,11 +46,13 @@ public class RestaurarSistemaPresenter {
                 return;
             }
 
-            int confirmacao = JOptionPane.showConfirmDialog(view,
-                    "ESTA É UMA OPERAÇÃO DESTRUTIVA!\n\n" +
-                    "Todos os dados (usuários, registros, configurações) serão apagados.\n" +
-                    "O sistema voltará ao estado inicial.\n\n" +
-                    "Deseja realmente continuar?",
+            int confirmacao = JOptionPane.showConfirmDialog(view, """
+                                                                  ESTA \u00c9 UMA OPERA\u00c7\u00c3O DESTRUTIVA!
+                                                                  
+                                                                  Todos os dados (usu\u00e1rios, registros, configura\u00e7\u00f5es) ser\u00e3o apagados.
+                                                                  O sistema voltar\u00e1 ao estado inicial.
+                                                                  
+                                                                  Deseja realmente continuar?""",
                     "Restauração do Sistema",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.ERROR_MESSAGE);
@@ -94,9 +94,9 @@ public class RestaurarSistemaPresenter {
     }
     
     private void reinicializarAplicacao() {
-        view.dispose();
+        nav.fecharTodasAsTelas(); //view.dispose();
         nav.limparSessao();
         
-        nav.abrirTela(new br.com.controleacesso.factory.RestaurarSistemaFactory(logger));
+        nav.abrirTela(new br.com.controleacesso.factory.CadastroFactory(logger, true));
     }
 }

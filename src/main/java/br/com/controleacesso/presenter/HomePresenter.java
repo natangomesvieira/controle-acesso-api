@@ -28,7 +28,7 @@ public class HomePresenter {
     
     private void iniciarFluxo() {
         if (service.cadastroInicial()) {
-            JOptionPane.showMessageDialog(view, """
+            JOptionPane.showMessageDialog(null, """
                                                 Bem-vindo(a)! Nenhuma conta detectada. 
                                                 Iniciaremos o cadastro do Administrador do sistema.""");
             view.getBtnEntrar().setEnabled(false);

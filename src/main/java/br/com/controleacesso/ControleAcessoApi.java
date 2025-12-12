@@ -18,8 +18,8 @@ public class ControleAcessoApi {
          // 2. Inicia o sistema
         SwingUtilities.invokeLater(() -> {
             JFrame telaPrincipal = new HomeFactory(logger).criarTela();
-            telaPrincipal.setVisible(true);
             telaPrincipal.setLocationRelativeTo(null);
+            telaPrincipal.setVisible(true);
         });
         
     }

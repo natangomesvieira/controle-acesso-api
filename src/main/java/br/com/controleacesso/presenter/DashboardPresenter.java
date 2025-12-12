@@ -38,6 +38,7 @@ public class DashboardPresenter {
         this.service = service;
         configuraAcessoAoPerfil();
         configuraView();
+        
     }
     
     private void configuraView() {

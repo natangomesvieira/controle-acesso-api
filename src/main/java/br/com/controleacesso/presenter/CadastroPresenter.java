@@ -66,8 +66,8 @@ public class CadastroPresenter {
             
             usuario.setNome(view.getTxtNome().getText());
             usuario.setEmail(view.getTxtEmail().getText());
-            usuario.setSenha(view.getPwdSenha().getText());
-            usuario.setConfSenha(view.getPwdConfSenha().getText());
+            usuario.setSenha(new String(view.getPwdSenha().getPassword()));
+            usuario.setConfSenha(new String(view.getPwdConfSenha().getPassword()));
             
             String perfil = (String) view.getCmbPerfil().getSelectedItem();
             
@@ -96,7 +96,8 @@ public class CadastroPresenter {
                 nav.abrirTela(new LoginFactory(logger));
             }
         } catch (Exception ex) {
-            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
+            //Erro ao chamar o toCsvLine com perfil NULL
+            //logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
     }

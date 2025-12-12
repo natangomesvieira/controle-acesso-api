@@ -50,7 +50,7 @@ public class LoginPresenter {
         
         try {
             usuario.setEmail(view.getTxtEmail().getText());
-            usuario.setSenha(view.getPwdSenha().getText());
+            usuario.setSenha(new String(view.getPwdSenha().getPassword()));
         
             usuario = service.login(usuario);
             
