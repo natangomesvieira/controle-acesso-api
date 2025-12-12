@@ -84,9 +84,10 @@ public class CadastroPresenter {
             if (confirmacao == JOptionPane.YES_OPTION) {
                 service.criarUsuario(usuario);
 
-                ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil());
-
-                nav.setSessao(sessao);
+                if(nav.getSessao() == null) {
+                    ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil());
+                    nav.setSessao(sessao);
+                }
 
                 logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil()));
                 JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  

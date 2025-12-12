@@ -55,7 +55,7 @@ public class DashboardView extends JInternalFrame {
         btnSair = new javax.swing.JButton();
         btnRestaurarSistema = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(900, 400));
+        setPreferredSize(new java.awt.Dimension(815, 560));
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -77,11 +77,6 @@ public class DashboardView extends JInternalFrame {
 
         btnAutorizarAcesso.setText("Autorizar");
         btnAutorizarAcesso.setToolTipText("Autoriza o usuario selecionado a acessar o sistema.");
-        btnAutorizarAcesso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAutorizarAcessoActionPerformed(evt);
-            }
-        });
 
         btnRejeitarAcesso.setText("Rejeitar");
         btnRejeitarAcesso.setToolTipText("Rejeita o acesso do usuario selecionado ao sistema.");
@@ -95,18 +90,8 @@ public class DashboardView extends JInternalFrame {
 
         btnRebaixarUsuario.setText("Rebaixar");
         btnRebaixarUsuario.setToolTipText("Rebaixa o usuario de administrador para usuario padrao.");
-        btnRebaixarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRebaixarUsuarioActionPerformed(evt);
-            }
-        });
 
         btnListagemUsuarios.setText("Listar Usuários");
-        btnListagemUsuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListagemUsuariosActionPerformed(evt);
-            }
-        });
 
         btnAutorizacoesPendentes.setText("Autorizações Pendentes");
         btnAutorizacoesPendentes.setToolTipText("Lista os usuarios que estao com autorizacao pendente.");
@@ -155,8 +140,6 @@ public class DashboardView extends JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblAcoesGlobais, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnNovoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,10 +150,13 @@ public class DashboardView extends JInternalFrame {
                                     .addComponent(btnAlterarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnRemoverUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblAcoesSelecao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnConfiguracaoLog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnConfiguracaoLog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnAutorizacoesPendentes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnListagemUsuarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,12 +197,13 @@ public class DashboardView extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAlterarSenha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConfiguracaoLog))
+                        .addComponent(btnConfiguracaoLog)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 900, 548);
+        setBounds(0, 0, 804, 560);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnListagemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemUsuariosActionPerformed
@@ -226,10 +213,6 @@ public class DashboardView extends JInternalFrame {
     private void btnRebaixarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRebaixarUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRebaixarUsuarioActionPerformed
-
-    private void btnAutorizarAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizarAcessoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAutorizarAcessoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -12,8 +12,7 @@ public class HomeView extends javax.swing.JFrame {
         this.setLayout(new BorderLayout());
         this.add(dskHome, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 600);
-        //this.setExtendedState(MAXIMIZED_BOTH);
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     @SuppressWarnings("unchecked")
