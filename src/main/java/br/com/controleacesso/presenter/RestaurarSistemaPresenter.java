@@ -7,6 +7,7 @@ package br.com.controleacesso.presenter;
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.view.RestaurarSistemaView;
+import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
@@ -62,6 +63,7 @@ public class RestaurarSistemaPresenter {
             }
 
         } catch (Exception ex) {
+            logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, "Erro: " + ex.getMessage());
         }
     }
@@ -75,7 +77,7 @@ public class RestaurarSistemaPresenter {
 
                 service.restaurarSistema(idAdmin, senha, conf);
 
-                //logger.log(new LogEntry("RESTAURACAO_SISTEMA", "ID: " + idAdmin, "SUCESSO", "Sistema resetado"));
+                logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
 
                 view.setCursor(Cursor.getDefaultCursor());
 
@@ -87,6 +89,7 @@ public class RestaurarSistemaPresenter {
                 reinicializarAplicacao();
 
             } catch (Exception ex) {
+                logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
                 view.setCursor(Cursor.getDefaultCursor());
                 JOptionPane.showMessageDialog(view, "Falha na restauração: " + ex.getMessage(), "Erro Fatal", JOptionPane.ERROR_MESSAGE);
             }
@@ -94,7 +97,7 @@ public class RestaurarSistemaPresenter {
     }
     
     private void reinicializarAplicacao() {
-        nav.fecharTodasAsTelas(); //view.dispose();
+        nav.fecharTodasAsTelas();
         nav.limparSessao();
         
         nav.abrirTela(new br.com.controleacesso.factory.CadastroFactory(logger, true));

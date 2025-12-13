@@ -36,7 +36,7 @@ public class AlterarSenhaPresenter {
     private void salvarSenha() {
         try {
             
-            int idUsuario = nav.getSessao().getIdUsuarioLogado(); //usuario logado
+            int idUsuario = nav.getSessao().getIdUsuarioLogado();
             String senhaAtual = new String(view.getPwdSenhaAtual().getPassword());
             String novaSenha = new String(view.getPwdNovaSenha().getPassword());
             String confSenha = new String(view.getPwdConfSenha().getPassword());
@@ -50,12 +50,12 @@ public class AlterarSenhaPresenter {
             if (confirmacao == JOptionPane.YES_OPTION) {
                 
                 service.alterarSenha(idUsuario, senhaAtual, novaSenha, confSenha);
-                //logger.log(new LogEntry("ALTERAR_SENHA", usuario.getNome(), usuario.getPerfil()));
+                logger.log(new LogEntry("ALTERAR_SENHA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
                 JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!");
                 view.dispose();
             }
         } catch (Exception ex) {
-            //logger.log(new LogEntry("ALTERAR_SENHA", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
+            logger.log(new LogEntry("ALTERAR_SENHA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
             String msgErro = ex.getMessage();
             JOptionPane.showMessageDialog(view, "Não foi possível alterar a senha:\n" + msgErro, "Erro", JOptionPane.ERROR_MESSAGE);
         }

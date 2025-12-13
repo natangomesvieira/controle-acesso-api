@@ -19,7 +19,6 @@ import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class DashboardPresenter {
@@ -150,6 +149,8 @@ public class DashboardPresenter {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
 
+            isAdmin(nav.getSessao().isAdministrador());
+            
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
                     service.excluirUsuario(u.getId());
@@ -186,6 +187,9 @@ public class DashboardPresenter {
                         JOptionPane.QUESTION_MESSAGE);
 
                 if (confirmacao == JOptionPane.YES_OPTION) {
+                    
+                    isAdmin(nav.getSessao().isAdministrador());
+                    
                     service.promoverUsuario(email, usuarioAlvo.getPerfil());
 
                     logger.log(new LogEntry("PROMOVER_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
@@ -222,6 +226,8 @@ public class DashboardPresenter {
                 
                 if (confirmacao == JOptionPane.YES_OPTION) {
                     
+                    isAdmin(nav.getSessao().isAdministrador());
+                    
                     service.rebaixarUsuario(email, perfil);
                     
                     logger.log(new LogEntry("REBAIXAR_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
@@ -256,6 +262,8 @@ public class DashboardPresenter {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
+                    isAdmin(nav.getSessao().isAdministrador());
+                    
                     service.autorizarAcessoByEmail(u.getEmail());
 
                     logger.log(new LogEntry("AUTORIZAR_ACESSO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
@@ -289,6 +297,8 @@ public class DashboardPresenter {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
+                    isAdmin(nav.getSessao().isAdministrador());
+                    
                     service.rejeitarAcessoByEmail(u.getEmail());
 
                     logger.log(new LogEntry("REJEITAR_ACESSO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
@@ -311,7 +321,6 @@ public class DashboardPresenter {
             isAdminLogado = sessao.isAdministrador();
         }
         
-        //view.getBtnListagemUsuarios().setVisible(isAdminLogado);
         view.getBtnNovoUsuario().setVisible(isAdminLogado); 
         view.getBtnAutorizarAcesso().setVisible(isAdminLogado);
         view.getBtnPromoverUsuario().setVisible(isAdminLogado);
@@ -453,10 +462,13 @@ public class DashboardPresenter {
 
         if (novoFormato != null) {
             try {
-                logger.setLogFormat(novoFormato); 
+                isAdmin(nav.getSessao().isAdministrador());
+                logger.setLogFormat(novoFormato);
+                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
                 JOptionPane.showMessageDialog(view, mensagemSucesso, "Configuração Salva", JOptionPane.INFORMATION_MESSAGE);
                 
             } catch (Exception ex) {
+                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
                 JOptionPane.showMessageDialog(view, 
                     "Erro ao salvar a configuração de log: " + ex.getMessage(), 
                     "Erro", 
@@ -473,6 +485,7 @@ public class DashboardPresenter {
                 JOptionPane.YES_NO_OPTION);
         
         if (confirmacao == JOptionPane.YES_OPTION) {
+            logger.log(new LogEntry("USUARIO_LOGOUT", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
             nav.limparSessao();
             view.dispose();
             nav.abrirTela(new br.com.controleacesso.factory.LoginFactory(logger));
@@ -482,5 +495,11 @@ public class DashboardPresenter {
     private void abrirTelaRestauracao() {
          nav.abrirTela(new br.com.controleacesso.factory.RestaurarSistemaFactory(logger));
     }
-        
+    
+    private void isAdmin(boolean isAdmin) {
+        if(!isAdmin) {
+            throw new RuntimeException("Privilégios insuficientes para realizar esta operação.");
+        }
+    }
+    
 }
