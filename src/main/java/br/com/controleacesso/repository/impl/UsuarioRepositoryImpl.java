@@ -1,7 +1,8 @@
-package br.com.controleacesso.repository;
+package br.com.controleacesso.repository.impl;
 
 import br.com.controleacesso.repository.config.ConexaoFactory;
 import br.com.controleacesso.model.Usuario;
+import br.com.controleacesso.repository.IUsuarioRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioRepository {
+public class UsuarioRepositoryImpl implements IUsuarioRepository {
     
+    @Override
     public boolean getAllUsers() throws SQLException {
         String sql = "SELECT count(1) as total FROM usuario";
 
@@ -29,6 +31,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public List<Usuario> getAllUsuariosNaoAutorizados() throws SQLException {
     
         List<Usuario> usuarios = new ArrayList<>();
@@ -55,6 +58,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public List<Usuario> getAllUsuarios() throws SQLException {
     
         List<Usuario> usuarios = new ArrayList<>();
@@ -82,23 +86,34 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public void salvar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario (nome, email, senha, perfil, autorizado) VALUES (?, ?, ?, ?, ?)";
-        
+
         try (Connection conn = ConexaoFactory.getConexao();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getPerfil());
             stmt.setBoolean(5, usuario.isAutorizado());
+
             stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int novoId = rs.getInt(1); 
+                    usuario.setId(novoId);
+                }
+            }
+
         } catch (SQLException ex) {
-            throw new SQLException("Erro ao salvar dados no banco!");
+            throw new SQLException("Erro ao salvar dados no banco: " + ex.getMessage()); 
         }
     }
     
+    @Override
     public Usuario getByEmail(String email) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE email = ?";
         Usuario usuario = null;
@@ -122,6 +137,7 @@ public class UsuarioRepository {
         return usuario;
     }
     
+    @Override
     public void autorizarAcessoByEmail(String email) throws SQLException {
         String sql = "UPDATE usuario SET autorizado = ? WHERE email = ?";
 
@@ -135,6 +151,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public void rejeitarAcessoByEmail(String email) throws SQLException {
         String sql = "DELETE FROM usuario WHERE email = ?";
 
@@ -147,6 +164,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public void alterarPefilUsuarioByEmail(String email, String perfil) throws SQLException {
         String sql = "UPDATE usuario SET perfil = ? WHERE email = ?";
 
@@ -160,6 +178,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public void deletarUsuario(int id) throws SQLException {
         String sql = "DELETE FROM usuario WHERE id = ?";
         
@@ -174,6 +193,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public Usuario getById(int id) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE id = ?";
         Usuario usuario = null;
@@ -197,6 +217,7 @@ public class UsuarioRepository {
         return usuario;
     }
 
+    @Override
     public void atualizarSenha(int id, String novaSenha) throws SQLException {
         String sql = "UPDATE usuario SET senha = ? WHERE id = ?";
         
@@ -212,6 +233,7 @@ public class UsuarioRepository {
         }
     }
     
+    @Override
     public void resetarSistemaCompleto() throws SQLException {
 
         String sqlDeleteUsers = "DELETE FROM usuario";
@@ -230,5 +252,26 @@ public class UsuarioRepository {
                 throw e;
             }
         }
+    }
+    
+    @Override
+    public List<Integer> getAdminIds() throws SQLException {
+        String sql = "SELECT id FROM usuario WHERE perfil = 'administrador'";
+        List<Integer> adminIds = new ArrayList<>();
+        
+        try (var conn = ConexaoFactory.getConexao();
+             var stmt = conn.createStatement();
+             var rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                adminIds.add(rs.getInt("id")); 
+            }
+            
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao buscar IDs de administradores: " + e.getMessage());
+
+        }
+        
+        return adminIds;
     }
 }

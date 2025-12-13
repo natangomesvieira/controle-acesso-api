@@ -1,28 +1,35 @@
-package br.com.controleacesso.service;
+package br.com.controleacesso.service.impl;
 
-import br.com.controleacesso.repository.UsuarioRepository;
+import br.com.controleacesso.model.Notificacao;
 import br.com.controleacesso.model.Usuario;
+import br.com.controleacesso.repository.INotificacaoRepository;
+import br.com.controleacesso.repository.IUsuarioRepository;
+import br.com.controleacesso.service.ILoginService;
 import com.pss.senha.validacao.ValidadorSenha;
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class LoginService {
+public class LoginServiceImpl implements ILoginService {
     
-    private final UsuarioRepository repository;
+    private final IUsuarioRepository usuarioRepository;
     private final ValidadorSenha validadorSenha;
+    private final INotificacaoRepository notificacaoRepository;
     private static final String MSG_ERRO_GENERICA = "Usuário ou senha inválidos";
     
-    public LoginService(UsuarioRepository repository) {
-        this.repository = repository;
+    public LoginServiceImpl(IUsuarioRepository usuarioRepository, INotificacaoRepository notificacaoRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.notificacaoRepository = notificacaoRepository;
         this.validadorSenha = new ValidadorSenha();
     }
     
+    @Override
     public Usuario login(Usuario usuario) throws Exception {
         
        validarDados(usuario);
 
-       Usuario usuarioBanco = Optional.ofNullable(repository.getByEmail(usuario.getEmail()))
+       Usuario usuarioBanco = Optional.ofNullable(usuarioRepository.getByEmail(usuario.getEmail()))
                 .orElseThrow(() -> new AccessDeniedException(MSG_ERRO_GENERICA));
         
         if (!usuario.getSenha().equals(usuarioBanco.getSenha())) {
@@ -31,6 +38,12 @@ public class LoginService {
 
         if (!usuarioBanco.isAutorizado()) {
              throw new AccessDeniedException("Seu cadastro aguarda autorização do administrador.");
+        }
+        
+        List<Notificacao> pendentes = notificacaoRepository.getNotificacoesNaoLidas(usuarioBanco.getId());
+            
+        if (!pendentes.isEmpty()) {
+            usuarioBanco.setNotificacoes(pendentes);
         }
         
         return usuarioBanco;

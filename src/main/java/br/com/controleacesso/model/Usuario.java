@@ -1,5 +1,7 @@
 package br.com.controleacesso.model;
 
+import java.util.List;
+
 public class Usuario {
     
     private int id;
@@ -9,6 +11,7 @@ public class Usuario {
     private String confSenha;
     private String perfil;
     private boolean autorizado;
+    private List<Notificacao> notificacoes;
 
     public Usuario() {}
 
@@ -71,5 +74,13 @@ public class Usuario {
 
     public void setAutorizado(boolean autorizado) {
         this.autorizado = autorizado;
+    }
+    
+    public List<Notificacao> getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setNotificacoes(List<Notificacao> notificacoes) {
+        this.notificacoes = notificacoes;
     }
 }

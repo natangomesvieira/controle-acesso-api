@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.ContextoDeSessao;
-import br.com.controleacesso.service.DashboardService;
+import br.com.controleacesso.service.IDashboardService;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.view.RestaurarSistemaView;
 import br.com.sistemalog.LogEntry;
@@ -14,18 +10,14 @@ import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author pedro
- */
 public class RestaurarSistemaPresenter {
     private final RestaurarSistemaView view;
     private final GerenciadorDeTelas nav;
-    private final DashboardService service;
+    private final IDashboardService service;
     private final LogService logger;
     private final ContextoDeSessao sessao;
 
-    public RestaurarSistemaPresenter(RestaurarSistemaView view, GerenciadorDeTelas nav, DashboardService service, LogService logger, ContextoDeSessao sessao) {
+    public RestaurarSistemaPresenter(RestaurarSistemaView view, GerenciadorDeTelas nav, IDashboardService service, LogService logger, ContextoDeSessao sessao) {
         this.view = view;
         this.nav = nav;
         this.service = service;

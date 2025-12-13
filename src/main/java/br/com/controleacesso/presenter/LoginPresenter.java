@@ -4,7 +4,7 @@ import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.factory.DashboardFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
-import br.com.controleacesso.service.LoginService;
+import br.com.controleacesso.service.ILoginService;
 import br.com.controleacesso.view.LoginView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
@@ -15,10 +15,10 @@ public class LoginPresenter {
     
     private final LoginView view;
     private final GerenciadorDeTelas nav;
-    private final LoginService service;
+    private final ILoginService service;
     private final LogService logger;
     
-    public LoginPresenter (LoginView view, GerenciadorDeTelas nav, LoginService service, LogService logger) {
+    public LoginPresenter (LoginView view, GerenciadorDeTelas nav, ILoginService service, LogService logger) {
         this.view = view;
         this.nav = nav;
         this.service = service;
@@ -60,7 +60,7 @@ public class LoginPresenter {
             
             fecharJanela();
             
-            nav.abrirTela(new DashboardFactory(logger), sessao);
+            nav.abrirTela(new DashboardFactory(logger, usuario), sessao);
         } catch (Exception ex) {
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), "-", ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());

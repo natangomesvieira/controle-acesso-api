@@ -4,7 +4,7 @@ import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.factory.LoginFactory;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.model.Usuario;
-import br.com.controleacesso.service.CadastroService;
+import br.com.controleacesso.service.ICadastroService;
 import br.com.controleacesso.view.CadastroView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
@@ -15,12 +15,12 @@ public class CadastroPresenter {
     
     private final CadastroView view;
     private final GerenciadorDeTelas nav;
-    private final CadastroService service;
+    private final ICadastroService service;
     private final LogService logger;
     private final ContextoDeSessao sessao;
     private final boolean cadastroObrigatorio;
 
-    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, boolean cadastroObrigatorio, ContextoDeSessao sessao) {
+    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, ICadastroService service, LogService logger, boolean cadastroObrigatorio, ContextoDeSessao sessao) {
         this.view = view;
         this.nav = nav;
         this.service = service;

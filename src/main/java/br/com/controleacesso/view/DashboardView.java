@@ -60,6 +60,8 @@ public class DashboardView extends JInternalFrame {
         lblPerfil = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
         txtDescPerfil = new javax.swing.JTextField();
+        lblNotificacao = new javax.swing.JLabel();
+        btnNotificacao = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(815, 610));
 
@@ -79,6 +81,7 @@ public class DashboardView extends JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
+        tblTabelaUsuarios.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblTabelaUsuarios);
 
         btnAutorizarAcesso.setText("Autorizar");
@@ -129,28 +132,41 @@ public class DashboardView extends JInternalFrame {
 
         lblPerfil.setText("Perfil:");
 
+        lblNotificacao.setText("Notificações:");
+
+        btnNotificacao.setText("0");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(lblUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPerfil)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDescPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNotificacao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNotificacao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(lblPerfil)
-                .addComponent(txtDescPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addComponent(lblUsuario))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPerfil)
+                    .addComponent(lblUsuario)
+                    .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNotificacao)
+                    .addComponent(btnNotificacao))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,9 +201,12 @@ public class DashboardView extends JInternalFrame {
                                 .addComponent(btnRestaurarSistema)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSair))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,12 +250,12 @@ public class DashboardView extends JInternalFrame {
                         .addComponent(btnConfiguracaoLog)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        setBounds(0, 0, 794, 605);
+        setBounds(0, 0, 794, 615);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnListagemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemUsuariosActionPerformed
@@ -288,6 +307,7 @@ public class DashboardView extends JInternalFrame {
     private javax.swing.JButton btnAutorizarAcesso;
     private javax.swing.JButton btnConfiguracaoLog;
     private javax.swing.JButton btnListagemUsuarios;
+    private javax.swing.JButton btnNotificacao;
     private javax.swing.JButton btnNovoUsuario;
     private javax.swing.JButton btnPromoverUsuario;
     private javax.swing.JButton btnRebaixarUsuario;
@@ -300,6 +320,7 @@ public class DashboardView extends JInternalFrame {
     private javax.swing.JLabel lblAcoesGlobais;
     private javax.swing.JLabel lblAcoesSelecao;
     private javax.swing.JLabel lblNavegacao;
+    private javax.swing.JLabel lblNotificacao;
     private javax.swing.JLabel lblPerfil;
     private javax.swing.JLabel lblPessoal;
     private javax.swing.JLabel lblTitulo;
@@ -380,5 +401,9 @@ public class DashboardView extends JInternalFrame {
     
     public JTextField getTxtDescPerfil() {
         return txtDescPerfil;
+    }
+    
+    public JButton getBtnNotificacao() {
+        return btnNotificacao;
     }
 }

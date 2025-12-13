@@ -1,23 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.controleacesso.factory;
 
 import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.presenter.AlterarSenhaPresenter;
-import br.com.controleacesso.repository.UsuarioRepository;
-import br.com.controleacesso.service.DashboardService;
+import br.com.controleacesso.repository.IUsuarioRepository;
+import br.com.controleacesso.repository.impl.UsuarioRepositoryImpl;
+import br.com.controleacesso.service.IDashboardService;
+import br.com.controleacesso.service.impl.DashboardServiceImpl;
 import br.com.controleacesso.view.AlterarSenhaView;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogService;
 import com.pss.senha.validacao.ValidadorSenha;
 import javax.swing.JInternalFrame;
 
-/**
- *
- * @author pedro
- */
 public class AlterarSenhaFactory implements IViewFactory {
 
     private final LogService logger;
@@ -33,10 +27,10 @@ public class AlterarSenhaFactory implements IViewFactory {
         view.setClosable(true);
         view.setIconifiable(true);
         
-        UsuarioRepository repository = new UsuarioRepository();
+        IUsuarioRepository repository = new UsuarioRepositoryImpl();
         ValidadorSenha validador = new ValidadorSenha();
         
-        DashboardService service = new DashboardService(repository, validador);
+        IDashboardService service = new DashboardServiceImpl(repository, validador);
         
         new AlterarSenhaPresenter(view, service, logger, sessao);
         

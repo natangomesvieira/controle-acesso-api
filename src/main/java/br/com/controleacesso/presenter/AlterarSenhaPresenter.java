@@ -1,7 +1,7 @@
 package br.com.controleacesso.presenter;
 
 import br.com.controleacesso.ContextoDeSessao;
-import br.com.controleacesso.service.DashboardService;
+import br.com.controleacesso.service.IDashboardService;
 import br.com.controleacesso.view.AlterarSenhaView;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
@@ -11,11 +11,11 @@ import javax.swing.JOptionPane;
 public class AlterarSenhaPresenter {
     
     private final AlterarSenhaView view;
-    private final DashboardService service;
+    private final IDashboardService service;
     private final LogService logger;
     private final ContextoDeSessao sessao;
     
-    public AlterarSenhaPresenter(AlterarSenhaView view, DashboardService service, LogService logger, ContextoDeSessao sessao) {
+    public AlterarSenhaPresenter(AlterarSenhaView view, IDashboardService service, LogService logger, ContextoDeSessao sessao) {
         this.view = view;
         this.service = service;
         this.logger = logger;

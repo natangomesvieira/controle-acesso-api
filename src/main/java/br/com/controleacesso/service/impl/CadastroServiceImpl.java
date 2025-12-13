@@ -1,31 +1,39 @@
-package br.com.controleacesso.service;
+package br.com.controleacesso.service.impl;
 
-import br.com.controleacesso.repository.UsuarioRepository;
+import br.com.controleacesso.model.Notificacao;
 import br.com.controleacesso.model.Usuario;
+import br.com.controleacesso.repository.INotificacaoRepository;
+import br.com.controleacesso.repository.IUsuarioRepository;
+import br.com.controleacesso.service.ICadastroService;
 import com.pss.senha.validacao.ValidadorSenha;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class CadastroService {
+public class CadastroServiceImpl implements ICadastroService {
     
-    private final UsuarioRepository repository;
+    private final IUsuarioRepository usuarioRepository;
     private final ValidadorSenha validadorSenha;
+    private final INotificacaoRepository notificacaoRepository;
     
-    public CadastroService(UsuarioRepository repository) {
-        this.repository = repository;
+    public CadastroServiceImpl(IUsuarioRepository usuarioRepository, INotificacaoRepository notificacaoRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.notificacaoRepository = notificacaoRepository;
         this.validadorSenha = new ValidadorSenha();
     }
     
+    @Override
     public boolean cadastroInicial() {
         try {
-            return !repository.getAllUsers();
+            return !usuarioRepository.getAllUsers();
         } catch (SQLException e) {
             throw new RuntimeException("Falha ao verificar estado inicial do banco de dados: " + e.getMessage(), e);
         }
     }
     
+    @Override
     public void criarUsuario(Usuario usuario) throws Exception {
 
         validarCamposObrigatorios(usuario);
@@ -39,7 +47,7 @@ public class CadastroService {
                 });
 
         try {
-            boolean existeUsuario = repository.getAllUsers();
+            boolean existeUsuario = usuarioRepository.getAllUsers();
 
             String perfil = verificarPerfil(usuario.getPerfil(), existeUsuario);
             usuario.setPerfil(perfil);
@@ -47,7 +55,9 @@ public class CadastroService {
             boolean isAdmin = "administrador".equals(perfil);
             usuario.setAutorizado(isAdmin);
 
-            repository.salvar(usuario);
+            usuarioRepository.salvar(usuario);
+            adicionarNotificacaoParaAdmins(usuario);
+            
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao verificar usuários: " + e.getMessage(), e);
         }
@@ -58,6 +68,26 @@ public class CadastroService {
         return Optional.ofNullable(perfil)
             .filter(Predicate.not(String::isBlank))
             .orElse(existeUsuario ? "usuario_padrao" : "administrador");
+    }
+    
+    private void adicionarNotificacaoParaAdmins(Usuario usuarioCriado) throws SQLException {
+        
+        if ("usuario_padrao".equalsIgnoreCase(usuarioCriado.getPerfil())) {
+            
+            List<Integer> adminIds = usuarioRepository.getAdminIds(); 
+            
+            String mensagem = "Novo usuário '" + usuarioCriado.getNome() + "' criado e pendente de aprovação.";
+
+            for (int adminId : adminIds) {
+                Notificacao notificacao = new Notificacao();
+                notificacao.setIdUsuario(adminId);
+                notificacao.setLida(false);
+                notificacao.setData(new Date());
+                notificacao.setMensagem(mensagem);
+                
+                notificacaoRepository.salvar(notificacao);
+            }
+        }
     }
     
     private void validarCamposObrigatorios(Usuario usuario) {

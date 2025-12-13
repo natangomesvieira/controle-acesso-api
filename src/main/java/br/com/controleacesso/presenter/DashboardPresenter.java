@@ -3,8 +3,9 @@ package br.com.controleacesso.presenter;
 import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.factory.AlterarSenhaFactory;
 import br.com.controleacesso.factory.CadastroFactory;
+import br.com.controleacesso.factory.NotificacaoFactory;
 import br.com.controleacesso.model.Usuario;
-import br.com.controleacesso.service.DashboardService;
+import br.com.controleacesso.service.IDashboardService;
 import br.com.controleacesso.view.DashboardView;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogEntry;
@@ -23,17 +24,19 @@ public class DashboardPresenter {
     private final DashboardView view;
     private final GerenciadorDeTelas nav;
     private final LogService logger;
-    private final DashboardService service;
+    private final IDashboardService service;
     private final ContextoDeSessao sessao;
+    private Usuario usuario;
     private boolean isListagemCompleta = true;
     private List<Usuario> usuariosEmExibicao;
     
-    public DashboardPresenter(DashboardView view, GerenciadorDeTelas nav, DashboardService service, LogService logger, ContextoDeSessao sessao) {
+    public DashboardPresenter(DashboardView view, GerenciadorDeTelas nav, IDashboardService service, LogService logger, ContextoDeSessao sessao, Usuario usuario) {
         this.view = view;
         this.nav = nav;
         this.logger = logger;
         this.service = service;
         this.sessao = sessao;
+        this.usuario = usuario;
         configuraAcessoAoPerfil();
         configuraView();
         
@@ -81,6 +84,9 @@ public class DashboardPresenter {
         
         view.getBtnRestaurarSistema().addActionListener(e -> {
             abrirTelaRestauracao();
+        });
+        view.getBtnNotificacao().addActionListener(e -> {
+            abrirTelaNotificacoes();
         });
     }
     
@@ -270,6 +276,10 @@ public class DashboardPresenter {
         });
     }
     
+    private void abrirTelaNotificacoes() {
+        nav.abrirTela(new NotificacaoFactory(logger), sessao);
+    }
+    
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
         
@@ -292,6 +302,13 @@ public class DashboardPresenter {
         view.getLblAcoesSelecao().setVisible(isAdminLogado);
         
         view.getBtnRestaurarSistema().setVisible(isAdminLogado);
+
+        int countNotificacoesInt = 0; 
+        if(usuario.getNotificacoes() != null) {
+            countNotificacoesInt = usuario.getNotificacoes().size(); 
+        }
+        String countNotificacoesString = String.valueOf(countNotificacoesInt); 
+        view.getBtnNotificacao().setText(countNotificacoesString);
     }
     
     private void irParaCadastro() {

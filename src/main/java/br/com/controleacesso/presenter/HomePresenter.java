@@ -3,7 +3,7 @@ package br.com.controleacesso.presenter;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.factory.LoginFactory;
-import br.com.controleacesso.service.CadastroService;
+import br.com.controleacesso.service.ICadastroService;
 import br.com.controleacesso.view.HomeView;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
@@ -14,9 +14,9 @@ public class HomePresenter {
     private final HomeView view;
     private final GerenciadorDeTelas nav;
     private final LogService logger;
-    private final CadastroService service;
+    private final ICadastroService service;
     
-    public HomePresenter(HomeView view, GerenciadorDeTelas nav, CadastroService service, LogService logger) {
+    public HomePresenter(HomeView view, GerenciadorDeTelas nav, ICadastroService service, LogService logger) {
         this.view = view;
         this.nav = nav;
         this.service = service;

@@ -1,43 +1,50 @@
-package br.com.controleacesso.service;
+package br.com.controleacesso.service.impl;
 
 import br.com.controleacesso.model.Usuario;
-import br.com.controleacesso.repository.UsuarioRepository;
+import br.com.controleacesso.repository.IUsuarioRepository;
+import br.com.controleacesso.service.IDashboardService;
 import com.pss.senha.validacao.ValidadorSenha;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class DashboardService {
+public class DashboardServiceImpl implements IDashboardService {
     
-    private final UsuarioRepository repository;
+    private final IUsuarioRepository repository;
     private final ValidadorSenha validadorSenha;
     
-    public DashboardService(UsuarioRepository repository, ValidadorSenha validadorSenha) {
+    public DashboardServiceImpl(IUsuarioRepository repository, ValidadorSenha validadorSenha) {
         this.repository = repository;
         this.validadorSenha = validadorSenha;
     }
     
+    @Override
     public List<Usuario> getAllUsuariosNaoAutorizados() throws SQLException {
         return repository.getAllUsuariosNaoAutorizados();
     }
     
+    @Override
     public List<Usuario> getAllUsuarios() throws SQLException {
         return repository.getAllUsuarios();
     }
     
+    @Override
     public Usuario getUsuarioById(int id) throws SQLException {
         return repository.getById(id);
     }
     
+    @Override
     public void autorizarAcessoByEmail(String email) throws SQLException {
         repository.autorizarAcessoByEmail(email);
     }
     
+    @Override
     public void rejeitarAcessoByEmail(String email) throws SQLException {
         repository.rejeitarAcessoByEmail(email);
     }
     
+    @Override
     public void promoverUsuario(String email, String perfil, int idSolicitante) throws SQLException, IllegalAccessException {
         if("administrador".equals(perfil)) {
             throw new IllegalArgumentException("O usuário selecionado já é um administrador.");
@@ -50,6 +57,7 @@ public class DashboardService {
         repository.alterarPefilUsuarioByEmail(email, "administrador");
     }
     
+    @Override
     public void rebaixarUsuario(String email, String perfil, int idSolicitante) throws SQLException, IllegalAccessException {
         if("usuario_padrao".equals(perfil)) {
             throw new IllegalArgumentException("O usuário selecionado já é um usuário padrão.");
@@ -62,6 +70,7 @@ public class DashboardService {
         repository.alterarPefilUsuarioByEmail(email, "usuario_padrao");
     }
     
+    @Override
     public void excluirUsuario(int idAlvo, int idSolicitante) throws SQLException {
         if (idAlvo == 1) {
             throw new IllegalArgumentException("O Administrador Principal (Root) não pode ser excluído.");
@@ -73,6 +82,7 @@ public class DashboardService {
         repository.deletarUsuario(idAlvo);
     }
     
+    @Override
     public void alterarSenha(int idUsuario, String senhaAtual, String novaSenha, String confSenha) throws Exception {
         
         Optional.ofNullable(senhaAtual).filter(Predicate.not(String::isBlank))
@@ -102,6 +112,7 @@ public class DashboardService {
         repository.atualizarSenha(idUsuario, novaSenha);
     }
     
+    @Override
     public void restaurarSistema(int idAdmin, String senhaDigitada, String confSenhaDigitada) throws Exception {
         
         if (idAdmin != 1) {

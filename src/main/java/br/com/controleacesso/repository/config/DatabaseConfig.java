@@ -10,21 +10,32 @@ public class DatabaseConfig {
     }
 
     private void createTables() {
-        var sql = "CREATE TABLE IF NOT EXISTS usuario ("
+        // SQL para criar a tabela 'usuario'
+        var sqlUsuario = "CREATE TABLE IF NOT EXISTS usuario ("
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	nome TEXT NOT NULL,"
                 + "	email TEXT NOT NULL UNIQUE,"
-                + "     senha TEXT NOT NULL,"
-                + "     perfil TEXT NOT NULL,"
-                + "     autorizado BOOLEAN NOT NULL"
+                + "	senha TEXT NOT NULL,"
+                + "	perfil TEXT NOT NULL,"
+                + "	autorizado BOOLEAN NOT NULL"
+                + ");";
+
+        // SQL para criar a tabela 'notificacao'
+        var sqlNotificacao = "CREATE TABLE IF NOT EXISTS notificacao ("
+                + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "	id_usuario INTEGER NOT NULL,"
+                + "	mensagem TEXT NOT NULL,"
+                + "	data_hora DATETIME NOT NULL,"
+                + "	lida BOOLEAN NOT NULL,"
+                + "	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE"
                 + ");";
 
         try (var conn = ConexaoFactory.getConexao();
-             var stmt = conn.createStatement()) {
-            stmt.execute(sql);
-            System.out.println("Tabela 'usuario' verificada/criada.");
+            var stmt = conn.createStatement()) {
+            stmt.execute(sqlUsuario);
+            stmt.execute(sqlNotificacao);
         } catch (SQLException e) {
-            System.err.println("Erro ao criar tabela: " + e.getMessage());
+            System.err.println("Erro ao criar tabelas: " + e.getMessage());
         }
     }
     
