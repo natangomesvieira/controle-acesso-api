@@ -92,8 +92,7 @@ public class CadastroPresenter {
                 nav.abrirTela(new LoginFactory(logger), null);
             }
         } catch (Exception ex) {
-            //Erro ao chamar o toCsvLine com perfil NULL
-            //logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
+            logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
     }
