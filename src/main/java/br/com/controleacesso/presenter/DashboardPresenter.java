@@ -44,12 +44,9 @@ public class DashboardPresenter {
     private void configuraView() {
         carregarTabelaUsuarios(true);
         
-        view.getTabelaUsuarios().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    tratarSelecaoTabela();
-                }
+        view.getTabelaUsuarios().getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            if (!e.getValueIsAdjusting()) {
+                tratarSelecaoTabela();
             }
         });
         
@@ -344,6 +341,12 @@ public class DashboardPresenter {
         try {
             boolean isAdmin = nav.getSessao().isAdministrador();
             int idLogado = nav.getSessao().getIdUsuarioLogado();
+            view.getTxtDescPerfil().setText(nav.getSessao().getPerfilUsuarioLogado());
+            view.getTxtNomeUsuario().setText(nav.getSessao().getNomeUsuarioLogado());
+            view.getTxtDescPerfil().setEditable(false);
+            view.getTxtDescPerfil().setFocusable(false);
+            view.getTxtNomeUsuario().setEditable(false);
+            view.getTxtNomeUsuario().setFocusable(false);
 
             if (getAll) {
                 
@@ -364,7 +367,7 @@ public class DashboardPresenter {
 
                 if (isAdmin) {
                     this.usuariosEmExibicao = service.getAllUsuariosNaoAutorizados();
-                    logger.log(new LogEntry("LISTAGEM_USUARIOS", "-", nav.getSessao().getPerfilUsuarioLogado()));
+                    logger.log(new LogEntry("LISTAGEM_USUARIOS", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
                 } else {
                     this.usuariosEmExibicao = new ArrayList<>();
                 }
@@ -372,7 +375,7 @@ public class DashboardPresenter {
             desabilitarBotoesAcao();
 
         } catch (Exception e) {
-            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", "-", nav.getSessao().getPerfilUsuarioLogado(), e.getMessage()));
+            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), e.getMessage()));
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());
             return;
         }

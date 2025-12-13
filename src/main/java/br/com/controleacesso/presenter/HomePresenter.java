@@ -5,7 +5,6 @@ import br.com.controleacesso.factory.CadastroFactory;
 import br.com.controleacesso.factory.LoginFactory;
 import br.com.controleacesso.service.CadastroService;
 import br.com.controleacesso.view.HomeView;
-import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
