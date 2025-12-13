@@ -61,6 +61,8 @@ public class CadastroService {
     }
     
     private void validarCamposObrigatorios(Usuario usuario) {
+        
+        validarEmail(usuario.getEmail());
 
         Optional.ofNullable(usuario)
             .orElseThrow(() -> new IllegalArgumentException("O objeto usuário não pode ser nulo!"));
@@ -82,4 +84,11 @@ public class CadastroService {
         .orElseThrow(() -> new IllegalArgumentException("A confirmação da senha não confere!"));
     }
     
+    private void validarEmail(String email) {    
+        String regex = "^[\\w\\.-]+@[\\w\\.-]+\\.(com|com\\.br)$";
+
+        if (!email.toLowerCase().matches(regex)) {
+            throw new IllegalArgumentException("E-mail inválido! Verifique o formato (ex: nome@dominio.com).");
+        }
+    }
 }
