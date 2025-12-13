@@ -1,5 +1,6 @@
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.presenter.CadastroPresenter;
@@ -19,7 +20,7 @@ public class CadastroFactory implements IViewFactory {
     }
     
     @Override
-    public JInternalFrame criarTela(GerenciadorDeTelas nav) {
+    public JInternalFrame criarTela(GerenciadorDeTelas nav, ContextoDeSessao sessao) {
         CadastroView view = new CadastroView();
         
         if (cadastroObrigatorio) {
@@ -38,7 +39,7 @@ public class CadastroFactory implements IViewFactory {
         UsuarioRepository repository = new UsuarioRepository();
         CadastroService service = new CadastroService(repository);
         
-        new CadastroPresenter(view, nav, service, logger, cadastroObrigatorio);
+        new CadastroPresenter(view, nav, service, logger, cadastroObrigatorio, sessao);
         
         return view;
     }

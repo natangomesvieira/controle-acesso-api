@@ -51,11 +51,11 @@ public class HomePresenter {
    }
     
     private void irParaLogin() {
-       nav.abrirTela(new LoginFactory(logger));
+       nav.abrirTela(new LoginFactory(logger), null);
     }
     
     private void irParaCadastro(boolean obrigatorio) {
-        nav.abrirTela(new CadastroFactory(logger, obrigatorio));
+        nav.abrirTela(new CadastroFactory(logger, obrigatorio), null);
     }
     
 }

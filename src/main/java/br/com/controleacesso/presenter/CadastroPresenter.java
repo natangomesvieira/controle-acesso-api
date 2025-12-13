@@ -17,14 +17,16 @@ public class CadastroPresenter {
     private final GerenciadorDeTelas nav;
     private final CadastroService service;
     private final LogService logger;
+    private final ContextoDeSessao sessao;
     private final boolean cadastroObrigatorio;
 
-    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, boolean cadastroObrigatorio) {
+    public CadastroPresenter(CadastroView view, GerenciadorDeTelas nav, CadastroService service, LogService logger, boolean cadastroObrigatorio, ContextoDeSessao sessao) {
         this.view = view;
         this.nav = nav;
         this.service = service;
         this.logger = logger;
         this.cadastroObrigatorio = cadastroObrigatorio;
+        this.sessao = sessao;
         configuraAcessoAoPerfil();
         configuraView();
     }
@@ -46,7 +48,6 @@ public class CadastroPresenter {
     
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
-        ContextoDeSessao sessao = nav.getSessao();
         
         if (sessao != null) {
             isAdminLogado = sessao.isAdministrador();
@@ -84,16 +85,11 @@ public class CadastroPresenter {
             if (confirmacao == JOptionPane.YES_OPTION) {
                 service.criarUsuario(usuario);
 
-                if(nav.getSessao() == null) {
-                    ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil(), usuario.getNome());
-                    nav.setSessao(sessao);
-                }
-
                 logger.log(new LogEntry("CADASTRO_USUARIO", usuario.getNome(), usuario.getPerfil()));
                 JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!");  
 
                 view.dispose();
-                nav.abrirTela(new LoginFactory(logger));
+                nav.abrirTela(new LoginFactory(logger), null);
             }
         } catch (Exception ex) {
             //Erro ao chamar o toCsvLine com perfil NULL

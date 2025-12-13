@@ -1,8 +1,8 @@
 package br.com.controleacesso.presenter;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.AlterarSenhaView;
-import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.sistemalog.LogEntry;
 import br.com.sistemalog.LogService;
 import java.awt.event.ActionEvent;
@@ -11,15 +11,15 @@ import javax.swing.JOptionPane;
 public class AlterarSenhaPresenter {
     
     private final AlterarSenhaView view;
-    private final GerenciadorDeTelas nav;
     private final DashboardService service;
     private final LogService logger;
+    private final ContextoDeSessao sessao;
     
-    public AlterarSenhaPresenter(AlterarSenhaView view, GerenciadorDeTelas nav, DashboardService service, LogService logger) {
+    public AlterarSenhaPresenter(AlterarSenhaView view, DashboardService service, LogService logger, ContextoDeSessao sessao) {
         this.view = view;
-        this.nav = nav;
         this.service = service;
         this.logger = logger;
+        this.sessao = sessao;
         configuraView();
     }
     
@@ -36,7 +36,7 @@ public class AlterarSenhaPresenter {
     private void salvarSenha() {
         try {
             
-            int idUsuario = nav.getSessao().getIdUsuarioLogado();
+            int idUsuario = sessao.getIdUsuarioLogado();
             String senhaAtual = new String(view.getPwdSenhaAtual().getPassword());
             String novaSenha = new String(view.getPwdNovaSenha().getPassword());
             String confSenha = new String(view.getPwdConfSenha().getPassword());
@@ -50,12 +50,12 @@ public class AlterarSenhaPresenter {
             if (confirmacao == JOptionPane.YES_OPTION) {
                 
                 service.alterarSenha(idUsuario, senhaAtual, novaSenha, confSenha);
-                logger.log(new LogEntry("ALTERAR_SENHA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
+                logger.log(new LogEntry("ALTERAR_SENHA", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado()));
                 JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!");
                 view.dispose();
             }
         } catch (Exception ex) {
-            logger.log(new LogEntry("ALTERAR_SENHA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
+            logger.log(new LogEntry("ALTERAR_SENHA", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), ex.getMessage()));
             String msgErro = ex.getMessage();
             JOptionPane.showMessageDialog(view, "Não foi possível alterar a senha:\n" + msgErro, "Erro", JOptionPane.ERROR_MESSAGE);
         }

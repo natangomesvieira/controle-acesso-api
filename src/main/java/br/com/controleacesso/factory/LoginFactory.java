@@ -1,5 +1,6 @@
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.presenter.LoginPresenter;
@@ -17,7 +18,7 @@ public class LoginFactory implements IViewFactory {
     }
     
     @Override
-    public JInternalFrame criarTela(GerenciadorDeTelas nav) {
+    public JInternalFrame criarTela(GerenciadorDeTelas nav, ContextoDeSessao sessao) {
         LoginView view = new LoginView();
         UsuarioRepository repository = new UsuarioRepository();
         LoginService service = new LoginService(repository);

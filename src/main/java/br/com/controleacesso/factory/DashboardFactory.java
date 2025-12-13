@@ -1,5 +1,6 @@
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.presenter.DashboardPresenter;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.service.DashboardService;
@@ -18,12 +19,12 @@ public class DashboardFactory implements IViewFactory {
     }
     
     @Override
-    public JInternalFrame criarTela(GerenciadorDeTelas nav) {
+    public JInternalFrame criarTela(GerenciadorDeTelas nav, ContextoDeSessao sessao) {
         DashboardView view = new DashboardView();
         UsuarioRepository repository = new UsuarioRepository();
         ValidadorSenha validador = new ValidadorSenha();
         DashboardService service = new DashboardService(repository, validador);
-        new DashboardPresenter(view, nav, service, logger);
+        new DashboardPresenter(view, nav, service, logger, sessao);
         
         return view;
     }

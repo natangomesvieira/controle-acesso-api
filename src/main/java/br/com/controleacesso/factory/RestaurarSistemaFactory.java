@@ -4,6 +4,7 @@
  */
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.presenter.RestaurarSistemaPresenter;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.service.DashboardService;
@@ -26,13 +27,13 @@ public class RestaurarSistemaFactory implements IViewFactory {
     }
 
     @Override
-    public JInternalFrame criarTela(GerenciadorDeTelas nav) {
+    public JInternalFrame criarTela(GerenciadorDeTelas nav, ContextoDeSessao sessao) {
         RestaurarSistemaView view = new RestaurarSistemaView();
         UsuarioRepository repo = new UsuarioRepository();
         ValidadorSenha validador = new ValidadorSenha();
         DashboardService service = new DashboardService(repo, validador);
         
-        new RestaurarSistemaPresenter(view, nav, service, logger);
+        new RestaurarSistemaPresenter(view, nav, service, logger, sessao);
         return view;
     }
 }

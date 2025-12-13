@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,14 +25,16 @@ public class DashboardPresenter {
     private final GerenciadorDeTelas nav;
     private final LogService logger;
     private final DashboardService service;
+    private final ContextoDeSessao sessao;
     private boolean isListagemCompleta = true;
     private List<Usuario> usuariosEmExibicao;
     
-    public DashboardPresenter(DashboardView view, GerenciadorDeTelas nav, DashboardService service, LogService logger) {
+    public DashboardPresenter(DashboardView view, GerenciadorDeTelas nav, DashboardService service, LogService logger, ContextoDeSessao sessao) {
         this.view = view;
         this.nav = nav;
         this.logger = logger;
         this.service = service;
+        this.sessao = sessao;
         configuraAcessoAoPerfil();
         configuraView();
         
@@ -70,12 +70,6 @@ public class DashboardPresenter {
         view.getBtnAutorizacoesPendentes().addActionListener((ActionEvent e) -> {
             carregarTabelaUsuarios(false);
         });
-        view.addInternalFrameListener(new InternalFrameAdapter() {
-            @Override
-            public void internalFrameClosing(InternalFrameEvent e) {
-                nav.limparSessao();
-            }
-        });
         view.getBtnRemoverUsuario().addActionListener((ActionEvent e) -> {
             excluirUsuario();
         });
@@ -104,7 +98,7 @@ public class DashboardPresenter {
         if (linha == -1) { desabilitarBotoesAcao(); return; }
         
         Usuario usuarioSelecionado = usuariosEmExibicao.get(linha);
-        int idLogado = nav.getSessao().getIdUsuarioLogado();
+        int idLogado = sessao.getIdUsuarioLogado();
         boolean souSuperAdmin = (idLogado == 1);
 
         if (isListagemCompleta) {
@@ -149,7 +143,7 @@ public class DashboardPresenter {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
 
-            isAdmin(nav.getSessao().isAdministrador());
+            isAdmin(sessao.isAdministrador());
             
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
@@ -188,7 +182,7 @@ public class DashboardPresenter {
 
                 if (confirmacao == JOptionPane.YES_OPTION) {
                     
-                    isAdmin(nav.getSessao().isAdministrador());
+                    isAdmin(sessao.isAdministrador());
                     
                     service.promoverUsuario(email, usuarioAlvo.getPerfil());
 
@@ -226,7 +220,7 @@ public class DashboardPresenter {
                 
                 if (confirmacao == JOptionPane.YES_OPTION) {
                     
-                    isAdmin(nav.getSessao().isAdministrador());
+                    isAdmin(sessao.isAdministrador());
                     
                     service.rebaixarUsuario(email, perfil);
                     
@@ -262,7 +256,7 @@ public class DashboardPresenter {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
-                    isAdmin(nav.getSessao().isAdministrador());
+                    isAdmin(sessao.isAdministrador());
                     
                     service.autorizarAcessoByEmail(u.getEmail());
 
@@ -297,7 +291,7 @@ public class DashboardPresenter {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
-                    isAdmin(nav.getSessao().isAdministrador());
+                    isAdmin(sessao.isAdministrador());
                     
                     service.rejeitarAcessoByEmail(u.getEmail());
 
@@ -315,7 +309,6 @@ public class DashboardPresenter {
     
     private void configuraAcessoAoPerfil() {
         boolean isAdminLogado = false;
-        ContextoDeSessao sessao = nav.getSessao();
         
         if (sessao != null) {
             isAdminLogado = sessao.isAdministrador();
@@ -339,7 +332,7 @@ public class DashboardPresenter {
     }
     
     private void irParaCadastro() {
-       nav.abrirTela(new CadastroFactory(logger, false));
+       nav.abrirTela(new CadastroFactory(logger, false), sessao);
     }
     
     private void carregarTabelaUsuarios(boolean getAll) {
@@ -348,10 +341,9 @@ public class DashboardPresenter {
         String[] colunas = {"Nome", "Email", "Perfil"};
 
         try {
-            boolean isAdmin = nav.getSessao().isAdministrador();
-            int idLogado = nav.getSessao().getIdUsuarioLogado();
-            view.getTxtDescPerfil().setText(nav.getSessao().getPerfilUsuarioLogado());
-            view.getTxtNomeUsuario().setText(nav.getSessao().getNomeUsuarioLogado());
+            boolean isAdmin = sessao.isAdministrador();
+            view.getTxtDescPerfil().setText(sessao.getPerfilUsuarioLogado());
+            view.getTxtNomeUsuario().setText(sessao.getNomeUsuarioLogado());
             view.getTxtDescPerfil().setEditable(false);
             view.getTxtDescPerfil().setFocusable(false);
             view.getTxtNomeUsuario().setEditable(false);
@@ -365,7 +357,7 @@ public class DashboardPresenter {
                     this.usuariosEmExibicao = service.getAllUsuarios();
                 } else {
                     this.usuariosEmExibicao = new ArrayList<>();
-                    Usuario eu = service.getUsuarioById(idLogado);
+                    Usuario eu = service.getUsuarioById(sessao.getIdUsuarioLogado());
                     if (eu != null) {
                         this.usuariosEmExibicao.add(eu);
                     }
@@ -376,7 +368,7 @@ public class DashboardPresenter {
 
                 if (isAdmin) {
                     this.usuariosEmExibicao = service.getAllUsuariosNaoAutorizados();
-                    logger.log(new LogEntry("LISTAGEM_USUARIOS", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
+                    logger.log(new LogEntry("LISTAGEM_USUARIOS", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado()));
                 } else {
                     this.usuariosEmExibicao = new ArrayList<>();
                 }
@@ -384,7 +376,7 @@ public class DashboardPresenter {
             desabilitarBotoesAcao();
 
         } catch (Exception e) {
-            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), e.getMessage()));
+            logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), e.getMessage()));
             JOptionPane.showMessageDialog(view, "Falha ao carregar usuários: " + e.getMessage());
             return;
         }
@@ -426,7 +418,7 @@ public class DashboardPresenter {
     }
     
     private void abrirTelaAlterarSenha() {
-        nav.abrirTela(new AlterarSenhaFactory(logger));
+        nav.abrirTela(new AlterarSenhaFactory(logger), sessao);
     }
     
     private void formatoLog() {
@@ -462,13 +454,13 @@ public class DashboardPresenter {
 
         if (novoFormato != null) {
             try {
-                isAdmin(nav.getSessao().isAdministrador());
+                isAdmin(sessao.isAdministrador());
                 logger.setLogFormat(novoFormato);
-                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
+                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado()));
                 JOptionPane.showMessageDialog(view, mensagemSucesso, "Configuração Salva", JOptionPane.INFORMATION_MESSAGE);
                 
             } catch (Exception ex) {
-                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
+                logger.log(new LogEntry("ALTERAR_FORMATO_LOG", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), ex.getMessage()));
                 JOptionPane.showMessageDialog(view, 
                     "Erro ao salvar a configuração de log: " + ex.getMessage(), 
                     "Erro", 
@@ -485,15 +477,14 @@ public class DashboardPresenter {
                 JOptionPane.YES_NO_OPTION);
         
         if (confirmacao == JOptionPane.YES_OPTION) {
-            logger.log(new LogEntry("USUARIO_LOGOUT", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
-            nav.limparSessao();
+            logger.log(new LogEntry("USUARIO_LOGOUT", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado()));
             view.dispose();
-            nav.abrirTela(new br.com.controleacesso.factory.LoginFactory(logger));
+            nav.abrirTela(new br.com.controleacesso.factory.LoginFactory(logger), null);
         }
     }
     
     private void abrirTelaRestauracao() {
-         nav.abrirTela(new br.com.controleacesso.factory.RestaurarSistemaFactory(logger));
+         nav.abrirTela(new br.com.controleacesso.factory.RestaurarSistemaFactory(logger), sessao);
     }
     
     private void isAdmin(boolean isAdmin) {

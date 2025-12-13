@@ -4,6 +4,7 @@
  */
 package br.com.controleacesso.factory;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.presenter.AlterarSenhaPresenter;
 import br.com.controleacesso.repository.UsuarioRepository;
 import br.com.controleacesso.service.DashboardService;
@@ -26,7 +27,7 @@ public class AlterarSenhaFactory implements IViewFactory {
     }
 
     @Override
-    public JInternalFrame criarTela(GerenciadorDeTelas nav) {
+    public JInternalFrame criarTela(GerenciadorDeTelas nav, ContextoDeSessao sessao) {
         AlterarSenhaView view = new AlterarSenhaView();
         view.setTitle("Alterar Senha");
         view.setClosable(true);
@@ -37,7 +38,7 @@ public class AlterarSenhaFactory implements IViewFactory {
         
         DashboardService service = new DashboardService(repository, validador);
         
-        new AlterarSenhaPresenter(view, nav, service, logger);
+        new AlterarSenhaPresenter(view, service, logger, sessao);
         
         return view;
     }

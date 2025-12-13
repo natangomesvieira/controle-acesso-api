@@ -4,6 +4,7 @@
  */
 package br.com.controleacesso.presenter;
 
+import br.com.controleacesso.ContextoDeSessao;
 import br.com.controleacesso.service.DashboardService;
 import br.com.controleacesso.view.GerenciadorDeTelas;
 import br.com.controleacesso.view.RestaurarSistemaView;
@@ -22,12 +23,14 @@ public class RestaurarSistemaPresenter {
     private final GerenciadorDeTelas nav;
     private final DashboardService service;
     private final LogService logger;
+    private final ContextoDeSessao sessao;
 
-    public RestaurarSistemaPresenter(RestaurarSistemaView view, GerenciadorDeTelas nav, DashboardService service, LogService logger) {
+    public RestaurarSistemaPresenter(RestaurarSistemaView view, GerenciadorDeTelas nav, DashboardService service, LogService logger, ContextoDeSessao sessao) {
         this.view = view;
         this.nav = nav;
         this.service = service;
         this.logger = logger;
+        this.sessao = sessao;
         configuraView();
     }
     
@@ -40,7 +43,7 @@ public class RestaurarSistemaPresenter {
         try {
             String senha = new String(view.getPwdSenha().getPassword());
             String conf = new String(view.getPwdConfirmacao().getPassword());
-            int idAdmin = nav.getSessao().getIdUsuarioLogado();
+            int idAdmin = sessao.getIdUsuarioLogado();
 
             if(senha.isEmpty() || conf.isEmpty()) {
                 JOptionPane.showMessageDialog(view, "Preencha os dois campos de senha.");
@@ -63,7 +66,7 @@ public class RestaurarSistemaPresenter {
             }
 
         } catch (Exception ex) {
-            logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
+            logger.log(new LogEntry("RESTAURACAO_SISTEMA", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), ex.getMessage()));
             JOptionPane.showMessageDialog(view, "Erro: " + ex.getMessage());
         }
     }
@@ -77,7 +80,7 @@ public class RestaurarSistemaPresenter {
 
                 service.restaurarSistema(idAdmin, senha, conf);
 
-                logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado()));
+                logger.log(new LogEntry("RESTAURACAO_SISTEMA", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado()));
 
                 view.setCursor(Cursor.getDefaultCursor());
 
@@ -89,7 +92,7 @@ public class RestaurarSistemaPresenter {
                 reinicializarAplicacao();
 
             } catch (Exception ex) {
-                logger.log(new LogEntry("RESTAURACAO_SISTEMA", nav.getSessao().getNomeUsuarioLogado(), nav.getSessao().getPerfilUsuarioLogado(), ex.getMessage()));
+                logger.log(new LogEntry("RESTAURACAO_SISTEMA", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), ex.getMessage()));
                 view.setCursor(Cursor.getDefaultCursor());
                 JOptionPane.showMessageDialog(view, "Falha na restauração: " + ex.getMessage(), "Erro Fatal", JOptionPane.ERROR_MESSAGE);
             }
@@ -98,8 +101,7 @@ public class RestaurarSistemaPresenter {
     
     private void reinicializarAplicacao() {
         nav.fecharTodasAsTelas();
-        nav.limparSessao();
         
-        nav.abrirTela(new br.com.controleacesso.factory.CadastroFactory(logger, true));
+        nav.abrirTela(new br.com.controleacesso.factory.CadastroFactory(logger, true), null);
     }
 }

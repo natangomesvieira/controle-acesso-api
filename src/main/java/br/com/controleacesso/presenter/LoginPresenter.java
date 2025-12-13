@@ -55,14 +55,12 @@ public class LoginPresenter {
             usuario = service.login(usuario);
             
             ContextoDeSessao sessao = new ContextoDeSessao(usuario.getId(), usuario.getPerfil(), usuario.getNome());
-
-            nav.setSessao(sessao);
             
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getNome(), usuario.getPerfil()));
             
             fecharJanela();
             
-            nav.abrirTela(new DashboardFactory(logger));
+            nav.abrirTela(new DashboardFactory(logger), sessao);
         } catch (Exception ex) {
             logger.log(new LogEntry("LOGIN_USUARIO", usuario.getEmail(), "-", ex.getMessage()));
             JOptionPane.showMessageDialog(view, ex.getMessage());

@@ -9,7 +9,6 @@ import javax.swing.JInternalFrame;
 public class GerenciadorDeTelas {
 
     private final JDesktopPane desktop;
-    private ContextoDeSessao sessao;
 
     public GerenciadorDeTelas(JDesktopPane desktop) {
         if (desktop == null) {
@@ -18,17 +17,12 @@ public class GerenciadorDeTelas {
         this.desktop = desktop;
     }
 
-    public void abrirTela(IViewFactory factory) {
+    public void abrirTela(IViewFactory factory, ContextoDeSessao sessao) {
         
-        JInternalFrame frame = factory.criarTela(this);
+        JInternalFrame frame = factory.criarTela(this, sessao);
         
         desktop.add(frame);
-        //frame.pack();
-        frame.setSize(frame.getPreferredSize());
-        
-        int x = (desktop.getWidth() - frame.getWidth()) / 2;
-        int y = (desktop.getHeight() - frame.getHeight()) / 2;
-        frame.setLocation(x, y);
+        centralizarFrame(frame);
         frame.setVisible(true);
         
         try {
@@ -36,27 +30,15 @@ public class GerenciadorDeTelas {
         } catch (PropertyVetoException e) {}
 
     }
+
+    private void centralizarFrame(javax.swing.JInternalFrame frame) {
+        int x = (desktop.getWidth() - frame.getWidth()) / 2;
+        int y = (desktop.getHeight() - frame.getHeight()) / 2;
     
-//    private void centralizarFrame(javax.swing.JInternalFrame frame) {
-//        int x = (desktop.getWidth() - frame.getWidth()) / 2;
-//        int y = (desktop.getHeight() - frame.getHeight()) / 2;
-//    
-//        if (x < 0) x = 0;
-//        if (y < 0) y = 0;
-//        
-//        frame.setLocation(x, y);
-//    }
-    
-    public void setSessao(ContextoDeSessao sessao) {
-        this.sessao = sessao;
-    } 
-    
-    public ContextoDeSessao getSessao() {
-        return sessao;
-    }
-    
-    public void limparSessao() {
-        this.sessao = null;
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        
+        frame.setLocation(x, y);
     }
     
     public void fecharTodasAsTelas() {
