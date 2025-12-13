@@ -38,25 +38,39 @@ public class DashboardService {
         repository.rejeitarAcessoByEmail(email);
     }
     
-    public void promoverUsuario(String email, String perfil) throws SQLException {
+    public void promoverUsuario(String email, String perfil, int idSolicitante) throws SQLException, IllegalAccessException {
         if("administrador".equals(perfil)) {
             throw new IllegalArgumentException("O usuário selecionado já é um administrador.");
         }
+        
+        if (idSolicitante != 1) {
+            throw new IllegalAccessException("Permissão negada: Apenas o Administrador Principal pode promover usuários.");
+        }
+        
         repository.alterarPefilUsuarioByEmail(email, "administrador");
     }
     
-    public void rebaixarUsuario(String email, String perfil) throws SQLException {
+    public void rebaixarUsuario(String email, String perfil, int idSolicitante) throws SQLException, IllegalAccessException {
         if("usuario_padrao".equals(perfil)) {
             throw new IllegalArgumentException("O usuário selecionado já é um usuário padrão.");
         }
+        
+        if (idSolicitante != 1) {
+            throw new IllegalAccessException("Permissão negada: Apenas o Administrador Principal pode rebaixar usuários.");
+        }
+        
         repository.alterarPefilUsuarioByEmail(email, "usuario_padrao");
     }
     
-    public void excluirUsuario(int id) throws SQLException {
-        if (id == 1) {
+    public void excluirUsuario(int idAlvo, int idSolicitante) throws SQLException {
+        if (idAlvo == 1) {
             throw new IllegalArgumentException("O Administrador Principal (Root) não pode ser excluído.");
         }
-        repository.deletarUsuario(id);
+        if (idAlvo == idSolicitante) {
+            throw new IllegalArgumentException("Segurança: Você não pode excluir sua própria conta.");
+        }
+        
+        repository.deletarUsuario(idAlvo);
     }
     
     public void alterarSenha(int idUsuario, String senhaAtual, String novaSenha, String confSenha) throws Exception {

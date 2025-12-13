@@ -95,46 +95,48 @@ public class DashboardPresenter {
         JTable tabela = view.getTabelaUsuarios();
         int linha = tabela.getSelectedRow();
         
-        if (linha == -1) { desabilitarBotoesAcao(); return; }
+       // if (linha == -1) { desabilitarBotoesAcao(); return; }
         
         Usuario usuarioSelecionado = usuariosEmExibicao.get(linha);
         int idLogado = sessao.getIdUsuarioLogado();
         boolean souSuperAdmin = (idLogado == 1);
 
-        if (isListagemCompleta) {
-            
-            boolean isSelecionadoRoot = Integer.valueOf(1).equals(usuarioSelecionado.getId());
-            boolean isSelecionadoPadrao = "usuario_padrao".equals(usuarioSelecionado.getPerfil());
-
-            view.getBtnPromoverUsuario().setEnabled(isSelecionadoPadrao);
-            view.getBtnRebaixarUsuario().setEnabled(!isSelecionadoPadrao && !isSelecionadoRoot && souSuperAdmin);
-            
-            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin && !isSelecionadoRoot);
-            
-            view.getBtnAutorizarAcesso().setEnabled(false);
-            view.getBtnRejeitarAcesso().setEnabled(false);
-            
-        } else {
- 
-            view.getBtnAutorizarAcesso().setEnabled(true);
-            view.getBtnRejeitarAcesso().setEnabled(true);
-            
-            view.getBtnPromoverUsuario().setEnabled(false);
-            view.getBtnRebaixarUsuario().setEnabled(false);
-            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin);
-        }
+//        if (isListagemCompleta) {
+//            
+//            boolean isSelecionadoRoot = Integer.valueOf(1).equals(usuarioSelecionado.getId());
+//            boolean isSelecionadoPadrao = "usuario_padrao".equals(usuarioSelecionado.getPerfil());
+//
+//            view.getBtnPromoverUsuario().setEnabled(isSelecionadoPadrao);
+//            view.getBtnRebaixarUsuario().setEnabled(!isSelecionadoPadrao && !isSelecionadoRoot && souSuperAdmin);
+//            
+//            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin && !isSelecionadoRoot);
+//            
+//            view.getBtnAutorizarAcesso().setEnabled(false);
+//            view.getBtnRejeitarAcesso().setEnabled(false);
+//            
+//        } else {
+// 
+//            view.getBtnAutorizarAcesso().setEnabled(true);
+//            view.getBtnRejeitarAcesso().setEnabled(true);
+//            
+//            view.getBtnPromoverUsuario().setEnabled(false);
+//            view.getBtnRebaixarUsuario().setEnabled(false);
+//            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin);
+//        }
     }
     
     private void excluirUsuario() {
 
         JTable tabela = view.getTabelaUsuarios();
         int linha = tabela.getSelectedRow();
+        
         if (linha == -1) {
             JOptionPane.showMessageDialog(view, "Selecione um usuário para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
+        int idSolicitante = sessao.getIdUsuarioLogado();
 
         Optional.ofNullable(usuarioAlvo).ifPresent(u -> {
             int confirmacao = JOptionPane.showConfirmDialog(view,
@@ -147,7 +149,7 @@ public class DashboardPresenter {
             
             if (confirmacao == JOptionPane.YES_OPTION) {
                 try {
-                    service.excluirUsuario(u.getId());
+                    service.excluirUsuario(u.getId(), idSolicitante);
 
                     logger.log(new LogEntry("EXCLUIR_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
                     JOptionPane.showMessageDialog(view, "Usuário removido com sucesso!");
@@ -171,6 +173,7 @@ public class DashboardPresenter {
         }
 
         Usuario usuarioAlvo = usuariosEmExibicao.get(linha);
+        int idSolicitante = sessao.getIdUsuarioLogado();
 
         Optional.ofNullable(usuarioAlvo.getEmail()).ifPresent(email -> {
             try {
@@ -184,7 +187,7 @@ public class DashboardPresenter {
                     
                     isAdmin(sessao.isAdministrador());
                     
-                    service.promoverUsuario(email, usuarioAlvo.getPerfil());
+                    service.promoverUsuario(email, usuarioAlvo.getPerfil(), idSolicitante);
 
                     logger.log(new LogEntry("PROMOVER_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
                     JOptionPane.showMessageDialog(view, "Usuário promovido com sucesso!");
@@ -202,6 +205,7 @@ public class DashboardPresenter {
         JTable tabela = view.getTabelaUsuarios();
         int linhaSelecionada = tabela.getSelectedRow();
         Usuario usuarioAlvo = usuariosEmExibicao.get(linhaSelecionada);
+        int idSolicitante = sessao.getIdUsuarioLogado();
             
         try {
             if (linhaSelecionada == -1) {
@@ -222,7 +226,7 @@ public class DashboardPresenter {
                     
                     isAdmin(sessao.isAdministrador());
                     
-                    service.rebaixarUsuario(email, perfil);
+                    service.rebaixarUsuario(email, perfil, idSolicitante);
                     
                     logger.log(new LogEntry("REBAIXAR_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil()));
 
@@ -373,7 +377,7 @@ public class DashboardPresenter {
                     this.usuariosEmExibicao = new ArrayList<>();
                 }
             }
-            desabilitarBotoesAcao();
+           // desabilitarBotoesAcao();
 
         } catch (Exception e) {
             logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), e.getMessage()));
@@ -393,13 +397,13 @@ public class DashboardPresenter {
         view.getTabelaUsuarios().setModel(tableModel);
     }
     
-    private void desabilitarBotoesAcao() {
-        view.getBtnAutorizarAcesso().setEnabled(false);
-        view.getBtnPromoverUsuario().setEnabled(false);
-        view.getBtnRebaixarUsuario().setEnabled(false);
-        view.getBtnRejeitarAcesso().setEnabled(false);
-        view.getBtnRemoverUsuario().setEnabled(false);
-    }
+//    private void desabilitarBotoesAcao() {
+//        view.getBtnAutorizarAcesso().setEnabled(false);
+//        view.getBtnPromoverUsuario().setEnabled(false);
+//        view.getBtnRebaixarUsuario().setEnabled(false);
+//        view.getBtnRejeitarAcesso().setEnabled(false);
+//        view.getBtnRemoverUsuario().setEnabled(false);
+//    }
 
     private Object[][] converterListaParaArray(List<Usuario> usuarios) {
         if (usuarios == null || usuarios.isEmpty()) {
