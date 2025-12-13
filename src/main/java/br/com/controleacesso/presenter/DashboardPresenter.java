@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
 public class DashboardPresenter {
@@ -42,12 +41,6 @@ public class DashboardPresenter {
     
     private void configuraView() {
         carregarTabelaUsuarios(true);
-        
-        view.getTabelaUsuarios().getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
-            if (!e.getValueIsAdjusting()) {
-                tratarSelecaoTabela();
-            }
-        });
         
         view.getBtnNovoUsuario().addActionListener((ActionEvent e) -> {
             irParaCadastro();
@@ -89,40 +82,6 @@ public class DashboardPresenter {
         view.getBtnRestaurarSistema().addActionListener(e -> {
             abrirTelaRestauracao();
         });
-    }
-    
-    private void tratarSelecaoTabela() {
-        JTable tabela = view.getTabelaUsuarios();
-        int linha = tabela.getSelectedRow();
-        
-       // if (linha == -1) { desabilitarBotoesAcao(); return; }
-        
-        Usuario usuarioSelecionado = usuariosEmExibicao.get(linha);
-        int idLogado = sessao.getIdUsuarioLogado();
-        boolean souSuperAdmin = (idLogado == 1);
-
-//        if (isListagemCompleta) {
-//            
-//            boolean isSelecionadoRoot = Integer.valueOf(1).equals(usuarioSelecionado.getId());
-//            boolean isSelecionadoPadrao = "usuario_padrao".equals(usuarioSelecionado.getPerfil());
-//
-//            view.getBtnPromoverUsuario().setEnabled(isSelecionadoPadrao);
-//            view.getBtnRebaixarUsuario().setEnabled(!isSelecionadoPadrao && !isSelecionadoRoot && souSuperAdmin);
-//            
-//            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin && !isSelecionadoRoot);
-//            
-//            view.getBtnAutorizarAcesso().setEnabled(false);
-//            view.getBtnRejeitarAcesso().setEnabled(false);
-//            
-//        } else {
-// 
-//            view.getBtnAutorizarAcesso().setEnabled(true);
-//            view.getBtnRejeitarAcesso().setEnabled(true);
-//            
-//            view.getBtnPromoverUsuario().setEnabled(false);
-//            view.getBtnRebaixarUsuario().setEnabled(false);
-//            view.getBtnRemoverUsuario().setEnabled(souSuperAdmin);
-//        }
     }
     
     private void excluirUsuario() {
@@ -196,7 +155,7 @@ public class DashboardPresenter {
                 }
            } catch (Exception ex) {
             logger.log(new LogEntry("PROMOVER_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil(), ex.getMessage()));
-            JOptionPane.showMessageDialog(view, "Falha ao promover usuário!");
+            JOptionPane.showMessageDialog(view, ex.getMessage());
            }
         });
     }
@@ -236,7 +195,7 @@ public class DashboardPresenter {
            }
         } catch (Exception ex) {
             logger.log(new LogEntry("REBAIXAR_USUARIO", usuarioAlvo.getNome(), usuarioAlvo.getPerfil(), ex.getMessage()));
-            JOptionPane.showMessageDialog(view, "Falha ao rebaixar usuário!");
+            JOptionPane.showMessageDialog(view, ex.getMessage());
         }
     }
     
@@ -377,7 +336,6 @@ public class DashboardPresenter {
                     this.usuariosEmExibicao = new ArrayList<>();
                 }
             }
-           // desabilitarBotoesAcao();
 
         } catch (Exception e) {
             logger.log(new LogEntry("ERRO_LISTAGEM_USUARIOS", sessao.getNomeUsuarioLogado(), sessao.getPerfilUsuarioLogado(), e.getMessage()));
@@ -396,14 +354,6 @@ public class DashboardPresenter {
 
         view.getTabelaUsuarios().setModel(tableModel);
     }
-    
-//    private void desabilitarBotoesAcao() {
-//        view.getBtnAutorizarAcesso().setEnabled(false);
-//        view.getBtnPromoverUsuario().setEnabled(false);
-//        view.getBtnRebaixarUsuario().setEnabled(false);
-//        view.getBtnRejeitarAcesso().setEnabled(false);
-//        view.getBtnRemoverUsuario().setEnabled(false);
-//    }
 
     private Object[][] converterListaParaArray(List<Usuario> usuarios) {
         if (usuarios == null || usuarios.isEmpty()) {
