@@ -8,8 +8,8 @@ A arquitetura implementa o padrão **MVP (Model-View(Passive)-Presenter)** para 
 
 ## 👥 Integrantes do Grupo
 
-* **Natan Gomes Vieira**
-* **Pedro Eugênio**
+- **Natan Gomes Vieira**
+- **Pedro Eugênio**
 
 Obs: A dupla adotou em grande parte do desenvolvimento o método Pair Programming, sendo assim a justificava pelo histórico de commits.
 
@@ -19,16 +19,18 @@ Obs: A dupla adotou em grande parte do desenvolvimento o método Pair Programmin
 - US 09 – Visualização e marcação de notificações pelo usuário.
 - US 10 – Listagem de usuários com estatísticas de notificações para administrador.
 
+[Requisitos Nao atendidos](https://docs.google.com/document/d/1lrc3yhMD9getfGfXd20GVbYceGpnWi7SCAs9NnqcG6Y/edit?usp=sharing)
+
 ## 🛠️ Stack Tecnológica e Ferramentas
 
 O projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
 
-| Categoria | Detalhes |
-| :--- | :--- |
-| **Ambiente de Desenvolvimento (IDE)** | NetBeans |
-| **Gerenciador de Dependências** | Maven |
-| **Linguagem de Programação** | Java 17 |
-| **Banco de Dados** | SQLite (Embutido) |
+| Categoria                             | Detalhes          |
+| :------------------------------------ | :---------------- |
+| **Ambiente de Desenvolvimento (IDE)** | NetBeans          |
+| **Gerenciador de Dependências**       | Maven             |
+| **Linguagem de Programação**          | Java 17           |
+| **Banco de Dados**                    | SQLite (Embutido) |
 
 ## 📦 Dependências Externas
 
@@ -36,8 +38,8 @@ O projeto utiliza as seguintes bibliotecas externas (listadas no `pom.xml`):
 
 ### 1. Validador de Senha
 
-* **Descrição:** Biblioteca para validar a força e complexidade de senhas de usuário.
-* **Repositório:** [validador-senha](https://github.com/claytonfraga/validadorsenha)
+- **Descrição:** Biblioteca para validar a força e complexidade de senhas de usuário.
+- **Repositório:** [validador-senha](https://github.com/claytonfraga/validadorsenha)
 
 ```xml
 <dependency>
@@ -46,10 +48,11 @@ O projeto utiliza as seguintes bibliotecas externas (listadas no `pom.xml`):
     <version>-SNAPSHOT</version>
 </dependency>
 ```
+
 ### 2. Sistema de Logs
 
-* **Descrição:** Biblioteca para processar os logs da aplicação.
-* **Repositório:** [sistema-log](https://github.com/natangomesvieira/sistema-log)
+- **Descrição:** Biblioteca para processar os logs da aplicação.
+- **Repositório:** [sistema-log](https://github.com/natangomesvieira/sistema-log)
 
 ```xml
   <dependency>
@@ -61,9 +64,9 @@ O projeto utiliza as seguintes bibliotecas externas (listadas no `pom.xml`):
 
 ## 🖼️ A estrutura de pacotes e suas responsabilidades são:
 
-* **Model**: Contém as entidades (objetos de domínio).
-* **View**: Responsável pela interface do usuário (telas).
-* **Presenter**: Atua como o comunicador central. Orquestra a lógica de negócio (`Service`) e atualiza a View com os resultados.
-* **Service**: Contém as regras de negócio e a lógica transacional do sistema.
-* **Repository**: Abstrai e gerencia a comunicação com o banco de dados (CRUD - Create, Read, Update, Delete).
-* **Factory**: Responsável pela criação de instâncias (principalmente de Views e seus respectivos Presenters), injetando as dependências necessárias para a aplicação.
+- **Model**: Contém as entidades (objetos de domínio).
+- **View**: Responsável pela interface do usuário (telas).
+- **Presenter**: Atua como o comunicador central. Orquestra a lógica de negócio (`Service`) e atualiza a View com os resultados.
+- **Service**: Contém as regras de negócio e a lógica transacional do sistema.
+- **Repository**: Abstrai e gerencia a comunicação com o banco de dados (CRUD - Create, Read, Update, Delete).
+- **Factory**: Responsável pela criação de instâncias (principalmente de Views e seus respectivos Presenters), injetando as dependências necessárias para a aplicação.
