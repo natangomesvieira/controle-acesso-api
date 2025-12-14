@@ -10,7 +10,7 @@ public class DatabaseConfig {
     }
 
     private void createTables() {
-        // SQL para criar a tabela 'usuario'
+
         var sqlUsuario = "CREATE TABLE IF NOT EXISTS usuario ("
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	nome TEXT NOT NULL,"
@@ -20,7 +20,6 @@ public class DatabaseConfig {
                 + "	autorizado BOOLEAN NOT NULL"
                 + ");";
 
-        // SQL para criar a tabela 'notificacao'
         var sqlNotificacao = "CREATE TABLE IF NOT EXISTS notificacao ("
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	id_usuario INTEGER NOT NULL,"

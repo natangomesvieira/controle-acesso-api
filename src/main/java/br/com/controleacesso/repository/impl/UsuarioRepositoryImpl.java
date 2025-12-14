@@ -237,14 +237,19 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     public void resetarSistemaCompleto() throws SQLException {
 
         String sqlDeleteUsers = "DELETE FROM usuario";
-        String sqlResetSequence = "DELETE FROM sqlite_sequence WHERE name = 'usuario'";
+        String sqlResetSequenceUsuario = "DELETE FROM sqlite_sequence WHERE name = 'usuario'";
+        String sqlDeleteNotificacao = "DELETE FROM notificacao";
+        String sqlResetSequenceNotificacao = "DELETE FROM sqlite_sequence WHERE name = 'notificacao'";
         
         try (Connection conn = ConexaoFactory.getConexao()) {
             conn.setAutoCommit(false);
             
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlDeleteUsers);
-                stmt.executeUpdate(sqlResetSequence);
+                stmt.executeUpdate(sqlResetSequenceUsuario);
+                
+                stmt.executeUpdate(sqlDeleteNotificacao);
+                stmt.executeUpdate(sqlResetSequenceNotificacao);
                 
                 conn.commit();
             } catch (SQLException e) {
