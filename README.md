@@ -13,6 +13,12 @@ A arquitetura implementa o padrão **MVP (Model-View(Passive)-Presenter)** para 
 
 Obs: A dupla adotou em grande parte do desenvolvimento o método Pair Programming, sendo assim a justificava pelo histórico de commits.
 
+## Requisitos Não Atendidos pela Dupla
+
+- US 08 – Envio de notificações por administrador.
+- US 09 – Visualização e marcação de notificações pelo usuário.
+- US 10 – Listagem de usuários com estatísticas de notificações para administrador.
+
 ## 🛠️ Stack Tecnológica e Ferramentas
 
 O projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
